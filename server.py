@@ -83,7 +83,7 @@ def reactions():
 
 # Food Page
 @app.route('/food', methods=['GET'])
-def foods():
+def dhall():
     return
 
 
