@@ -54,7 +54,7 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception('Failed to get rows PostgreSQL table')
 
-    def get_food(self, name):
+    def get_food(self, name, ):
         try:
             cursor = self._connection.cursor()
 
