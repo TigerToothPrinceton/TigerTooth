@@ -47,7 +47,8 @@ class Database():
     def get_foods(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT food.url food.name food.numStars FROM food WHERE food.dhall='{}'".format(dhall)
+            get_query = "SELECT food.url, food.name, food.num_stars FROM food WHERE food.dhall='{}'".format(
+                dhall)
             cursor.execute(get_query)
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
             return cursor.fetchall()
@@ -59,10 +60,10 @@ class Database():
         try:
             cursor = self._connection.cursor()
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
-            sql_command = "SELECT food.url food.description food.numStars FROM food WHERE food.name=?"
+            sql_command = "SELECT food.url food.description food.num_stars FROM food WHERE food.name=?"
             cursor.execute(sql_command, [name])
             return cursor.fetchall()
         except Exception as e:
             print(f'{e}', file=stderr)
-            raise Exception('Failed to get individual food item from PostgreSQL table')
-                
+            raise Exception(
+                'Failed to get individual food item from PostgreSQL table')

@@ -74,6 +74,7 @@ def food():
         database = Database()
         database.connect()
         foods = database.get_foods(dhall)
+        print(foods)
         database.disconnect()
         html = render_template('food.html', foods=foods, college=dhall)
         response = make_response(html)
