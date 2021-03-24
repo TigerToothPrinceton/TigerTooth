@@ -22,12 +22,14 @@
     {% if rows|length == 0: %}
     {% else: %}
       {% for row in rows: %}
-      <div class="reaction-container">
-      <!-- reactions -->
-      <p>{{row[0]}}</p>
-      <!-- time -->
-      <p>{{row[3]}}</p> 
-      </div>
+       {% if row[0] != "" %}
+          <div class="reaction-container">
+          <!-- reactions -->
+          <p>{{row[0]}}</p>
+          <!-- time -->
+          <p>{{row[3]}}</p> 
+          </div>
+        {% endif %}
       {% endfor %}
     {% endif %}
     <!-- <div class="reaction-container">
@@ -50,8 +52,6 @@
       <p>The food was so good! Idk what everyone else is smoking</p>
       <p>5:48 PM</p>
     </div> -->
-    <br>
-    <br>
   </div>
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form">

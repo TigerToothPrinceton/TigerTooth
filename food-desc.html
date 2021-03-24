@@ -19,7 +19,7 @@
       <img src="{{food[0]}}">
       <figcaption style="margin-top: 10px">
         {{food[1]}}
-        <p style="margin: 10px 0;">Rating: {{food[3]/food[2]}}</p>
+        <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
         <i>{{food[4]}}</i>
       </figcaption>
     </figure>
@@ -49,7 +49,7 @@
     <form action="food-desc" method="POST" class="reviews-form">
         <div class="food-rating-input">
           <label for="quantity" style="margin-right: 0.5vw">Your Rating: </label>
-          <input type="number" id="quantity" name="rating" min="1" max="5">
+          <input type="number" id="quantity" name="rating" min="1" max="5" value="3">
         </div>
         <textarea rows="3" cols="30" placeholder="Enter your review here" name="review"
         style="margin-right: 1vw; margin-top: 1vw;"></textarea>

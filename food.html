@@ -19,7 +19,7 @@
       <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}"></a>
       <figcaption>
         <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
-        <p>Rating: {{food[3]/food[2]}}</p>
+        <p>Rating: {{(food[3]/food[2])|round(1)}}</p>
       </figcaption>
     </figure>
   </div>
