@@ -5,30 +5,22 @@
   <title>{{college}} Dining Hall</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
 </head>
 
 <body>
   {% include 'header.html' %}
-  <div>{{college}} Dining Hall</div>
+  <div class="food-dhall-title"><h1>{{college.capitalize()}} Dining Hall</h1></div>
   {% if foods|length == 0: %}
   {% else: %}
   {% for food in foods: %}
-  <div class="flex">
+  <div class="flex" style="margin-bottom: 100px;">
     <figure>
-<<<<<<< HEAD
-      <a href="/food-desc?entree={{college}}">
-        <img src="{{food[0]}}">
-      </a>
+      <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}"></a>
       <figcaption>
-        <a href="/food-desc?entree={{college}}" style="color: inherit;">{{food[1]}}</a>
-        <!-- <p>5-Star Rating: {{food[2]}}</p> -->
-=======
-      <a href="/food-desc?entree={{college}}"><img src={{food[0]}}></a>
-      <figcaption>
-        <a href="/food-desc?entree={{college}}" style="color: inherit;">{{food[1]}}</a>
->>>>>>> 67a5c2afea8aef8b94647fba78e05edacde82137
+        <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
+        <p>Rating: {{food[3]/food[2]}}</p>
       </figcaption>
-      <p>5-Star Rating: {{food[2]}}</p>
     </figure>
   </div>
   {% endfor %}

@@ -28,7 +28,6 @@ def index():
 @app.route('/reactions', methods=['GET', 'POST'])
 def reactions():
     error_msg = ""
-    print(request.method)
     if request.method == "POST":
         user_id = 2
         reaction = request.form['reaction']
@@ -74,9 +73,9 @@ def food():
         database = Database()
         database.connect()
         foods = database.get_foods(dhall)
-        print(foods)
         database.disconnect()
-        html = render_template('food.html', foods=foods, college=dhall)
+        html = render_template('food.html', foods=foods,
+                               college=dhall)
         response = make_response(html)
         return response
     except Exception as e:
@@ -86,40 +85,40 @@ def food():
 # Food Item Description Page
 @app.route('/food-desc', methods=['GET', 'POST'])
 def food_desc():
-<<<<<<< HEAD
-    return
-=======
     error_msg = ""
-    print(request.method)
+    # For posting reviews and 5-star ratings to database
     if request.method == "POST":
         user_id = 2
-        reaction = request.form['reaction']
-        dhall = request.form['name']
+        rating = request.form['rating']
+        review = request.form['review']
+        if review == "":
+            review = None
+        food_id = request.form['food_id']
+        now = datetime.now()
+        cur_time = now.strftime("%I:%M %p")
+        review_data = (user_id, food_id, review, rating, cur_time)
         try:
             database = Database()
             database.connect()
-            database.reaction_submit(data)
+            database.add_review(review_data, rating, food_id)
+            # UPDATE food SET num_rating = num_rating + 1, num_stars = num_stars + rating WHERE food.food_id = food_id
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
             return redirect(request.referrer)
         except Exception as e:
             error_msg = e
+    # For reading existing reviews, the name/image of food, and description
     else:
         try:
-            name = request.args.get("name")
+            food_id = request.args.get("food_id")
             database = Database()
             database.connect()
-            rows = database.get_foodInfo(name)
+            food = database.get_food_info(food_id)[0]
+            reviews = database.get_reviews(food_id)
             database.disconnect()
-            html = render_template('food-desc.html', foods=foods, college=name)
+            html = render_template(
+                'food-desc.html', food=food, reviews=reviews, food_id=food_id)
             response = make_response(html)
             return response
         except Exception as e:
             error_msg = e
-
-
-
-
-
-
->>>>>>> 67a5c2afea8aef8b94647fba78e05edacde82137

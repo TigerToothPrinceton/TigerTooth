@@ -2,40 +2,61 @@
 <html>
 
 <head>
-  <title>{{entree}}</title>
-  <link rel="stylesheet" href="./css/style.css" />
-  <link rel="stylesheet" href="./css/header.css" />
+  <title>{{food[1]}} Description</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}" />
 </head>
 
 <body>
   {% include 'header.html' %}
 
-  {% if rows|length == 0: %}
+  <!-- Food description portion -->
+  {% if food|length == 0: %}
   {% else: %}
-  {% for row in rows: %}
-  <div class="flex" style="margin-bottom: 100px;">
+  <div class="flex-food-desc" style="margin: 50px 0 100px 0;">
     <figure>
-      <img src="{{row[0]}}">
-      <p>{{row[1]}}</p>
-      <p>5-Star Rating: {{row[0]}}</p>
+      <img src="{{food[0]}}">
+      <figcaption style="margin-top: 10px">
+        {{food[1]}}
+        <p style="margin: 10px 0;">Rating: {{food[3]/food[2]}}</p>
+        <i>{{food[4]}}</i>
+      </figcaption>
     </figure>
   </div>
+  {% endif %}
 
-  <form action="your rating">
-    <label for="quantity">Your 5-Star Rating:</label>
-    <input type="number" id="quantity" name="quantity" min="1" max="5">
-    <input type="submit">
-  </form>
+  <!-- Review Display Portion -->
+  <div class="flex-food-desc" style="margin-top: 200px; margin-bottom: 1vw;">
+    <h3>Reviews</h3>
+  </div>
+  <div class="reviews-container">
+    {% if reviews|length == 0: %}
+    {% else: %}
+      {% for review in reviews: %}
+        {% if review[0] is not none: %}
+          <div class="review-container">
+            <!-- reviews -->
+            <p>{{review[0]}}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
 
-    <div class="flex-reviews-input">
-    <form action="reviews" method="POST" class="reviews-form">
-        <textarea rows="3" cols="30" placeholder="Enter your message here" name="review"
-        style="margin-right: 1vw;"></textarea>
-        <input type="submit">
-        <input type="hidden" name="entree" value="{{entree}}">
-        <!-- <button type="button">Submit</button> -->
+  <!-- Rating and Review Submission Portion -->
+  <div class="flex-reviews-input" style="margin-bottom: 50px;">
+    <form action="food-desc" method="POST" class="reviews-form">
+        <div class="food-rating-input">
+          <label for="quantity" style="margin-right: 0.5vw">Your Rating: </label>
+          <input type="number" id="quantity" name="rating" min="1" max="5">
+        </div>
+        <textarea rows="3" cols="30" placeholder="Enter your review here" name="review"
+        style="margin-right: 1vw; margin-top: 1vw;"></textarea>
+        <input type="submit" style="margin-top: 10px;">
+        <input type="hidden" name="food_id" value="{{food_id}}">
     </form>
-    </div>
+  </div>
 
 </body>
 
