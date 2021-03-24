@@ -25,7 +25,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
 
-            postgres_insert_query = """INSERT INTO reactions (messageID, reaction, userID, loc, time) VALUES (%s, %s, %s)"""
+            postgres_insert_query = """INSERT INTO reactions (reaction, userID, dhall, time) VALUES (%s, %d, %s, %s)"""
 
             cursor.execute(postgres_insert_query, data)
             self._connection.commit()
@@ -34,7 +34,28 @@ class Database():
             raise Exception(
                 'Failed to insert record into PostgreSQL table')
 
-    def class_details(self, class_id):
+    def get_reactions(self, dhall):
+        try:
+            cursor = self._connection.cursor()
+            get_query = "SELECT * FROM reactions WHERE reactions.dhall=?"
+            cursor.execute(get_query, [dhall])
+            return cursor.fetchall()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception('Failed to get rows PostgreSQL table')
+
+    def get_names(self, dhall):
+        try:
+            cursor = self._connection.cursor()
+            get_query = "SELECT name FROM food WHERE food.dhall=?"
+            cursor.execute(get_query, [dhall])
+            ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
+            return cursor.fetchall()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception('Failed to get rows PostgreSQL table')
+
+    def get_food(self, name):
         try:
             cursor = self._connection.cursor()
 
