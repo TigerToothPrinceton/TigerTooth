@@ -89,7 +89,7 @@ def food_desc():
     print(request.method)
     if request.method == "POST":
         user_id = 2
-        reaction = request.form['reaction']
+        review = request.form['review']
         dhall = request.form['name']
         try:
             database = Database()
