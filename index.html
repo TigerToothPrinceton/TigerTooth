@@ -3,15 +3,15 @@
 
 <head>
   <title>Select Dining Hall</title>
-  <link rel="stylesheet" href="./css/style.css" />
-  <link rel="stylesheet" href="./css/header.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
 </head>
 
 <body>
-  <div class="banner">
+  <!-- <div class="banner">
     <h3 class="banner-item">TigerTooth</h3>
-  </div>
-  <!-- {% include 'header.html' %} -->
+  </div> -->
+  {% include 'header.html' %}
   <div class="dhall-header-container" style="height: 100px">
     <h3 class="dhall-header">Choose Your Dining Hall</h3>
   </div>

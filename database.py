@@ -24,7 +24,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
 
-            postgres_insert_query = """INSERT INTO reactions (reaction, userID, dhall, time) VALUES (%s, %d, %s, %s)"""
+            postgres_insert_query = "INSERT INTO reactions (reaction, user_id, dhall, time) VALUES (%s, %s, %s, %s)"
 
             cursor.execute(postgres_insert_query, data)
             self._connection.commit()
@@ -36,8 +36,9 @@ class Database():
     def get_reactions(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT * FROM reactions WHERE reactions.dhall=?"
-            cursor.execute(get_query, [dhall])
+            get_query = "SELECT * FROM reactions WHERE reactions.dhall='{}'".format(
+                dhall)
+            cursor.execute(get_query)
             return cursor.fetchall()
         except Exception as e:
             print(f'{e}', file=stderr)
