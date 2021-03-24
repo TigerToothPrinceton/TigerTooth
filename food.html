@@ -15,13 +15,20 @@
   {% for food in foods: %}
   <div class="flex">
     <figure>
+<<<<<<< HEAD
       <a href="/food-desc?entree={{college}}">
         <img src="{{food[0]}}">
       </a>
       <figcaption>
         <a href="/food-desc?entree={{college}}" style="color: inherit;">{{food[1]}}</a>
         <!-- <p>5-Star Rating: {{food[2]}}</p> -->
+=======
+      <a href="/food-desc?entree={{college}}"><img src={{food[0]}}></a>
+      <figcaption>
+        <a href="/food-desc?entree={{college}}" style="color: inherit;">{{food[1]}}</a>
+>>>>>>> 67a5c2afea8aef8b94647fba78e05edacde82137
       </figcaption>
+      <p>5-Star Rating: {{food[2]}}</p>
     </figure>
   </div>
   {% endfor %}

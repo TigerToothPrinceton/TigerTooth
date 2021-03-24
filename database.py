@@ -56,11 +56,11 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception('Failed to get foods from PostgreSQL table')
 
-    def get_food(self, name):
+    def get_foodInfo(self, name):
         try:
             cursor = self._connection.cursor()
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
-            sql_command = "SELECT food.description food.numStars FROM food WHERE food.name=?"
+            sql_command = "SELECT food.url food.description food.numStars FROM food WHERE food.name=?"
             cursor.execute(sql_command, [name])
             return cursor.fetchall()
         except Exception as e:
