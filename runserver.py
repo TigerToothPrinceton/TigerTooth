@@ -4,8 +4,6 @@ import argparse
 
 
 def main(argv):
-    DATABASE_NAME = ""  # postgresql database
-
     # Create parser that has a description of the program and port positional argument
     parser = argparse.ArgumentParser(
         description='The registrar application', allow_abbrev=False)
@@ -16,7 +14,7 @@ def main(argv):
     # grab the port and run the app, unless the port is already in use
     port = args.port[0]
     try:
-        app.run(host='0.0.0.0', port=port)
+        app.run(host='0.0.0.0', port=port, debug=True)
     except Exception:
         print(f"{argv[0]}: Address already in use", file=stderr)
         exit(1)

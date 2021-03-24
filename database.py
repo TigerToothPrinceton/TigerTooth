@@ -1,7 +1,6 @@
 import psycopg2
 from sys import argv, stderr
 from os import path
-import database_handler
 
 
 class Database():
