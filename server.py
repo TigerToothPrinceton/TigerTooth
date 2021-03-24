@@ -65,26 +65,25 @@ def reactions():
 #     return redirect(url_for('/reactions', college=request.args.get("college")))
 
 
-# # Food Page
-# @app.route('/food', methods=['GET'])
+# Food Page
+@app.route('/food', methods=['GET'])
   def food():
+    dhall = request.args.get('college')
     error_msg = ""
-    user_id = 2
-    reaction = request.form['reaction']
-    dhall = request.form['college']\
-    data = (reaction, user_id, dhall, cur_time)
     try:
         database = Database()
         database.connect()
-        database.reaction_submit(data)
+        foods = database.get_foods(dhall)
         database.disconnect()
-        return redirect(url_for('/reaction?college={}'.format(college)))
+        html = render_template('food.html', foods=foods, college=dhall)
+        response = make_response(html)
+        return response
     except Exception as e:
         error_msg = e
 
 
+# Food Item Description Page
+@app.route('/food-desc', methods=['GET'])
+def food_desc():
+    return
 
-# # Food Item Description Page
-# @app.route('/food-desc', methods=['GET'])
-# def food_desc():
-#     return

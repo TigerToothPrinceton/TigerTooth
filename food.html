@@ -8,18 +8,16 @@
 </head>
 
 <body>
-  <div class="banner">
-    <h3 class="banner-item">TigerTooth</h3>
-  </div>
-  
-  {% if rows|length == 0: %}
+  {% include 'header.html' %}
+  <div>{{college}} Dining Hall</div>
+  {% if foods|length == 0: %}
   {% else: %}
-  {% for row in rows: %}
-  <div class="flex" style="margin-bottom: 100px;">
+  {% for food in foods: %}
+  <div class="flex">
     <figure>
-      <a href="/food-desc?entree=wilcox"><img src="https://i.imgur.com/3K27lJB.jpg"></a>
+      <a href="/food-desc?entree={{college}}"><img src="https://i.imgur.com/3K27lJB.jpg"></a>
       <figcaption>
-        <a href="/food-desc?entree=wilcox" style="color: inherit;">{{row[0]}}</a>
+        <a href="/food-desc?entree={{college}}" style="color: inherit;">{{row[0]}}</a>
         <p>5-Star Rating: {{row[1]}}</p>
       </figcaption>
     </figure>

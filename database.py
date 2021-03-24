@@ -42,18 +42,18 @@ class Database():
             return cursor.fetchall()
         except Exception as e:
             print(f'{e}', file=stderr)
-            raise Exception('Failed to get rows PostgreSQL table')
+            raise Exception('Failed to get reactions from PostgreSQL table')
 
-    def get_names(self, dhall):
+    def get_foods(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT food.name food.numStars FROM food WHERE food.dhall=?"
-            cursor.execute(get_query, [dhall])
+            get_query = "SELECT food.url food.name food.numStars FROM food WHERE food.dhall='{}'".format(dhall)
+            cursor.execute(get_query)
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
             return cursor.fetchall()
         except Exception as e:
             print(f'{e}', file=stderr)
-            raise Exception('Failed to get rows PostgreSQL table')
+            raise Exception('Failed to get foods from PostgreSQL table')
 
     def get_food(self, name):
         try:
@@ -64,5 +64,5 @@ class Database():
             return cursor.fetchall()
         except Exception as e:
             print(f'{e}', file=stderr)
-            raise Exception('Failed to get rows PostgreSQL table')
+            raise Exception('Failed to get individual food item from PostgreSQL table')
                 

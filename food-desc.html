@@ -8,9 +8,8 @@
 </head>
 
 <body>
-  <div class="banner">
-    <h3 class="banner-item">TigerTooth</h3>
-  </div>
+  {% include 'header.html' %}
+
 
   {% if rows|length == 0: %}
   {% else: %}
@@ -22,17 +21,7 @@
       <p>{{row[0]}}</p>
     </figure>
   </div>
-  
-  <div class="panel-footer">
-    <label for="input-2" class="control-label">My Rating:</label>
-  <input id="stars_{{result.id}}" name="input-2" class="rating rating-loading" data-min="0" data-max="10" data-step="0.1" data-stars="10" data-size="xs"onchange="updateStars('{{result.id}}')" >
-  </div>
-     <form action="{{url_for('delete_f', id=result.id)}}" method="post">
-          <input type="hidden" name="_method" value="DELETE">
-          <input type="submit" value="Delete" class="btn btn-danger">
-        </form>
-  </div>
-  
+
 </body>
 
 </html>
