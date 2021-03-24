@@ -9,7 +9,7 @@
 
 <body>
   {% include 'header.html' %}
-  <div>{{college}} Dining Hall</div>
+  <div><h1>{{college}} Dining Hall</h1></div>
   {% if foods|length == 0: %}
   {% else: %}
   {% for food in foods: %}
@@ -18,8 +18,8 @@
       <a href="/food-desc?entree={{college}}"><img src={{food[0]}}></a>
       <figcaption>
         <a href="/food-desc?entree={{college}}" style="color: inherit;">{{food[1]}}</a>
+        <p style="text-align:center;">5-Star Rating: {{food[2]}}</p>
       </figcaption>
-      <p>5-Star Rating: {{food[2]}}</p>
     </figure>
   </div>
   {% endfor %}
