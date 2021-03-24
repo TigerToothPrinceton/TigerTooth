@@ -17,17 +17,47 @@
     <h3 class="dhall-header">Check out what people are saying</h3>
   </div>
 
-  <!-- Need to add the times to each message -->
+  <!-- This div is the box that shows all the reactions -->
   <div class="messages-container">
-    <p>this is wack</p>
-    <p>this is laughable</p>
-    <p>this is worse than wilcox</p>
-    <p>they put the chicken in a toaster, that’s how bad it is</p>
-    <p>Don’t come here! This was so bad idek what to say</p>
-    <p>The food was so good! Idk what everyone else is smoking</p>
+    <div class="reaction-container">
+      <p>this is wack</p>
+      <p>5:39 PM</p>
+    </div>
+    <div class="reaction-container">
+      <p>this is laughable</p>
+      <p>5:40 PM</p>
+    </div>
+    <div class="reaction-container">
+      <p>this is worse than wilcox</p>
+      <p>5:40 PM</p>
+    </div>
+    <div class="reaction-container">
+      <p>they put the chicken in a toaster, that’s how bad it is</p>
+      <p>5:45 PM</p>
+    </div>
+    <div class="reaction-container">
+      <p>Don’t come here! This was so bad idek what to say</p>
+      <p>5:47 PM</p>
+    </div>
+    <div class="reaction-container">
+      <p>The food was so good! Idk what everyone else is smoking</p>
+      <p>5:48 PM</p>
+    </div>
     <br>
     <br>
-    <textarea rows="3" cols="30" placeholder="Enter your message here"></textarea>
+    <div class="flex-reactions-input">
+      <form action="reactions" method="GET" class="reactions-form">
+        <textarea rows="3" cols="30" placeholder="Enter your message here" style="margin-right: 1vw;"></textarea>
+        <input type="submit" value="Submit">
+        <!-- <button type="button">Submit</button> -->
+      </form>
+    </div>
+  </div>
+  <br>
+  <br>
+
+  <div class="food-page-link">
+    <a href="food.html">View the Menu</a>
   </div>
 </body>
 
