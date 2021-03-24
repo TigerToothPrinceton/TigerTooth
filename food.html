@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>{{name}} Dining Hall</title>
+  <title>{{college}} Dining Hall</title>
   <link rel="stylesheet" href="./css/style.css" />
   <link rel="stylesheet" href="./css/header.css" />
 </head>
@@ -16,19 +16,16 @@
     <h3 class="dhall-header">Choose Your Dining Hall</h3>
   </div>
 
+  {% if rows|length == 0: %}
+  {% else: %}
+  {% for row in rows: %}
   <div class="flex" style="margin-bottom: 100px;">
     <figure>
-      <a href="/reactions?college=wilcox"><img src="./images/wilcox.jpeg"></a>
+      <a href="/food-desc?entree=wilcox"><img src="./images/pork.jpeg"></a>
       <figcaption>
-        <a href="/reactions?college=wilcox" style="color: inherit;">Wilcox</a>
+        <a href="/food-desc?entree=wilcox" style="color: inherit;">row[0]</a>
       </figcaption>
-    </figure>
-  </div>
-
-  <div class="flex">
-    <figure>
-      <img src="./images/roma.jpeg">
-      <figcaption>Rocky/Mathey</figcaption>
+      
     </figure>
   </div>
   

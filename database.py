@@ -1,7 +1,6 @@
 import psycopg2
 from sys import argv, stderr
 from os import path
-import database_handler
 
 
 class Database():
@@ -55,7 +54,7 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception('Failed to get rows PostgreSQL table')
 
-    def get_food(self, name):
+    def get_food(self, name, ):
         try:
             cursor = self._connection.cursor()
 
