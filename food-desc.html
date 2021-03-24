@@ -10,17 +10,17 @@
 <body>
   {% include 'header.html' %}
 
-  {% if rows|length == 0: %}
+  {% if foods|length == 0: %}
   {% else: %}
-  {% for row in rows: %}
   <div class="flex" style="margin-bottom: 100px;">
     <figure>
       <img src="{{row[0]}}">
-      <p>{{row[1]}}</p>
-      <p>5-Star Rating: {{row[0]}}</p>
+      <p>{{foods[1]}}</p>
+      <p>5-Star Rating: {{foods[0]}}</p>
     </figure>
   </div>
-
+  {% endif %}
+  
   <form action="your rating">
     <label for="quantity">Your 5-Star Rating:</label>
     <input type="number" id="quantity" name="quantity" min="1" max="5">

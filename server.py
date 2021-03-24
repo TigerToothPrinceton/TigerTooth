@@ -108,7 +108,7 @@ def food_desc():
             database.connect()
             rows = database.get_foodInfo(name)
             database.disconnect()
-            html = render_template('food-desc.html', foods=foods, college=name)
+            html = render_template('food-desc.html', foods=rows)
             response = make_response(html)
             return response
         except Exception as e:
