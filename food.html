@@ -11,24 +11,22 @@
   <div class="banner">
     <h3 class="banner-item">TigerTooth</h3>
   </div>
-  <!-- {% include 'header.html' %} -->
-  <div class="dhall-header-container" style="height: 100px">
-    <h3 class="dhall-header">Choose Your Dining Hall</h3>
-  </div>
-
+  
   {% if rows|length == 0: %}
   {% else: %}
   {% for row in rows: %}
   <div class="flex" style="margin-bottom: 100px;">
     <figure>
-      <a href="/food-desc?entree=wilcox"><img src="./images/pork.jpeg"></a>
+      <a href="/food-desc?entree=wilcox"><img src="https://i.imgur.com/3K27lJB.jpg"></a>
       <figcaption>
-        <a href="/food-desc?entree=wilcox" style="color: inherit;">row[0]</a>
+        <a href="/food-desc?entree=wilcox" style="color: inherit;">{{row[0]}}</a>
+        <p>5-Star Rating: {{row[1]}}</p>
       </figcaption>
-      
     </figure>
   </div>
-  
+  {% endfor %}
+  {% endif %}
+
 </body>
 
 </html>

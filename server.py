@@ -56,10 +56,23 @@ def reactions():
             error_msg = e
 
 
-# # Food Page
+# # Food Page (HELLLLLLLLP)
 # @app.route('/food', methods=['GET'])
-# def dhall():
-#     return
+  def food():
+    error_msg = ""
+    user_id = 2
+    reaction = request.form['reaction']
+    dhall = request.form['college']\
+    data = (reaction, user_id, dhall, cur_time)
+    try:
+        database = Database()
+        database.connect()
+        database.reaction_submit(data)
+        database.disconnect()
+        return redirect(url_for('/reaction?college={}'.format(college)))
+    except Exception as e:
+        error_msg = e
+
 
 
 # # Food Item Description Page

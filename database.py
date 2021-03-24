@@ -46,7 +46,7 @@ class Database():
     def get_names(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT name FROM food WHERE food.dhall=?"
+            get_query = "SELECT food.name food.numStars FROM food WHERE food.dhall=?"
             cursor.execute(get_query, [dhall])
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
             return cursor.fetchall()
@@ -54,58 +54,14 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception('Failed to get rows PostgreSQL table')
 
-    def get_food(self, name, ):
+    def get_food(self, name):
         try:
             cursor = self._connection.cursor()
-
-            sql_command1 = "SELECT classes.courseid, classes.days, classes.starttime, classes.endtime, classes.bldg, classes.roomnum, crosslistings.dept, crosslistings.coursenum, courses.area, courses.title, courses.descrip, courses.prereqs FROM classes, crosslistings, courses WHERE classes.courseid = courses.courseid AND crosslistings.courseid = courses.courseid AND classid=? ORDER BY dept ASC, coursenum ASC"
-
-            # fetching professors if any
-            sql_command2 = "SELECT profs.profname FROM coursesprofs, profs WHERE coursesprofs.courseid=? AND coursesprofs.profid=profs.profid ORDER BY profname"
-
-            cursor.execute(sql_command1, [class_id])
-
-            results = {}
-            row = cursor.fetchone()
-
-            # If reg.py sends a "class details" query specifying a classid that does not exist in the database, then regserver.py must write a descriptive error message to its stderr and continue executing.
-            # if classid does not exist, return an empty dictionary
-            if row is None:
-                return results
-
-            firstrow = row
-            courseid = str(row[0])
-            results['courseid'] = courseid
-            results['days'] = str(row[1])
-            results['start'] = str(row[2])
-            results['end'] = str(row[3])
-            results['building'] = str(row[4])
-            results['room'] = str(row[5])
-
-            dept_num_list = []
-            dept_num_list.append(str(row[6]) + " " + str(row[7]))
-            row = cursor.fetchone()
-            while row is not None:
-                dept_num_list.append(str(row[6]) + " " + str(row[7]))
-                row = cursor.fetchone()
-
-            results['dept_num'] = dept_num_list
-            results['area'] = str(firstrow[8])
-            results['title'] = str(firstrow[9])
-            results['desc'] = str(firstrow[10])
-            results['prereq'] = str(firstrow[11])
-
-            cursor.execute(sql_command2, [courseid])
-
-            professors = []
-            row = cursor.fetchone()
-            while row is not None:
-                professors.append(str(row[0]))
-                row = cursor.fetchone()
-            results['profs'] = professors
-            cursor.close()
-            return results
+            ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
+            sql_command = "SELECT food.description food.numStars FROM food WHERE food.name=?"
+            cursor.execute(sql_command, [name])
+            return cursor.fetchall()
         except Exception as e:
-            print(f'{argv[0]}: {e}', file=stderr)
-            raise Exception(
-                'A server error occurred. Please contact the system administrator.')
+            print(f'{e}', file=stderr)
+            raise Exception('Failed to get rows PostgreSQL table')
+                
