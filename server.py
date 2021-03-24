@@ -67,13 +67,14 @@ def reactions():
 
 # Food Page
 @app.route('/food', methods=['GET'])
-  def food():
+def food():
     dhall = request.args.get('college')
     error_msg = ""
     try:
         database = Database()
         database.connect()
         foods = database.get_foods(dhall)
+        print(foods)
         database.disconnect()
         html = render_template('food.html', foods=foods, college=dhall)
         response = make_response(html)
@@ -86,4 +87,3 @@ def reactions():
 @app.route('/food-desc', methods=['GET'])
 def food_desc():
     return
-
