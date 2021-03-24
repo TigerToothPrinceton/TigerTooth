@@ -67,7 +67,7 @@ def reactions():
 
 # Food Page
 @app.route('/food', methods=['GET'])
-  def food():
+def food():
     dhall = request.args.get('college')
     error_msg = ""
     try:
@@ -83,7 +83,38 @@ def reactions():
 
 
 # Food Item Description Page
-@app.route('/food-desc', methods=['GET'])
+@app.route('/food-desc', methods=['GET', 'POST'])
 def food_desc():
-    return
+    error_msg = ""
+    print(request.method)
+    if request.method == "POST":
+        user_id = 2
+        reaction = request.form['reaction']
+        dhall = request.form['name']
+        try:
+            database = Database()
+            database.connect()
+            database.reaction_submit(data)
+            database.disconnect()
+            # return redirect(url_for('/reactions-temp'), college=dhall)
+            return redirect(request.referrer)
+        except Exception as e:
+            error_msg = e
+    else:
+        try:
+            name = request.args.get("name")
+            database = Database()
+            database.connect()
+            rows = database.get_foodInfo(name)
+            database.disconnect()
+            html = render_template('food-desc.html', foods=foods, college=name)
+            response = make_response(html)
+            return response
+        except Exception as e:
+            error_msg = e
+
+
+
+
+
 
