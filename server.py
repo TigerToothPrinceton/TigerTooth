@@ -5,6 +5,7 @@ from datetime import datetime
 
 
 app = Flask(__name__, template_folder='.')
+app.static_folder = 'static'
 
 
 # For all these functions, REFER to the FIGMA:
@@ -24,9 +25,10 @@ def index():
 
 
 # Reactions Page
-@app.route('/reaction', methods=['GET', 'POST'])
+@app.route('/reactions', methods=['GET', 'POST'])
 def reactions():
     error_msg = ""
+    print(request.method)
     if request.method == "POST":
         user_id = 2
         reaction = request.form['reaction']
@@ -39,7 +41,8 @@ def reactions():
             database.connect()
             database.reaction_submit(data)
             database.disconnect()
-            return redirect(url_for('/reaction?college={}'.format(college)))
+            # return redirect(url_for('/reactions-temp'), college=dhall)
+            return redirect(request.referrer)
         except Exception as e:
             error_msg = e
     else:
@@ -54,6 +57,12 @@ def reactions():
             return response
         except Exception as e:
             error_msg = e
+
+
+# @app.route('/reactions-temp', methods=['GET'])
+# def temp():
+#     print("in temp")
+#     return redirect(url_for('/reactions', college=request.args.get("college")))
 
 
 # # Food Page
