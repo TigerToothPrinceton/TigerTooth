@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from database import Database
+from datetime import datetime
 
 
 app = Flask(__name__, template_folder='.')
@@ -52,13 +53,11 @@ def index():
 # Reactions Page
 @app.route('/reaction', methods=['GET'])
 def reactions():
-    classid = request.args.get('classid')
-    is_int = True
+    reaction = request.args.get('reaction')
+    now = datetime.now()
+    cur_time = now.strftime("%I:%M %p")
 
-    try:
-        int(classid)
-    except:
-        is_int = False
+    data = (reaction, cur_time)
 
     prev_dept = request.cookies.get('prev_dept')
     prev_num = request.cookies.get('prev_num')
@@ -69,13 +68,13 @@ def reactions():
     try:
         database = Database()
         database.connect()
-        results = database.class_details(classid)
+        database.reaction_submit(data)
         database.disconnect()
     except Exception as e:
         error_msg = e
         results = {}
 
-    html = render_template('classdetails.html', error_msg=error_msg, is_int=is_int, results=results, classid=classid,
+    html = render_template('reactions.html', error_msg=error_msg, is_int=is_int, results=results, classid=classid,
                            prev_dept=prev_dept, prev_num=prev_num, prev_area=prev_area, prev_title=prev_title)
     response = make_response(html)
     return response
