@@ -2,8 +2,16 @@ from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from database import Database
 from datetime import datetime
+<<<<<<< HEAD
 from CASClient import CASClient
 import requests
+=======
+# <<<<<<< HEAD
+from CASClient import CASClient
+# =======
+# import requests
+#>>>>>>> 27cfa256e407cdd59a5ea1e1e0b00abb1499e837
+>>>>>>> c41736b6c3994fd0441377b72955df4baa46d30a
 
 # please note: this is not a permanent access token... it needs to be refreshed a ton (1000 hrs)
 # Dining Hall API only keeps two weeks of data
