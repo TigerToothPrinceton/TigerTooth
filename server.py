@@ -2,14 +2,16 @@ from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from database import Database
 from datetime import datetime
-<<<<<<< HEAD
 from CASClient import CASClient
-=======
+from requests_lib import RequestsLib
+import datetime
 # import requests
->>>>>>> 27cfa256e407cdd59a5ea1e1e0b00abb1499e837
+
+
+### IMPORTANT: Dining Hall Menu only keeps 2 weeks of data ###
 
 # please note: this is not a permanent access token... it needs to be refreshed a ton (1000 hrs)
-# configs = {"BASE_URL": "https://api.princeton.edu/mobile-app/1.0.0/",
+# configs = {"BASE_URL": "https://api.princeton.edu:443/mobile-app/1.0.0/",
 #    "ACCESS_TOKEN": "NGE3YjBkYjgtZDcwMy0zOTRhLWIzOWUtNTNhZGM5MTFmMzQ4OnRpZ2VydG9vdGhAY2FyYm9uLnN1cGVy"}
 
 # req = requests.get(
@@ -18,9 +20,9 @@ from CASClient import CASClient
 #    headers={
 #        "Authorization": "Bearer " + configs["ACCESS_TOKEN"]
 #    },
-#)
-#text = req.text
-#print(text)
+# )
+# text = req.text
+# print(text)
 
 app = Flask(__name__, template_folder='.')
 app.static_folder = 'static'
@@ -35,9 +37,7 @@ app.static_folder = 'static'
 @app.route('/index', methods=['GET'])
 def index():
     try:
-        print('in index')
-        username = CASClient().authenticate()  # CAS
-        print(username)
+        # username = CASClient().authenticate()  # CAS
         html = render_template('index.html')
         response = make_response(html)
         return response
@@ -90,9 +90,48 @@ def reactions():
 @app.route('/food', methods=['GET'])
 def food():
     # username = CASClient().authenticate()  # CAS
-    dhall = request.args.get('college')
     error_msg = ""
     try:
+        dhall = request.args.get('college')
+        ### Code for grabbing food from dining hall API ###
+        request_lib = RequestsLib()
+        # Get today's date
+        today = datetime.datetime.today()
+        year = str(today.year)
+
+        # Pad the number with zeros so that
+        # there are always exactly two digits
+        month = str(today.month).zfill(2)
+        day = str(today.day).zfill(2)
+
+        # Get current time
+        time_hour = datetime.datetime.now().hour
+        meal = "Lunch"  # default value
+        # breakfast, lunch, dinner
+        if (time >= 5 and time < 10):
+            meal = "Breakfast"
+        elif (time >= 10 and time < 2):
+            meal = "Lunch"
+        elif (time >= 2 and time < 8):
+            meal = "Dinner"
+
+        # Get locationID
+        locationID = 1
+        if dhall == "wilcox":
+            locationID = 1
+        elif dhall == "forbes":
+            locationID = 5
+        elif dhall == "roma":
+            locationID = 3
+        elif dhall == "whitman":
+            locationID = 6
+
+        menu = request_lib.getJSON(
+            request_lib.configs.DINING_MENU,
+            locationID=locationID,
+            menuID=year + "-" + month + "-" + day + "-" + meal,
+        )
+        menu_arr = menu['menus']
         database = Database()
         database.connect()
         foods = database.get_foods(dhall)
