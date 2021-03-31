@@ -10,7 +10,7 @@ configs = {"BASE_URL": "https://api.princeton.edu/mobile-app/1.0.0/",
 
 req = requests.get(
     configs["BASE_URL"] + "dining/menu",
-    params={ "locationId" : "whitman", "menuID": "2019-03-15-LUNCH"},
+    params={ "locationId" : "0675", "menuID": "2019-03-15-LUNCH"},
     headers={
         "Authorization": "Bearer " + configs["ACCESS_TOKEN"]
     },
