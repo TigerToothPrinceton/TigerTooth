@@ -2,7 +2,7 @@ from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from database import Database
 from datetime import datetime
-<<<<<<< HEAD
+# <<<<<<< HEAD
 from CASClient import CASClient
 =======
 # import requests
