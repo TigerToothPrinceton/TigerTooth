@@ -6,7 +6,7 @@ from datetime import datetime
 from CASClient import CASClient
 # =======
 # import requests
->>>>>>> 27cfa256e407cdd59a5ea1e1e0b00abb1499e837
+#>>>>>>> 27cfa256e407cdd59a5ea1e1e0b00abb1499e837
 
 # please note: this is not a permanent access token... it needs to be refreshed a ton (1000 hrs)
 # configs = {"BASE_URL": "https://api.princeton.edu/mobile-app/1.0.0/",
