@@ -2,6 +2,7 @@ from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from database import Database
 from datetime import datetime
+from CASClient import CASClient
 
 
 app = Flask(__name__, template_folder='.')
@@ -17,6 +18,9 @@ app.static_folder = 'static'
 @app.route('/index', methods=['GET'])
 def index():
     try:
+        print('in index')
+        username = CASClient().authenticate()  # CAS
+        print(username)
         html = render_template('index.html')
         response = make_response(html)
         return response
@@ -28,6 +32,7 @@ def index():
 @app.route('/reactions', methods=['GET', 'POST'])
 def reactions():
     error_msg = ""
+    # username = CASClient().authenticate()  # CAS
     if request.method == "POST":
         user_id = 2
         reaction = request.form['reaction']
@@ -67,6 +72,7 @@ def reactions():
 # Food Page
 @app.route('/food', methods=['GET'])
 def food():
+    # username = CASClient().authenticate()  # CAS
     dhall = request.args.get('college')
     error_msg = ""
     try:
@@ -85,6 +91,7 @@ def food():
 # Food Item Description Page
 @app.route('/food-desc', methods=['GET', 'POST'])
 def food_desc():
+    # username = CASClient().authenticate()  # CAS
     error_msg = ""
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
@@ -122,3 +129,10 @@ def food_desc():
             return response
         except Exception as e:
             error_msg = e
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    casClient = CASClient()
+    casClient.authenticate()
+    casClient.logout()
