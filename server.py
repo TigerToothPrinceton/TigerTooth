@@ -2,25 +2,24 @@ from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from database import Database
 from datetime import datetime
-<<<<<<< HEAD
 from CASClient import CASClient
-=======
-# import requests
->>>>>>> 27cfa256e407cdd59a5ea1e1e0b00abb1499e837
+import requests
 
 # please note: this is not a permanent access token... it needs to be refreshed a ton (1000 hrs)
-# configs = {"BASE_URL": "https://api.princeton.edu/mobile-app/1.0.0/",
-#    "ACCESS_TOKEN": "NGE3YjBkYjgtZDcwMy0zOTRhLWIzOWUtNTNhZGM5MTFmMzQ4OnRpZ2VydG9vdGhAY2FyYm9uLnN1cGVy"}
+# Dining Hall API only keeps two weeks of data
+# 1 = BUTLER, 2 = FIRST, 3 = ROCKY, 4 = MATHEY, 5 = FORBES, 6 = WHITMAN, 7 = CJL, 8 = GRAD
+configs = {"BASE_URL": "https://api.princeton.edu:443/mobile-app/1.0.0/",
+           "ACCESS_TOKEN": "NGE3YjBkYjgtZDcwMy0zOTRhLWIzOWUtNTNhZGM5MTFmMzQ4OnRpZ2VydG9vdGhAY2FyYm9uLnN1cGVy"}
 
-# req = requests.get(
-#    configs["BASE_URL"] + "dining/menu",
-#    params={ "locationId" : "0675", "menuID": "2019-03-15-LUNCH"},
-#    headers={
-#        "Authorization": "Bearer " + configs["ACCESS_TOKEN"]
-#    },
-#)
-#text = req.text
-#print(text)
+req = requests.get(
+         configs["BASE_URL"] + "dining/menu",
+         params={ "locationId" : "2", "menuID": "2021-03-31-Lunch"},
+         headers={
+                 "Authorization": "Bearer " + configs["ACCESS_TOKEN"]
+         },
+    )
+text = req.text
+print(text)
 
 app = Flask(__name__, template_folder='.')
 app.static_folder = 'static'
