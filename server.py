@@ -37,7 +37,7 @@ app.static_folder = 'static'
 @app.route('/index', methods=['GET'])
 def index():
     try:
-        # username = CASClient().authenticate()  # CAS
+        username = CASClient().authenticate()  # CAS
         html = render_template('index.html')
         response = make_response(html)
         return response

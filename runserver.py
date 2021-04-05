@@ -14,7 +14,7 @@ def main(argv):
     # grab the port and run the app, unless the port is already in use
     port = args.port[0]
     try:
-        app.run(host='0.0.0.0', port=port, debug=True)
+        app.run(host='localhost', port=port, debug=True)
     except Exception:
         print(f"{argv[0]}: Address already in use", file=stderr)
         exit(1)
