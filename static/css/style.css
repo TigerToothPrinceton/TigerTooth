@@ -38,20 +38,20 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  margin:0;
 }
 
-header, footer {
-  flex-basis: auto;
-  flex-grow: 0;
-  flex-shrink: 0;
+header{
+  background-color: orange;
+  height:50px;
 }
 
 main {
-  flex-basis: auto;
-  flex-shrink: 0;
-  flex-grow: 1;
+  background-color: white;
+  flex:1;
 }
-/* .dhall-header {
-  text-align: center;
-  vertical-align: middle;
-} */
+
+footer{
+  background-color: orange;
+  height:150px;
+}
