@@ -187,8 +187,8 @@ def food_desc():
             error_msg = e
 
 
-@app.route('/logout', methods=['GET'])
-def logout():
-    casClient = CASClient()
-    casClient.authenticate()
-    casClient.logout()
+# @app.route('/logout', methods=['GET'])
+# def logout():
+ #   casClient = CASClient()
+ #   casClient.authenticate()
+ #   casClient.logout()
