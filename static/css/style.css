@@ -38,3 +38,16 @@ textarea {
   text-align: center;
   vertical-align: middle;
 } */
+
+/*--- footer ---*/
+
+.page-footer {
+	background-color: #3A405A;
+	color: #ccc;
+	padding: 60px 0 30px;
+}
+
+.footer-copyright {
+	color: #666;
+	padding: 40px 0;
+}
