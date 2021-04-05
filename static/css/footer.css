@@ -5,6 +5,6 @@
 	color: #000000;
 	bottom: 0;
 	padding: 30px 15px 30px;
-	position: absolute;
+	position: fixed;
 	width:100%;
 }
