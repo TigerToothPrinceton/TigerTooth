@@ -5,6 +5,7 @@
   <title>Select Dining Hall</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
 </head>
 
 <body>
@@ -45,6 +46,16 @@
       </figcaption>
     </figure>
   </div>
+	
+  <br/>
+  <br/>
+	
+  {% include 'footer.html' %}
+  
+
+<script src="jquery-3.3.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="main.js"></script>
   
 </body>
 
