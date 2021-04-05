@@ -113,7 +113,7 @@ def food():
 
         # Get current time
         time_hour = datetime.now(est).hour
-        meal = "Lunch"  # default value
+        meal = "Lunch"  # default value, case-sensitive
         # breakfast, lunch, dinner
         if (time_hour >= 5 and time_hour < 10):
             meal = "Breakfast"
@@ -145,8 +145,13 @@ def food():
         # add new foods to the database if they do not exist
         database.add_food(menu_arr, dhall)
 
-        # grab the foods being served at dhall=dhall
-        foods = database.get_foods(dhall)
+        foods = []
+        # grab the foods being served at the dhall with the same api_id as the dhall api
+        for food in menu_arr:
+            api_id = food['id']
+            result = database.get_food(api_id, dhall)
+            foods.append(result)
+
         database.disconnect()
         html = render_template('food.html', foods=foods,
                                college=dhall, meal_time=meal)

@@ -66,6 +66,18 @@ class Database():
             raise Exception(
                 'Failed to insert new food into PostgreSQL table')
 
+    def get_food(self, api_id, dhall):
+        try:
+            cursor = self._connection.cursor()
+            get_query = "SELECT food.url, food.name, food.num_ratings, food.num_stars, food.food_id, food.api_id FROM food WHERE food.api_id='{}' and food.dhall='{}'".format(
+                api_id, dhall)
+            cursor.execute(get_query)
+            return cursor.fetchone()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to get an individual food item from PostgreSQL table')
+
     def get_foods(self, dhall):
         try:
             cursor = self._connection.cursor()
