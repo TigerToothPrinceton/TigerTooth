@@ -202,12 +202,12 @@ def food_img_submit():
     error_msg = ""
     if request.method == "POST":
         try:
-            food_id = request.form['food_id']
+            api_id = request.form['api_id']
             food_url = request.form['food_url'] + '.jpg'
             dhall = request.form['college']
             database = Database()
             database.connect()
-            database.add_food_image(food_id, food_url)
+            database.add_food_image(api_id, food_url)
             database.disconnect()
             return redirect(url_for('food', college=dhall))
         except Exception as e:
@@ -215,10 +215,10 @@ def food_img_submit():
             error_msg = e
     else:
         try:
-            food_id = request.args.get("food_id")
+            api_id = request.args.get("api_id")
             dhall = request.args.get("college")
             html = render_template(
-                'foodimg-submit.html', food_id=food_id, college=dhall)
+                'foodimg-submit.html', api_id=api_id, college=dhall)
             response = make_response(html)
             return response
         except Exception as e:

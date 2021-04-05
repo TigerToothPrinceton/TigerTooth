@@ -67,7 +67,7 @@ class Database():
     def get_foods(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT food.url, food.name, food.num_ratings, food.num_stars, food.food_id FROM food WHERE food.dhall='{}'".format(
+            get_query = "SELECT food.url, food.name, food.num_ratings, food.num_stars, food.food_id, food.api_id FROM food WHERE food.dhall='{}'".format(
                 dhall)
             cursor.execute(get_query)
             return cursor.fetchall()
@@ -114,11 +114,11 @@ class Database():
             raise Exception(
                 'Failed to insert review into PostgreSQL table')
 
-    def add_food_image(self, food_id, food_url):
+    def add_food_image(self, api_id, food_url):
         try:
             cursor = self._connection.cursor()
-            update_query = "UPDATE food SET url = '{}' WHERE food.food_id = '{}'".format(
-                food_url, food_id)
+            update_query = "UPDATE food SET url = '{}' WHERE food.api_id = '{}'".format(
+                food_url, api_id)
             cursor.execute(update_query)
             self._connection.commit()
         except Exception as e:
