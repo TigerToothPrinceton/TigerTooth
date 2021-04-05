@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>{{college}} Dining Hall</title>
+  <title>{{college}} {{meal_time}}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
@@ -10,16 +10,20 @@
 
 <body>
   {% include 'header.html' %}
-  <div class="food-dhall-title"><h1>{{college.capitalize()}} Dining Hall</h1></div>
+  <div class="food-dhall-title"><h1>{{college.capitalize()}} {{meal_time}}</h1></div>
   {% if foods|length == 0: %}
   {% else: %}
   {% for food in foods: %}
   <div class="flex" style="margin-bottom: 100px;">
     <figure>
-      <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}"></a>
+      <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="Submit a Photo Here!"></a>
       <figcaption>
         <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
+        {% if food[2] == 0 %}
+        <p>Rating: 0.0</p>
+        {% else: %}
         <p>Rating: {{(food[3]/food[2])|round(1)}}</p>
+        {% endif %}
       </figcaption>
     </figure>
   </div>

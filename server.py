@@ -4,8 +4,6 @@ from database import Database
 from datetime import datetime
 from CASClient import CASClient
 from requests_lib import RequestsLib
-import datetime
-# import requests
 
 
 ### IMPORTANT: Dining Hall Menu only keeps 2 weeks of data ###
@@ -37,12 +35,15 @@ app.static_folder = 'static'
 @app.route('/index', methods=['GET'])
 def index():
     try:
-        username = CASClient().authenticate()  # CAS
+        # username = CASClient().authenticate()  # CAS
         html = render_template('index.html')
         response = make_response(html)
         return response
     except Exception as e:
+        # CASClient().authenticate() triggers an exception
+        print("in the exception")
         error_msg = e
+        print(error_msg)
 
 
 # Reactions Page
@@ -60,7 +61,7 @@ def reactions():
         try:
             database = Database()
             database.connect()
-            database.reaction_submit(data)
+            database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
             return redirect(request.referrer)
@@ -96,7 +97,7 @@ def food():
         ### Code for grabbing food from dining hall API ###
         request_lib = RequestsLib()
         # Get today's date
-        today = datetime.datetime.today()
+        today = datetime.today()
         year = str(today.year)
 
         # Pad the number with zeros so that
@@ -105,14 +106,14 @@ def food():
         day = str(today.day).zfill(2)
 
         # Get current time
-        time_hour = datetime.datetime.now().hour
+        time_hour = datetime.now().hour
         meal = "Lunch"  # default value
         # breakfast, lunch, dinner
-        if (time >= 5 and time < 10):
+        if (time_hour >= 5 and time_hour < 10):
             meal = "Breakfast"
-        elif (time >= 10 and time < 2):
+        elif (time_hour >= 10 and time_hour < 14):
             meal = "Lunch"
-        elif (time >= 2 and time < 8):
+        elif (time_hour >= 14 and time_hour < 20):
             meal = "Dinner"
 
         # Get locationID
@@ -134,13 +135,18 @@ def food():
         menu_arr = menu['menus']
         database = Database()
         database.connect()
+        # add new foods to the database if they do not exist
+        database.add_food(menu_arr, dhall)
+
+        # grab the foods being served at dhall=dhall
         foods = database.get_foods(dhall)
         database.disconnect()
         html = render_template('food.html', foods=foods,
-                               college=dhall)
+                               college=dhall, meal_time=meal)
         response = make_response(html)
         return response
     except Exception as e:
+        print(e)
         error_msg = e
 
 

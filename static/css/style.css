@@ -9,7 +9,8 @@
 
 img {
   width: 45vw;
-  height: 100%;
+  height: auto;
+  height: 400px;
 }
 
 figcaption {

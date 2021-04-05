@@ -6,8 +6,8 @@ import base64
 # Configuration for using Dining Hall API
 class Configs:
     def __init__(self):
-        self.CONSUMER_KEY = "KPYMe2FTDdpk9Lo3Q0FLWPWCjwsa"
-        self.CONSUMER_SECRET = "ONBGvpgskS6EKutumvlTf_kh56Ua"
+        self.CONSUMER_KEY = "_YGJ_cSf5qbshdzWuasjN3GhdCEa"
+        self.CONSUMER_SECRET = "mfXfk_Jh7Bd4F2qwS2lBwMtCL6sa"
         self.BASE_URL = "https://api.princeton.edu:443/mobile-app/1.0.0"
         self.DINING_MENU = "/dining/menu"
         self.REFRESH_TOKEN_URL = "https://api.princeton.edu:443/token"

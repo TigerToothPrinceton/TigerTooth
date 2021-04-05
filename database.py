@@ -1,6 +1,7 @@
 import psycopg2
 from sys import argv, stderr
 from os import path
+from datetime import datetime
 
 
 class Database():
@@ -20,7 +21,7 @@ class Database():
     def disconnect(self):
         self._connection.close()
 
-    def reaction_submit(self, data):
+    def add_reaction(self, data):
         try:
             cursor = self._connection.cursor()
 
@@ -43,6 +44,25 @@ class Database():
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception('Failed to get reactions from PostgreSQL table')
+
+    def add_food(self, new_foods, dhall):
+        try:
+            cursor = self._connection.cursor()
+            for new_food in new_foods:
+                # is the new food already in the food table
+                boolean_query = "SELECT EXISTS(SELECT 1 FROM food WHERE food_id='{}')".format(
+                    new_food['id'])
+                cursor.execute(boolean_query)
+                if cursor.fetchone()[0] == False:
+                    insert_query = "INSERT INTO food (name, num_ratings, num_stars, dhall, last_served, food_id) VALUES (%s, %s, %s, %s, %s, %s)"
+                    insert_arr = [new_food['name'], 0, 0, dhall, datetime.today().strftime(
+                        '%Y-%m-%d'), new_food['id']]
+                    cursor.execute(insert_query, insert_arr)
+                    self._connection.commit()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to insert new food into PostgreSQL table')
 
     def get_foods(self, dhall):
         try:
