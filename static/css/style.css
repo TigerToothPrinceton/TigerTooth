@@ -34,6 +34,23 @@ textarea {
   align-items: stretch;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header, footer {
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+main {
+  flex-basis: auto;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
 /* .dhall-header {
   text-align: center;
   vertical-align: middle;
