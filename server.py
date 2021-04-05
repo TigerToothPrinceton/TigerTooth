@@ -4,6 +4,7 @@ from database import Database
 from datetime import datetime
 from CASClient import CASClient
 from requests_lib import RequestsLib
+import pytz
 
 
 ### IMPORTANT: Dining Hall Menu only keeps 2 weeks of data ###
@@ -55,7 +56,8 @@ def reactions():
         user_id = 2
         reaction = request.form['reaction']
         dhall = request.form['college']
-        now = datetime.now()
+        est = pytz.timezone('US/Eastern')
+        now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
         data = (reaction, user_id, dhall, cur_time)
         try:
@@ -97,8 +99,11 @@ def food():
         # dhall = request.args['college']
         ### Code for grabbing food from dining hall API ###
         request_lib = RequestsLib()
+
+        # timezone
+        est = pytz.timezone('US/Eastern')
         # Get today's date
-        today = datetime.today()
+        today = datetime.today(est)
         year = str(today.year)
 
         # Pad the number with zeros so that
@@ -107,7 +112,7 @@ def food():
         day = str(today.day).zfill(2)
 
         # Get current time
-        time_hour = datetime.now().hour
+        time_hour = datetime.now(est).hour
         meal = "Lunch"  # default value
         # breakfast, lunch, dinner
         if (time_hour >= 5 and time_hour < 10):
@@ -165,7 +170,7 @@ def food_desc():
         if review == "":
             review = None
         food_id = request.form['food_id']
-        now = datetime.now()
+        now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
         review_data = (user_id, food_id, review, rating, cur_time)
         try:
