@@ -50,11 +50,11 @@ class Database():
             cursor = self._connection.cursor()
             for new_food in new_foods:
                 # is the new food already in the food table
-                boolean_query = "SELECT EXISTS(SELECT 1 FROM food WHERE food_id='{}')".format(
-                    new_food['id'])
+                boolean_query = "SELECT EXISTS(SELECT 1 FROM food WHERE api_id='{}' and dhall='{}')".format(
+                    new_food['id'], dhall)
                 cursor.execute(boolean_query)
                 if cursor.fetchone()[0] == False:
-                    insert_query = "INSERT INTO food (name, num_ratings, num_stars, dhall, last_served, food_id) VALUES (%s, %s, %s, %s, %s, %s)"
+                    insert_query = "INSERT INTO food (name, num_ratings, num_stars, dhall, last_served, api_id) VALUES (%s, %s, %s, %s, %s, %s)"
                     insert_arr = [new_food['name'], 0, 0, dhall, datetime.today().strftime(
                         '%Y-%m-%d'), new_food['id']]
                     cursor.execute(insert_query, insert_arr)
