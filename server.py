@@ -94,6 +94,7 @@ def food():
     error_msg = ""
     try:
         dhall = request.args.get('college')
+        # dhall = request.args['college']
         ### Code for grabbing food from dining hall API ###
         request_lib = RequestsLib()
         # Get today's date
@@ -127,6 +128,7 @@ def food():
         elif dhall == "whitman":
             locationID = 6
 
+        # make a call to dining hall api and grab all the items in the current meal menu
         menu = request_lib.getJSON(
             request_lib.configs.DINING_MENU,
             locationID=locationID,
@@ -192,6 +194,36 @@ def food_desc():
         except Exception as e:
             error_msg = e
 
+
+# Submit a Photo URL to a Food Item
+@app.route('/foodimg-submit', methods=['GET', 'POST'])
+def food_img_submit():
+    # username = CASClient().authenticate()  # CAS
+    error_msg = ""
+    if request.method == "POST":
+        try:
+            food_id = request.form['food_id']
+            food_url = request.form['food_url'] + '.jpg'
+            dhall = request.form['college']
+            database = Database()
+            database.connect()
+            database.add_food_image(food_id, food_url)
+            database.disconnect()
+            return redirect(url_for('food', college=dhall))
+        except Exception as e:
+            print(e)
+            error_msg = e
+    else:
+        try:
+            food_id = request.args.get("food_id")
+            dhall = request.args.get("college")
+            html = render_template(
+                'foodimg-submit.html', food_id=food_id, college=dhall)
+            response = make_response(html)
+            return response
+        except Exception as e:
+            print(e)
+            error_msg = e
 
 # @app.route('/logout', methods=['GET'])
 # def logout():

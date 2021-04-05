@@ -113,3 +113,15 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to insert review into PostgreSQL table')
+
+    def add_food_image(self, food_id, food_url):
+        try:
+            cursor = self._connection.cursor()
+            update_query = "UPDATE food SET url = '{}' WHERE food.food_id = '{}'".format(
+                food_url, food_id)
+            cursor.execute(update_query)
+            self._connection.commit()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to insert food image into PostgreSQL table')

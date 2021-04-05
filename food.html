@@ -16,7 +16,11 @@
   {% for food in foods: %}
   <div class="flex" style="margin-bottom: 100px;">
     <figure>
+      {% if food[0] is none: %}
+      <a href="/foodimg-submit?food_id={{food[4]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"></a>
+      {% else: %}
       <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="Submit a Photo Here!"></a>
+      {% endif %}
       <figcaption>
         <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
         {% if food[2] == 0 %}
