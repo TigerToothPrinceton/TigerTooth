@@ -57,7 +57,7 @@ class Database():
                 cursor.execute(boolean_query)
                 if cursor.fetchone()[0] == False:
                     insert_query = "INSERT INTO food (name, num_ratings, num_stars, dhall, last_served, api_id) VALUES (%s, %s, %s, %s, %s, %s)"
-                    insert_arr = [new_food['name'], 0, 0, dhall, datetime.today(est).strftime(
+                    insert_arr = [new_food['name'], 0, 0, dhall, datetime.today().astimezone(est).strftime(
                         '%Y-%m-%d'), new_food['id']]
                     cursor.execute(insert_query, insert_arr)
                     self._connection.commit()

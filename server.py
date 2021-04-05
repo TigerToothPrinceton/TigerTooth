@@ -103,7 +103,7 @@ def food():
         # timezone
         est = pytz.timezone('US/Eastern')
         # Get today's date
-        today = datetime.today(est)
+        today = datetime.today().astimezone(est)
         year = str(today.year)
 
         # Pad the number with zeros so that
