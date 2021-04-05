@@ -5,7 +5,8 @@
   <title>{{college}} {{meal_time}}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
 </head>
 
 <body>
@@ -33,7 +34,10 @@
   </div>
   {% endfor %}
   {% endif %}
-
+  <br/>
+  <br/>
+  <br/>
+  {% include 'footer.html' %}
 </body>
 
 </html>
