@@ -6,13 +6,12 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reactions.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
   
 </head>
 
 <body>
-  <!-- <div class="banner">
-    <h3 class="banner-item">TigerTooth</h3>
-  </div> -->
+
   {% include 'header.html' %}
   <div class="dhall-header-container" style="height: 100px">
     <h3 class="dhall-header">Check out what people are saying</h3>
@@ -33,26 +32,7 @@
         {% endif %}
       {% endfor %}
     {% endif %}
-    <!-- <div class="reaction-container">
-      <p>this is laughable</p>
-      <p>5:40 PM</p>
-    </div>
-    <div class="reaction-container">
-      <p>this is worse than wilcox</p>
-      <p>5:40 PM</p>
-    </div>
-    <div class="reaction-container">
-      <p>they put the chicken in a toaster, that’s how bad it is</p>
-      <p>5:45 PM</p>
-    </div>
-    <div class="reaction-container">
-      <p>Don’t come here! This was so bad idek what to say</p>
-      <p>5:47 PM</p>
-    </div>
-    <div class="reaction-container">
-      <p>The food was so good! Idk what everyone else is smoking</p>
-      <p>5:48 PM</p>
-    </div> -->
+   
   </div>
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form">
@@ -60,7 +40,6 @@
         style="margin-right: 1vw;"></textarea>
       <input type="submit">
       <input type="hidden" name="college" value="{{college}}">
-      <!-- <button type="button">Submit</button> -->
     </form>
   </div>
   <br>
@@ -69,7 +48,7 @@
   <div class="food-page-link">
     <a href="/food?college={{college}}" style="color: inherit">View the Menu</a>
   </div>
-  
+  {% include 'footer.html' %}
 </body>
 
 </html>
