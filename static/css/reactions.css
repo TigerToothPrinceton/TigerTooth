@@ -10,10 +10,14 @@
 .flex-reactions-input {
   display: flex;
   margin-top: 2vw;
+  align-items: center;
+  justify-content: center;
 }
 
 .reactions-form {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .reaction-container {
