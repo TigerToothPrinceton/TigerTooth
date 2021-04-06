@@ -9,20 +9,6 @@ import pytz
 
 ### IMPORTANT: Dining Hall Menu only keeps 2 weeks of data ###
 
-# please note: this is not a permanent access token... it needs to be refreshed a ton (1000 hrs)
-# configs = {"BASE_URL": "https://api.princeton.edu:443/mobile-app/1.0.0/",
-#    "ACCESS_TOKEN": "NGE3YjBkYjgtZDcwMy0zOTRhLWIzOWUtNTNhZGM5MTFmMzQ4OnRpZ2VydG9vdGhAY2FyYm9uLnN1cGVy"}
-
-# req = requests.get(
-#    configs["BASE_URL"] + "dining/menu",
-#    params={ "locationId" : "0675", "menuID": "2019-03-15-LUNCH"},
-#    headers={
-#        "Authorization": "Bearer " + configs["ACCESS_TOKEN"]
-#    },
-# )
-# text = req.text
-# print(text)
-
 app = Flask(__name__, template_folder='.')
 app.static_folder = 'static'
 
