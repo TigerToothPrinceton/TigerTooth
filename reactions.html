@@ -39,10 +39,12 @@
   
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form">
-      <textarea rows="3" cols="30" placeholder="Enter your message here!" name="reaction";></textarea>
-      <br/>
-      <br/>
-      <input type="submit" class="submit-button">
+      <p>
+        <textarea rows="3" cols="30" placeholder="Enter your message here!" name="reaction";></textarea>
+      </p>
+      <p>
+        <button id="submitbutton" type = "button">Submit</button>
+      </p>
       <input type="hidden" name="college" value="{{college}}">
     </form>
   </div>
