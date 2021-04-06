@@ -4,6 +4,7 @@
   border: 2px solid black;
   max-height: 800px;
   overflow: auto;
+  font-size: 15px;
 }
 
 .flex-reactions-input {
