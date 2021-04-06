@@ -32,11 +32,15 @@
     {% else: %}
       {% for row in rows: %}
        {% if row[0] != "" %}
-          <div class="reaction-container">
-          <!-- reactions -->
-          <p style="font-size: 20px;">{{row[0]}}</p>
-          <!-- time -->
-          <p style="font-size: 20px;">{{row[3]}}</p> 
+          <div class="container">
+            <div class="row">
+              <div class="col-10" style: "font-size=20px;">
+                {{row[0]}}
+              </div>
+              <div class="col-2" style: "font-size=20px;">
+                {{row[3]}}
+              </div>
+            </div>
           </div>
         {% endif %}
       {% endfor %}
