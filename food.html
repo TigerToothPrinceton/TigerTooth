@@ -27,24 +27,24 @@
   {% else: %}
 
     <!-- For large devices like laptops -->
-    <div class="card-group mx-5 text-center justify-content-center">
+    <div class="card-group mx-5 text-center justify-content-center mb-4">
     {% for food in foods: %}
-      <div class="card mx-auto mx-sm-3 my-3 border-dark" style="min-width: 16rem; max-width: 16rem;">
-                {% if food[0] is none: %}
-                <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
-                {% else: %}
-                <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="height: 250px;"></a>
-                {% endif %}
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
-                  </h5>
-                  {% if food[2] == 0 %}
-                  <p class="card-text">Rating: 0.0</p>
-                  {% else: %}
-                  <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
-                  {% endif %}
-                </div>
+      <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
+        {% if food[0] is none: %}
+        <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
+        {% else: %}
+        <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="height: 250px;"></a>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
+          </h5>
+          {% if food[2] == 0 %}
+          <p class="card-text">Rating: 0.0</p>
+          {% else: %}
+          <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+          {% endif %}
+        </div>
       </div>
     {% endfor %}
     </div>
