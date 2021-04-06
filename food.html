@@ -33,7 +33,7 @@
         {% if food[0] is none: %}
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
         {% else: %}
-        <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="height: 250px;"></a>
+        <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="height: 240px;"></a>
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">
@@ -47,32 +47,6 @@
         </div>
       </div>
     {% endfor %}
-    </div>
-
-    <!-- For small devices like phones -->
-    <div class="container d-lg-none">
-      <div class="row row-cols-1">
-          {% for food in foods: %}
-            <div class="col mb-4">
-              <figure>
-                {% if food[0] is none: %}
-                <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"></a>
-                {% else: %}
-                <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo"
-                    class="img-fluid img-thumbnail rounded" style="height: 190px; width: 100%"></a>
-                {% endif %}
-                <figcaption>
-                  <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
-                  {% if food[2] == 0 %}
-                  <p>Rating: 0.0</p>
-                  {% else: %}
-                  <p>Rating: {{(food[3]/food[2])|round(1)}}</p>
-                  {% endif %}
-                </figcaption>
-              </figure>
-            </div>
-          {% endfor %}
-      </div>
     </div>
 
   {% endif %}
