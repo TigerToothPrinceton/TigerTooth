@@ -40,17 +40,21 @@
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form">
       <textarea rows="3" cols="30" placeholder="Enter your message here!" name="reaction"
-        style="margin-right: 1vw;"></textarea>
-      <br/>
+        style="margin-right: 0.5vw;"></textarea>
+    </form>
+    <form action="reactions" method="POST" class="reactions-form">
       <input type="submit">
+    </form>
+     <form action="reactions" method="POST" class="reactions-form">
       <input type="hidden" name="college" value="{{college}}">
     </form>
+   
   </div>
   <br>
   <br>
 
   <div class="food-page-link">
-    <a href="/food?college={{college}}" style="color: inherit; font-size:36px">View the Menu</a>
+    <a href="/food?college={{college}}" style="color: inherit; font-size:24px">View the Menu!</a>
   </div>
   <br/>
   <br/>
