@@ -175,6 +175,7 @@ def food_desc():
         if review == "":
             review = None
         food_id = request.form['food_id']
+        est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
         review_data = (user_id, food_id, review, rating, cur_time)
