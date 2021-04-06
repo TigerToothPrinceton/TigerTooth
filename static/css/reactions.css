@@ -28,11 +28,23 @@
   font-size: 4vw;
 }
 
-button {
+.button2 {
   color:inherit; 
   font-size:24px; 
   width:200px;
   height:75px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items:center;
+}
+
+.button1 {
+  color:inherit; 
+  font-size:12px; 
+  font-family: Lato;
+  width:50px;
+  height:25px;
   display: flex;
   text-align: center;
   justify-content: center;
