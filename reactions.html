@@ -33,12 +33,15 @@
         {% endif %}
       {% endfor %}
     {% endif %}
-   
   </div>
+  
+  <br/>
+  
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form">
-      <textarea rows="3" cols="30" placeholder="Enter your message here" name="reaction"
+      <textarea rows="3" cols="30" placeholder="Enter your message here!" name="reaction"
         style="margin-right: 1vw;"></textarea>
+      <br/>
       <input type="submit">
       <input type="hidden" name="college" value="{{college}}">
     </form>
@@ -47,7 +50,7 @@
   <br>
 
   <div class="food-page-link">
-    <a href="/food?college={{college}}" style="color: inherit">View the Menu</a>
+    <a href="/food?college={{college}}" style="color: inherit; font-size:36px">View the Menu</a>
   </div>
   <br/>
   <br/>
