@@ -25,9 +25,9 @@
   <!-- Food description portion -->
   {% if food|length == 0: %}
   {% else: %}
-  <div class="flex-food-desc" style="margin: 50px 0 100px 0;">
+  <div class="container mt-5">
     <figure>
-      <img src="{{food[0]}}" alt="Submit a Photo Here!">
+      <img src="{{food[0]}}" alt="Submit a Photo Here!" class="img-fluid rounded" style="height: 400px; width: 100%;">
       <figcaption style="margin-top: 10px">
         {{food[1]}}
         {% if food[2] == 0 %}
@@ -35,14 +35,14 @@
         {% else: %}
         <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-        <i>{{food[4]}}</i>
+        <i>Description: {{food[4]}}</i>
       </figcaption>
     </figure>
   </div>
   {% endif %}
 
   <!-- Review Display Portion -->
-  <div class="flex-food-desc" style="margin-top: 200px; margin-bottom: 1vw;">
+  <div class="flex-food-desc" style="margin-top: 100px; margin-bottom: 1vw;">
     <h3>Reviews</h3>
   </div>
   <div class="reviews-container">
