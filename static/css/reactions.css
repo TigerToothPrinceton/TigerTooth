@@ -30,9 +30,11 @@ button {
   color:inherit; 
   font-size:24px; 
   text-align: center; 
-  width:150px; 
+  width:150px;
+  height: 150px;
   justify-content: center;
   display: flex;
+  align-items: center;
 }
 
 textarea {
