@@ -2,7 +2,7 @@
   margin: auto;
   width: 55%;
   border: 2px solid black;
-  max-height: 800px;
+  max-height: 1000px;
   overflow: auto;
   font-size: 15px;
 }
