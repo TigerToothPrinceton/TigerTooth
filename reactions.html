@@ -23,7 +23,7 @@
 
   {% include 'header.html' %}
   <div class="dhall-header-container" style="height: 100px">
-    <h3 class="dhall-header" style="font-size:24px">Check out what people are saying!</h3>
+    <h3 class="dhall-header" style="font-size:32px">Check out what people are saying!</h3>
   </div>
 
   <!-- This div is the box that shows all the reactions -->
@@ -34,16 +34,15 @@
        {% if row[0] != "" %}
           <div class="reaction-container">
           <!-- reactions -->
-          <p style="font-size: 16px">{{row[0]}}</p>
+          <p style="font-size: 64px;">{{row[0]}}</p>
           <!-- time -->
-          <p style="font-size: 16px">{{row[3]}}</p> 
+          <p style="font-size: 64px;">{{row[3]}}</p> 
           </div>
         {% endif %}
       {% endfor %}
     {% endif %}
   </div>
   
-  <br/>
   
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form" id="form1">
