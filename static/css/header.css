@@ -3,6 +3,8 @@
   height: 50px;
   background-color: orange;
   margin: 0;
+  font-family: Lato;
+  color: #000000;
 }
 
 .banner .banner-item {

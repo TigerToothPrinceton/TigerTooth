@@ -16,6 +16,7 @@ img {
 figcaption {
   text-align: center;
   font-size: 25px;
+  font-family: Lato;
 }
 
 textarea {
@@ -26,6 +27,7 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Lato;
 }
 
 .flex {
@@ -38,7 +40,13 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   margin: 0;
+  font-family: Lato;
+}
+
+html {
+  height: -webkit-fill-available;
 }
 
 header {
@@ -53,7 +61,7 @@ main {
 
 footer {
   background-color: orange;
-  height: 156px;
+  height: 176px;
 }
 
 a:visited {

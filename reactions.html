@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reactions.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
   
 </head>
 
@@ -14,7 +15,7 @@
 
   {% include 'header.html' %}
   <div class="dhall-header-container" style="height: 100px">
-    <h3 class="dhall-header">Check out what people are saying</h3>
+    <h3 class="dhall-header" style="font-size:24px">Check out what people are saying!</h3>
   </div>
 
   <!-- This div is the box that shows all the reactions -->
@@ -25,28 +26,29 @@
        {% if row[0] != "" %}
           <div class="reaction-container">
           <!-- reactions -->
-          <p>{{row[0]}}</p>
+          <p style="font-size: 16px">{{row[0]}}</p>
           <!-- time -->
-          <p>{{row[3]}}</p> 
+          <p style="font-size: 16px">{{row[3]}}</p> 
           </div>
         {% endif %}
       {% endfor %}
     {% endif %}
-   
   </div>
+  
+  <br/>
+  
   <div class="flex-reactions-input">
     <form action="reactions" method="POST" class="reactions-form">
-      <textarea rows="3" cols="30" placeholder="Enter your message here" name="reaction"
-        style="margin-right: 1vw;"></textarea>
-      <input type="submit">
+      <textarea rows="3" cols="30" placeholder="Enter your message here!" 
+        name="reaction";"></textarea>
+        <input type="submit" class="submit-button">
       <input type="hidden" name="college" value="{{college}}">
     </form>
   </div>
   <br>
-  <br>
 
   <div class="food-page-link">
-    <a href="/food?college={{college}}" style="color: inherit">View the Menu</a>
+    <a href="/food?college={{college}}" style="color: inherit; font-size:24px">View the Menu!</a>
   </div>
   <br/>
   <br/>
