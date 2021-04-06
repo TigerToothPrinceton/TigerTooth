@@ -25,29 +25,57 @@
   <div class="food-dhall-title"><h1>{{college.capitalize()}} {{meal_time}}</h1></div>
   {% if foods|length == 0: %}
   {% else: %}
-  {% for food in foods: %}
-  <div class="flex" style="margin-bottom: 100px;">
-    <figure>
-      {% if food[0] is none: %}
-      <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"></a>
-      {% else: %}
-      <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="Submit a Photo Here!"></a>
-      {% endif %}
-      <figcaption>
-        <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
-        {% if food[2] == 0 %}
-        <p>Rating: 0.0</p>
-        {% else: %}
-        <p>Rating: {{(food[3]/food[2])|round(1)}}</p>
-        {% endif %}
-      </figcaption>
-    </figure>
-  </div>
-  {% endfor %}
+
+    <!-- For large devices like laptops -->
+    <div class="card-group mx-5 text-center justify-content-center">
+    {% for food in foods: %}
+      <div class="card mx-auto mx-sm-3 my-3 border-dark" style="min-width: 16rem; max-width: 16rem;">
+                {% if food[0] is none: %}
+                <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
+                {% else: %}
+                <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="height: 250px;"></a>
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
+                  </h5>
+                  {% if food[2] == 0 %}
+                  <p class="card-text">Rating: 0.0</p>
+                  {% else: %}
+                  <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+                  {% endif %}
+                </div>
+      </div>
+    {% endfor %}
+    </div>
+
+    <!-- For small devices like phones -->
+    <div class="container d-lg-none">
+      <div class="row row-cols-1">
+          {% for food in foods: %}
+            <div class="col mb-4">
+              <figure>
+                {% if food[0] is none: %}
+                <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"></a>
+                {% else: %}
+                <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo"
+                    class="img-fluid img-thumbnail rounded" style="height: 190px; width: 100%"></a>
+                {% endif %}
+                <figcaption>
+                  <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
+                  {% if food[2] == 0 %}
+                  <p>Rating: 0.0</p>
+                  {% else: %}
+                  <p>Rating: {{(food[3]/food[2])|round(1)}}</p>
+                  {% endif %}
+                </figcaption>
+              </figure>
+            </div>
+          {% endfor %}
+      </div>
+    </div>
+
   {% endif %}
-  <br/>
-  <br/>
-  <br/>
   {% include 'footer.html' %}
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"

@@ -125,6 +125,7 @@ def food():
             locationID=locationID,
             menuID=year + "-" + month + "-" + day + "-" + meal,
         )
+        print(menu)
         menu_arr = menu['menus']
         database = Database()
         database.connect()
