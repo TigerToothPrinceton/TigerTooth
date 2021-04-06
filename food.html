@@ -33,7 +33,7 @@
         {% if food[0] is none: %}
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
         {% else: %}
-        <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="height: 240px;"></a>
+        <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 9rem; max-height: 9rem;"></a>
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">
