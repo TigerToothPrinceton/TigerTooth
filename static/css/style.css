@@ -30,6 +30,10 @@ textarea {
   font-family: Lato;
 }
 
+.dhall-header{
+  font-size: 24px;
+}
+
 .flex {
   display: flex;
   justify-content: space-evenly;
