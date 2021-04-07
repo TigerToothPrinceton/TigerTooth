@@ -41,22 +41,22 @@
   {% else: %}
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-md-6" style="border:2px solid #000000;">
+        <div class="col-3"></div>
+        <div class="col-6" style="border:2px solid #000000;">
           {% for row in rows: %}
             {% if row[0] != "" %}
               <div class="row border-bottom">
-                <div class="col-lg-10" style="margin: auto;"> 
+                <div class="col-10" style="margin: auto;"> 
                   <p style="font-size: 20px;">{{row[0]}}</p>
                 </div>
-                <div class="col-sm-2" style="margin:auto; text-align: right">
+                <div class="col-2" style="margin:auto; text-align: right">
                   <p style="font-size: 20px;">{{row[3]}}</p>
                 </div>
               </div>
             {% endif %}
           {% endfor %}
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-3"></div>
       </div>
     </div>
   {% endif %}
@@ -66,17 +66,17 @@
         <form action="reactions" method="POST" class="reactions-form" id="form1">
           <div class="controls">
             <div class="row">
-              <div class="col-sm-4"></div>
-              <div class="col-sm-4">
+              <div class="col-4"></div>
+              <div class="col-4">
                 <div class="form-group">
                     <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3" cols = "30" ></textarea>
                 </div>
               </div>
-              <div class="col-sm-4"></div>
+              <div class="col-4"></div>
             </div>
             <br>
             <div class = "row">
-              <div class="col-sm">
+              <div class="col-2">
                 <input type="submit" class="btn btn-secondary btn-send" value="React!">
                 <input type="hidden" name="college" value="{{college}}">
               </div>
