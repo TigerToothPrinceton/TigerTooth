@@ -25,28 +25,37 @@
   <div class="reactions-title"><h1>Check Out What People are Saying!</h1></div>
 
   <!-- This div is the box that shows all the reactions -->
-  <div class="messages-container">
-    {% if rows|length == 0: %}
-    {% else: %}
-      {% for row in rows: %}
-       {% if row[0] != "" %}
-          <div class="reaction-container">
-          <!-- reactions -->
-          <p style="font-size: 20px;">{{row[0]}}</p>
-          <!-- time -->
-          <p style="font-size: 20px;">{{row[3]}}</p> 
-          </div>
-        {% endif %}
-      {% endfor %}
+   {% if rows|length == 0: %}
+   {% else: %}
+    <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        {% for row in rows: %}
+          {% if row[0] != "" %}
+            <div class="row">
+              <!-- reactions -->
+              <div class="col-lg-10">
+                <p style="font-size: 20px;">{{row[0]}}</p>
+              </div>
+              <!-- time -->
+              <div class="col-sm-2">
+                <p style="font-size: 20px;">{{row[3]}}</p> 
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+     </div>
+     </div>
     {% endif %}
-  </div>
+
   
   <br>
   <br>
   
   <div class="container">
     <div class="row">
-        <form action="reactions" method="POST" class="reactions-form" id="form1">
+        <form action="reactions" method="POST" class="reactions-form" id="form2">
           <div class="controls">
             <div class="row">
               <div class="col-md"></div>
@@ -61,7 +70,7 @@
               <br>
             <div class="row">
               <div class="col-sm">
-                <input type="submit" class="btn btn-secondary btn-send" form="form1" value="React!">
+                <input type="submit" class="btn btn-secondary btn-send" form="form2" value="React!">
               </div>
             </div>
           </div>
