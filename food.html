@@ -26,7 +26,8 @@
     <div class="container-fluid">
       <a class="navbar-brand fs-4" href="index">TigerTooth</a>
       <div class="navbar-nav">
-        <a class="nav-link active me-1 fs-5" aria-current="page" href="/reactions?college={{college}}">View {{college.capitalize()}} Reactions</a>
+        <a class="nav-link active me-1 fs-6 d-sm-none" aria-current="page" href="/reactions?college={{college}}">View {{college.capitalize()}} Reactions</a>
+        <a class="nav-link active me-1 fs-5 d-none d-sm-block" aria-current="page" href="/reactions?college={{college}}">View {{college.capitalize()}} Reactions</a>
       </div>
     </div>
   </nav>
@@ -42,7 +43,7 @@
         {% if food[0] is none: %}
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
         {% else: %}
-        <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 9rem; max-height: 9rem;"></a>
+        <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">

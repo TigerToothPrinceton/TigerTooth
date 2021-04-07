@@ -25,7 +25,8 @@
     <div class="container-fluid">
       <a class="navbar-brand fs-4" href="index">TigerTooth</a>
       <div class="navbar-nav">
-        <a class="nav-link active me-1 fs-5" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
+        <a class="nav-link active me-1 fs-6 d-sm-none" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
+        <a class="nav-link active me-1 fs-5 d-none d-sm-block" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
       </div>
     </div>
   </nav>
@@ -42,15 +43,17 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-2"></div>
-        <div class="col-8 pl-1 pr-1" style="border:2px solid #000000; max-height:80vh; overflow: auto">
+        <div class="col-8 pl-1 pr-1" style="border:2px solid #000000; border-radius: 0.4rem; max-height:80vh; overflow: auto">
           {% for row in rows: %}
             {% if row[0] != "" %}
-              <div class="row border-bottom">
-                <div class="col-9"> 
-                  <p style="font-size: 16px;">{{row[0]}}</p>
+              <div class="row border-bottom align-items-center">
+                <div class="col-9 pt-2 pb-2" style="font-size: 16px;"> 
+                  <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
+                  {{row[0]}}
                 </div>
-                <div class="col-3" style="text-align: right">
-                  <p style="font-size: 16px;">{{row[3]}}</p>
+                <div class="col-3 pt-2 pb-2" style="text-align: right; font-size: 16px">
+                  <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
+                  {{row[3]}}
                 </div>
               </div>
             {% endif %}
