@@ -30,30 +30,30 @@
   </div>
 
   <!-- This div is the box that shows all the reactions -->
-   {% if rows|length == 0: %}
+  {% if rows|length == 0: %}
    {% else: %}
     <div class="container">
-    <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-lg-8" style="border:2px solid #000000;">
-        {% for row in rows: %}
-          {% if row[0] != "" %}
-            <div class="row border-bottom border-top align-self-center">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-lg-8" style="border:2px solid #000000;">
+          {% for row in rows: %}
+            {% if row[0] != "" %}
+              <div class="row border-bottom border-top align-self-center">
                 <p style="font-size: 20px;">{{row[0]}} - {{row[3]}}</p>
-            </div>
-          {% endif %}
-        {% endfor %}
-       </div>
-       <div class="col-sm-2"></div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="col-sm-2"></div>
      </div>
-     </div>
-    {% endif %}
+    </div>
+  {% endif %}
 
   
   <br>
   <br>
   
-  <div class="container h-75">
+  <div class="container">
     <div class="row">
         <form action="reactions" method="POST" class="reactions-form" id="form1">
           <div class="controls">
