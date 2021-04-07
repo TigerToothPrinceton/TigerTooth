@@ -39,7 +39,7 @@
         {% for row in rows: %}
           {% if row[0] != "" %}
             <div class="row border-bottom">
-                <p style="font-size: 20px;">{{row[0]}} + " - " + {{row[3]}}</p>
+                <p style="font-size: 20px;">{{row[0]}} - {{row[3]}}</p>
             </div>
           {% endif %}
         {% endfor %}
@@ -55,7 +55,7 @@
   
   <div class="container">
     <div class="row">
-        <form action="reactions" method="POST" class="reactions-form" id="form2">
+        <form action="reactions" method="POST" class="reactions-form" id="form1">
           <div class="controls">
             <div class="row">
               <div class="col-md"></div>
@@ -70,7 +70,7 @@
               <br>
             <div class="row">
               <div class="col-sm">
-                <input type="submit" class="btn btn-secondary btn-send" form="form2" value="React!">
+                <input type="submit" class="btn btn-secondary btn-send" form="form1" value="React!">
               </div>
             </div>
           </div>
