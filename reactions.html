@@ -33,7 +33,7 @@
   {% else: %}
     <div class="container">
       <div class="row">
-        <div class="col-sm-2"></div>
+        <div class="col-sm-3"></div>
         <div class="col-lg-8 h-75" style="border:2px solid #000000;">
           {% for row in rows: %}
             {% if row[0] != "" %}
@@ -43,11 +43,11 @@
             {% endif %}
           {% endfor %}
         </div>
-        <div class="col-sm-2"></div>
+        <div class="col-sm-3"></div>
       </div>
     </div>
   {% endif %}
-
+  <br>
   
   <div class="container">
     <div class="row">
@@ -61,6 +61,7 @@
                 </div>
               </div>
               <div class="col-md-4"></div>
+              <br>
               <div class="col-sm">
                 <input type="submit" class="btn btn-secondary btn-send" value="React!">
                 <input type="hidden" name="college" value="{{college}}">
@@ -71,7 +72,6 @@
     </div>
   </div>
   
-  <br>
   <br>
   <br/>
   <button class = "button2" style="margin: auto" onclick="location.href='/food?college={{college}}'" type="button">View the Menu!</button>
