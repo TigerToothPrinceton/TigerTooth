@@ -41,6 +41,9 @@
     {% endif %}
   </div>
   
+  <br>
+  <br>
+  
   <div class="container">
     <div class="row">
         <form action="reactions" method="POST" class="reactions-form" id="form1">
@@ -48,13 +51,12 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                    <label for="form_message">Reaction!</label>
-                    <br>
+                    <label for="form_message"></label>
                     <textarea id="form_message" name="message" class="form-control" placeholder="Enter your reaction here!" rows="3" cols = "30" ></textarea>
                     <input type="hidden" name="college" value="{{college}}">
                 </div>
               </div>
-              <div class="col-md-12">
+              <div class="col-sm">
                 <input type="submit" class="btn btn-secondary btn-send" form="form1" value="React!">
               </div>
             </div>
