@@ -25,6 +25,12 @@
   text-align: center;
 }
 
+.messages-form {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .reaction-container {
   display: flex;
   justify-content: space-between;
