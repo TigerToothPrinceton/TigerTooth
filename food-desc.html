@@ -66,11 +66,16 @@
       </div>
     </div>
   {% endif %}
-
+  
+  <br>
+  <br>
   <!-- Review Display Portion -->
-  <div class="flex-food-desc" style="margin-top: 100px; margin-bottom: 1vw;">
-    <h3>Reviews</h3>
+   <div class="container-fluid">
+    <div class="row" style:"margin-bottom: 1vw">
+      <h3 class="text-xs-center text-center my-3">Reviews</h3>
+    </div>
   </div>
+  <br>
   <div class="reviews-container">
     {% if reviews|length == 0: %}
     {% else: %}
