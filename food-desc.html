@@ -69,7 +69,7 @@
   
   <!-- Review Display Portion -->
    <div class="container-fluid">
-    <div class="row" style:"border-top: 1vw solid #000000;">
+    <div class="row" style:"border-top: 5px solid #000000;">
       <h3 class="text-xs-center text-center mt-3">Reviews</h3>
     </div>
   </div>
@@ -86,7 +86,7 @@
     {% else: %}
       {% for review in reviews: %}
         {% if review[0] is not none: %}
-          <div class="row" style:"border-bottom: 1vw solid #000000;">
+          <div class="row" style:"border-bottom: 5px solid #000000;">
             <!-- reviews -->
             <p>{{review[0]}}</p>
           </div>
