@@ -126,7 +126,6 @@ def food():
             locationID=locationID,
             menuID=year + "-" + month + "-" + day + "-" + meal,
         )
-        print(menu)
         menu_arr = menu['menus']
         database = Database()
         database.connect()
@@ -181,13 +180,14 @@ def food_desc():
     else:
         try:
             food_id = request.args.get("food_id")
+            college = request.args.get("college")
             database = Database()
             database.connect()
             food = database.get_food_info(food_id)[0]
             reviews = database.get_reviews(food_id)
             database.disconnect()
             html = render_template(
-                'food-desc.html', food=food, reviews=reviews, food_id=food_id)
+                'food-desc.html', college=college, food=food, reviews=reviews, food_id=food_id)
             response = make_response(html)
             return response
         except Exception as e:

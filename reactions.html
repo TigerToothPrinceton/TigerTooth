@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
   <!-- Required meta tags -->
@@ -21,7 +21,15 @@
 
 <body>
 
-  {% include 'header.html' %}
+  <nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-4 ms-3" href="index">TigerTooth</a>
+      <div class="navbar-nav">
+        <a class="nav-link active me-4 fs-5" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="reactions-title"><h1>Check Out What People are Saying!</h1></div>
 
   <!-- This div is the box that shows all the reactions -->
@@ -66,7 +74,7 @@
   <br/>
   <br/>
   
-  <button class = "button2" style="margin: auto" onclick="location.href='/food?college={{college}}'" type="button">View the Menu!</button>
+  <!-- <button class = "button2" style="margin: auto" onclick="location.href='/food?college={{college}}'" type="button">View the Menu!</button> -->
   
   <br/>
   <br/>

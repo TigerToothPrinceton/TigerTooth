@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
   <!-- Required meta tags -->
@@ -20,7 +20,27 @@
 </head>
 
 <body>
-  {% include 'header.html' %}
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-4 ms-3" href="index">TigerTooth</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active me-4 fs-6" aria-current="page" href="/reactions?college={{college}}">View
+              {{college.capitalize()}} Reactions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active me-4 fs-6" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!-- Food description portion -->
   {% if food|length == 0: %}

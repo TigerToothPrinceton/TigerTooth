@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
   <!-- Required meta tags -->
@@ -21,7 +21,16 @@
 </head>
 
 <body>
-  {% include 'header.html' %}
+
+  <nav class="navbar navbar-light bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-4 ms-3" href="index">TigerTooth</a>
+      <div class="navbar-nav">
+        <a class="nav-link active me-4 fs-5" aria-current="page" href="/reactions?college={{college}}">View {{college.capitalize()}} Reactions</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="food-dhall-title"><h1>{{college.capitalize()}} {{meal_time}}</h1></div>
   {% if foods|length == 0: %}
   {% else: %}
@@ -33,11 +42,11 @@
         {% if food[0] is none: %}
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!" class="card-img-top"></a>
         {% else: %}
-        <a href="/food-desc?food_id={{food[4]}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 9rem; max-height: 9rem;"></a>
+        <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 9rem; max-height: 9rem;"></a>
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">
-            <a href="/food-desc?food_id={{food[4]}}" style="color: inherit;">{{food[1]}}</a>
+            <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
           </h5>
           {% if food[2] == 0 %}
           <p class="card-text">Rating: 0.0</p>

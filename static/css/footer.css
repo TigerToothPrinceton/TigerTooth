@@ -1,9 +1,8 @@
 /*--- footer ---*/
-
-.page-footer {
-	background-color: orange;
-	color: #000000;
-	padding: 30px 15px 30px;
-	width:100%;
-	font-family: Lato;
+.footer {
+  background-color: #fd7e14;
+  color: #000000;
+  padding: 30px 15px 20px;
+  width: 100%;
+  font-family: Lato;
 }
