@@ -101,8 +101,7 @@
       </div>
     </div>
   {% endif %}
-  <hr/>
-  
+  <br>
   <div class="container-fluid">
     <div class="row">
         <form action="reviews" method="POST" class="reviews-form" id="form1">
@@ -112,6 +111,8 @@
               <div class="col-8 col-md-6">
                 <div class="form-group">
                     <textarea name="review" class="form-control" placeholder="Leave a review here!" rows="3" cols = "30" ></textarea>
+                    <label for="quantity" style="margin-right: 0.5vw">Your Rating:</label>
+                    <input type="number" id="quantity" name="rating" min="1" max="5" value="3">
                 </div>
               </div>
               <div class="col-2 col-md-3"></div>
@@ -121,22 +122,13 @@
               <div class="col-sm">
                 <input type="submit" class="btn btn-secondary btn-send" value="Submit!">
                 <input type="hidden" name="college" value="{{college}}">
-                <input type="hidden" name="rating" value="3">
               </div>
             </div>
           </div>
         </form>
     </div>
   </div>
-  <!-- Rating and Review Submission Portion
-  <div class="flex-reviews-input" style="margin-bottom: 50px;">
-    <form action="food-desc" method="POST" class="reviews-form">
-        <div class="food-rating-input">
-          <label for="quantity" style="margin-right: 0.5vw">Your Rating: </label>
-          <input type="number" id="quantity" name="rating" min="1" max="5" value="3">
-        </div>
-    </form>
-  </div> -->
+  
   <br>
   <br>
   {% include 'footer.html' %}
