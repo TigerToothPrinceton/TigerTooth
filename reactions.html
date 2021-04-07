@@ -41,14 +41,29 @@
     {% endif %}
   </div>
   
-  
-  <div class="flex-reactions-input">
-    <form action="reactions" method="POST" class="reactions-form" id="form1">
-      <textarea name="reaction" rows="3" cols="30" placeholder="Enter your reaction here!"></textarea>
-      <input type="hidden" name="college" value="{{college}}">
-    </form>
+   <div class="container">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 py-5">
+        <form action="reactions" method="POST" class="reactions-form" id="form1">
+          <div class="messages"></div>
+          <div class="controls">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                    <label for="form_message">Reaction!</label>
+                    <textarea id="form_message" name="message" class="form-control" placeholder="Enter your reaction here!" rows="3" cols = "30" ></textarea>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-success btn-send" value="Submit">
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <button class = "button1" style="margin: auto" type="submit" form="form1" value="Submit">Submit</button>
+  
   <br/>
   <br/>
   
