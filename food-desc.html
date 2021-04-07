@@ -67,17 +67,22 @@
     </div>
   {% endif %}
   
-  <br>
-  <br>
   <!-- Review Display Portion -->
    <div class="container-fluid">
     <div class="row" style:"margin-bottom: 1vw">
-      <h3 class="text-xs-center text-center my-3">Reviews</h3>
+      <h3 class="text-xs-center text-center mt-3">Reviews</h3>
     </div>
   </div>
   <br>
-  <div class="reviews-container">
+  <div class="container-fluid">
     {% if reviews|length == 0: %}
+      <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 pr-1 pl-1" style="border:2px solid #000000;">
+          <p style="font-size: 16px; text-align:center; margin: 10px">No reviews submitted yet! Be the first to review!</p>
+        </div>
+        <div class="col-2"></div>
+      </div>
     {% else: %}
       {% for review in reviews: %}
         {% if review[0] is not none: %}
