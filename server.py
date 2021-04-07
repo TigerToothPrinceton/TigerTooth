@@ -23,22 +23,22 @@ app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 @app.route('/index', methods=['GET'])
 def index():
     # try:
-        username = CASClient().authenticate()  # CAS
-        html = render_template('index.html')
-        response = make_response(html)
-        return response
+    username = CASClient().authenticate()  # CAS
+    html = render_template('index.html')
+    response = make_response(html)
+    return response
    # except Exception as e:
-        # CASClient().authenticate() triggers an exception
-       #  print("in the exception")
-        # error_msg = e
-       # print(error_msg)
+    # CASClient().authenticate() triggers an exception
+   #  print("in the exception")
+    # error_msg = e
+   # print(error_msg)
 
 
 # Reactions Page
 @app.route('/reactions', methods=['GET', 'POST'])
 def reactions():
     error_msg = ""
-    # username = CASClient().authenticate()  # CAS
+    username = CASClient().authenticate()  # CAS
     if request.method == "POST":
         user_id = 2
         reaction = request.form['reaction']
@@ -79,7 +79,7 @@ def reactions():
 # Food Page
 @app.route('/food', methods=['GET'])
 def food():
-    # username = CASClient().authenticate()  # CAS
+    username = CASClient().authenticate()  # CAS
     error_msg = ""
     try:
         dhall = request.args.get('college')
@@ -153,7 +153,7 @@ def food():
 # Food Item Description Page
 @app.route('/food-desc', methods=['GET', 'POST'])
 def food_desc():
-    # username = CASClient().authenticate()  # CAS
+    username = CASClient().authenticate()  # CAS
     error_msg = ""
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
@@ -197,7 +197,7 @@ def food_desc():
 # Submit a Photo URL to a Food Item
 @app.route('/foodimg-submit', methods=['GET', 'POST'])
 def food_img_submit():
-    # username = CASClient().authenticate()  # CAS
+    username = CASClient().authenticate()  # CAS
     error_msg = ""
     if request.method == "POST":
         try:
@@ -224,8 +224,9 @@ def food_img_submit():
             print(e)
             error_msg = e
 
-# @app.route('/logout', methods=['GET'])
-# def logout():
- #   casClient = CASClient()
- #   casClient.authenticate()
- #   casClient.logout()
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    casClient = CASClient()
+    casClient.authenticate()
+    casClient.logout()
