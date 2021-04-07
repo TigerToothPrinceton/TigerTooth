@@ -101,18 +101,17 @@
       </div>
     </div>
   {% endif %}
-  <br>
   <hr/>
   
    <div class="container-fluid">
     <div class="row">
-        <form action="reactions" method="POST" class="reactions-form" id="form1">
+        <form action="food-desc" method="POST" class="reviews-form" id="form1">
           <div class="controls">
             <div class="row">
               <div class="col-2 col-md-3"></div>
               <div class="col-8 col-md-6">
                 <div class="form-group">
-                    <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3" cols = "30" ></textarea>
+                    <textarea name="review" class="form-control" placeholder="Leave a revie here!" rows="3" cols = "30" ></textarea>
                 </div>
               </div>
               <div class="col-2 col-md-3"></div>
@@ -120,8 +119,9 @@
             <br>
             <div class = "row">
               <div class="col-sm">
-                <input type="submit" class="btn btn-secondary btn-send" value="React!">
+                <input type="submit" class="btn btn-secondary btn-send" value="Submit!">
                 <input type="hidden" name="college" value="{{college}}">
+                <input type="hidden" name="rating" value="3">
               </div>
             </div>
           </div>
