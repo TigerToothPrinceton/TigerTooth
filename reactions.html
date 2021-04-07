@@ -32,22 +32,13 @@
   <!-- This div is the box that shows all the reactions -->
    {% if rows|length == 0: %}
    {% else: %}
-    <div class="container">
+    <div class="container" style="border:2px solid #000000;">
     <div class="row">
       <div class="col-sm-2"></div>
       <div class="col-lg-8">
         {% for row in rows: %}
           {% if row[0] != "" %}
-            <div class="row">
-              <!-- reactions -->
-              <div class="col-lg-10">
-                <p style="font-size: 20px;">{{row[0]}}</p>
-              </div>
-              <!-- time -->
-              <div class="col-sm-2">
-                <p style="font-size: 20px;">{{row[3]}}</p> 
-              </div>
-            </div>
+                <p style="font-size: 20px;">{{row[0]}} + " - " + {{row[3]}}</p>
           {% endif %}
         {% endfor %}
        </div>
