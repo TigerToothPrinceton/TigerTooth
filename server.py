@@ -12,6 +12,7 @@ import pytz
 app = Flask(__name__, template_folder='.')
 app.static_folder = 'static'
 
+app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 
 # For all these functions, REFER to the FIGMA:
 # https://www.figma.com/file/HkBlr87OPJfC8jKhJWQQDm/Prototype-Views?node-id=14%3A25
@@ -21,16 +22,16 @@ app.static_folder = 'static'
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-    try:
-        # username = CASClient().authenticate()  # CAS
+    # try:
+        username = CASClient().authenticate()  # CAS
         html = render_template('index.html')
         response = make_response(html)
         return response
-    except Exception as e:
+   # except Exception as e:
         # CASClient().authenticate() triggers an exception
-        print("in the exception")
-        error_msg = e
-        print(error_msg)
+       #  print("in the exception")
+        # error_msg = e
+       # print(error_msg)
 
 
 # Reactions Page
