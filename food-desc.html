@@ -68,8 +68,13 @@
   {% endif %}
   
   <!-- Review Display Portion -->
-   <div class="container-fluid">
-    <div class="row" style:"border-top: 5px solid #000000;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8" style:"border-top: 5px solid #000000;"></div>
+      <div class="col-2"></div>
+    </div>
+    <div class="row">
       <h3 class="text-xs-center text-center mt-3">Reviews</h3>
     </div>
   </div>
@@ -77,11 +82,11 @@
   <div class="container-fluid">
     {% if reviews|length == 0: %}
       <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8 pr-1 pl-1" style="border:2px solid #000000;">
+        <div class="col-3"></div>
+        <div class="col-6 pr-1 pl-1" style="border:2px solid #000000;">
           <p style="font-size: 16px; text-align:center; margin: 10px">No reviews submitted yet! Be the first to review!</p>
         </div>
-        <div class="col-2"></div>
+        <div class="col-3"></div>
       </div>
     {% else: %}
       {% for review in reviews: %}
@@ -93,6 +98,11 @@
         {% endif %}
       {% endfor %}
     {% endif %}
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8" style:"border-bottom: 5px solid #000000;"></div>
+      <div class="col-2"></div>
+    </div>
   </div>
 
   <!-- Rating and Review Submission Portion -->
