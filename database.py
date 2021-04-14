@@ -38,7 +38,7 @@ class Database():
     def get_reactions(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT * FROM reactions WHERE reactions.dhall='{}'".format(
+            get_query = "SELECT * FROM reactions WHERE reactions.dhall='{}' ORDER BY reactions.reactions_ID DESC".format(
                 dhall)
             cursor.execute(get_query)
             return cursor.fetchall()
