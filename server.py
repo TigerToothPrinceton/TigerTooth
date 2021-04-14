@@ -159,6 +159,9 @@ def food_desc():
     if request.method == "POST":
         user_id = 2
         rating = request.form['rate']
+        if rating is None:
+            html = render_template('error.html', message="Needed to submit a rating")
+            response = make_response(html)
         review = request.form['review']
         if review == "":
             review = None
