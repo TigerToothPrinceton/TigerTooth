@@ -50,7 +50,7 @@
             <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
           </h5>
           {% if food[2] == 0 %}
-          <p class="card-text">Rating: 0.0</p>
+          <p class="card-text">Rating: No Rating Yet!</p>
           {% else: %}
           <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
           {% endif %}
