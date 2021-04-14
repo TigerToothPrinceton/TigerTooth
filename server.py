@@ -157,7 +157,7 @@ def food_desc():
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
         user_id = 2
-        rating = request.form['rating']
+        rating = request.form['rate']
         review = request.form['review']
         if review == "":
             review = None
