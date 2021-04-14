@@ -22,8 +22,8 @@ p {
 }
 
 .message {
-	background: #E5E5EA;
-	color: black;
+	color: white; 
+	background: #0B93F6;
   align-self: flex-start;
 		
 	&:before {
