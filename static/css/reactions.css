@@ -4,6 +4,12 @@
   margin: 20px 0;
 }
 
+.message{
+  margin-right: 25%;
+  background-color: #eee;
+  position: relative;
+}
+
 .messages-container {
   margin: auto;
   width: 55%;
