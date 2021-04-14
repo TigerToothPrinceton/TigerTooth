@@ -139,3 +139,26 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to insert food image into PostgreSQL table')
+
+    def clear_db(self, meal):
+        try:
+            cursor = self._connection.cursor()
+            time1 = 20
+            time2 = 5
+            if meal == "Breakfast":
+                time1 = 5
+                time2 = 10
+            if meal == "Lunch":
+                time1 = 10
+                time2 = 14
+            if meal == "Dinner":
+                time1 = 14
+                time2 = 20
+            delete_query = "DELETE from reactions WHERE ".format(
+                food_url, api_id)
+            cursor.execute(update_query)
+            self._connection.commit()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to remove reactions')
