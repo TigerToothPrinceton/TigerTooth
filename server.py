@@ -158,10 +158,11 @@ def food_desc():
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
         user_id = 2
-        rating = request.form['rate']
-        if rating is None:
-            html = render_template('error.html', message="Needed to submit a rating")
+        if 'rate' not in request.form:
+            html = render_template('error.html', message="Please submit a rating")
             response = make_response(html)
+            return response
+        rating = request.form['rate']
         review = request.form['review']
         if review == "":
             review = None
@@ -180,6 +181,9 @@ def food_desc():
             return redirect(request.referrer)
         except Exception as e:
             error_msg = e
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
     # For reading existing reviews, the name/image of food, and description
     else:
         try:
