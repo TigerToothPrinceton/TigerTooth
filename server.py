@@ -68,6 +68,9 @@ def reactions():
             return response
         except Exception as e:
             error_msg = e
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
 
 
 # @app.route('/reactions-temp', methods=['GET'])
@@ -148,6 +151,9 @@ def food():
     except Exception as e:
         print(e)
         error_msg = e
+        html = render_template('error.html', message="Look's like our menu is unavailable. Please try again later!")
+        response = make_response(html)
+        return response
 
 
 # Food Item Description Page
