@@ -45,13 +45,13 @@
           class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% else: %}
       <!-- Clicking on this link should lead to a pop up rectangular box with more info like review[5] (written review) and review[4] (rating) -->
-      <a href="#"><img src="{{review[1]}}" alt="No photo"
+      <a href="food-desc?food_id={{review[6]}}&college={{review[2]}}"><img src="{{review[1]}}" alt="No photo"
           class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
           <!-- Clicking on this link should lead to a pop up rectangular box with more info like review[4] (written review) and review[3] (rating) -->
-          <a href="#" style="color: inherit;">{{review[0]}}</a>
+          <a href="/food-desc?food_id={{review[6]}}&college={{review[2]}}" style="color: inherit;">{{review[0]}}</a>
         </h5>
         <p class="card-text">Dining Hall: {{review[2].capitalize()}}</p>
       </div>
