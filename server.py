@@ -153,9 +153,10 @@ def food():
             api_id = food['id']
             result = database.get_food(api_id, dhall)
             foods.append(result)
-
+        
+        rows = database.get_reactions(dhall)
         database.disconnect()
-        html = render_template('food.html', foods=foods,
+        html = render_template('food.html', foods=foods, rows=rows
                                college=dhall, meal_time=meal)
         response = make_response(html)
         return response
