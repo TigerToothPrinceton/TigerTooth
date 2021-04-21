@@ -24,6 +24,13 @@ app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 def index():
     # try:
     username = CASClient().authenticate()  # CAS
+    try:
+        database = Database()
+        database.connect()
+        database.add_user(username)
+        database.disconnect()
+    except Exception as e:
+        error_msg = e
     html = render_template('index.html')
     response = make_response(html)
     return response
@@ -40,16 +47,20 @@ def reactions():
     error_msg = ""
     username = CASClient().authenticate()  # CAS
     if request.method == "POST":
-        user_id = 2
+        # user_id = 2
         reaction = request.form['reaction']
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
-        data = (reaction, user_id, dhall, cur_time)
+        # data = (reaction, user_id, dhall, cur_time)
         try:
             database = Database()
             database.connect()
+            database.add_user(username)
+            # must come after prev line
+            user_id = database.get_userid(username)
+            data = (reaction, user_id, dhall, cur_time)
             database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
@@ -61,6 +72,7 @@ def reactions():
             dhall = request.args.get("college")
             database = Database()
             database.connect()
+            database.add_user(username)
             rows = database.get_reactions(dhall)
             database.disconnect()
             html = render_template('reactions.html', rows=rows, college=dhall)
@@ -111,8 +123,8 @@ def food():
             meal = "Lunch"
         elif (time_hour >= 14 and time_hour < 20):
             meal = "Dinner"
-        #database.clear_db(meal)
-            
+        # database.clear_db(meal)
+
         # Get locationID
         locationID = 1
         if dhall == "wilcox":
@@ -133,6 +145,7 @@ def food():
         menu_arr = menu['menus']
         database = Database()
         database.connect()
+        database.add_user(username)
         # add new foods to the database if they do not exist
         database.add_food(menu_arr, dhall)
 
@@ -151,7 +164,8 @@ def food():
     except Exception as e:
         print(e)
         error_msg = e
-        html = render_template('error.html', message="Look's like our menu is unavailable. Please try again later!")
+        html = render_template(
+            'error.html', message="Look's like our menu is unavailable. Please try again later!")
         response = make_response(html)
         return response
 
@@ -163,9 +177,9 @@ def food_desc():
     error_msg = ""
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
-        user_id = 2
         if 'rate' not in request.form:
-            html = render_template('error.html', message="Please submit a rating")
+            html = render_template(
+                'error.html', message="Please submit a rating")
             response = make_response(html)
             return response
         rating = request.form['rate']
@@ -176,10 +190,13 @@ def food_desc():
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
-        review_data = (user_id, food_id, review, rating, cur_time)
+        # review_data = (user_id, food_id, review, rating, cur_time)
         try:
             database = Database()
             database.connect()
+            database.add_user(username)
+            user_id = database.get_userid(username)
+            review_data = (user_id, food_id, review, rating, cur_time)
             database.add_review(review_data, rating, food_id)
             # UPDATE food SET num_rating = num_rating + 1, num_stars = num_stars + rating WHERE food.food_id = food_id
             database.disconnect()
@@ -197,6 +214,7 @@ def food_desc():
             college = request.args.get("college")
             database = Database()
             database.connect()
+            database.add_user(username)
             food = database.get_food_info(food_id)[0]
             reviews = database.get_reviews(food_id)
             database.disconnect()
@@ -212,6 +230,10 @@ def food_desc():
 @app.route('/foodimg-submit', methods=['GET', 'POST'])
 def food_img_submit():
     username = CASClient().authenticate()  # CAS
+    database = Database()
+    database.connect()
+    database.add_user(username)
+    database.disconnect()
     error_msg = ""
     if request.method == "POST":
         try:

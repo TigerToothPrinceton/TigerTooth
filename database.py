@@ -162,3 +162,31 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to remove reactions')
+
+    def add_user(self, netid):
+        try:
+            cursor = self._connection.cursor()
+            # is this user already in the users table
+            boolean_query = "SELECT EXISTS(SELECT 1 FROM users WHERE netid='{}')".format(
+                netid)
+            cursor.execute(boolean_query)
+            if cursor.fetchone()[0] == False:
+                insert_query = "INSERT INTO users (netid) VALUES (%s)"
+                cursor.execute(insert_query, [netid])
+                self._connection.commit()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to add user into PostgreSQL table')
+
+    def get_userid(self, netid):
+        try:
+            cursor = self._connection.cursor()
+            get_query = "SELECT users.user_id FROM users WHERE users.netid='{}'".format(
+                netid)
+            cursor.execute(get_query)
+            return cursor.fetchall()[0]
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to get user id from PostgreSQL table')
