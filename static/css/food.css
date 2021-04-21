@@ -3,36 +3,3 @@
   justify-content: center;
   margin: 20px 0;
 }
-
-.flex-food-desc {
-  display: flex;
-  justify-content: center;
-}
-
-.reviews-container {
-  margin: auto;
-  width: 55%;
-  border: 2px solid black;
-  max-height: 200px;
-  overflow: auto;
-}
-
-.flex-reviews-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2vw;
-}
-
-.reviews-form {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.review-container {
-  display: flex;
-  justify-content: space-between;
-  margin: 1vw 1vw;
-}
-
