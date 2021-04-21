@@ -5,7 +5,7 @@
 }
 
 p {
-  max-width: 255px;
+  max-width: 200px;
   word-wrap: break-word;
   margin-bottom: 12px;
   line-height: 24px;
@@ -13,7 +13,7 @@ p {
 	padding: 10px 20px;
   border-radius: 25px;
   
-  &:before, &:after {
+  ::before, ::after {
     content: "";
 		position: absolute;
     bottom: 0;
