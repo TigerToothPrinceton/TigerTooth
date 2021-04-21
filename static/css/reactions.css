@@ -25,6 +25,7 @@ p {
 	color: white; 
 	background: #0B93F6;
   	align-self: flex-end;
+	flex-direction: column;
 		
 	::before {
 		left: -7px;
