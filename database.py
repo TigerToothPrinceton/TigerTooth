@@ -26,7 +26,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
 
-            insert_query = "INSERT INTO reactions (reaction, user_id, dhall, time) VALUES (%s, %s, %s, %s)"
+            insert_query = "INSERT INTO reactions (reaction, net_id, dhall, time) VALUES (%s, %s, %s, %s)"
 
             cursor.execute(insert_query, data)
             self._connection.commit()
@@ -38,7 +38,7 @@ class Database():
     def get_reactions(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT * FROM reactions WHERE reactions.dhall='{}' ORDER BY reactions.reactions_ID DESC".format(
+            get_query = "SELECT * FROM reactions WHERE reactions.dhall='{}' ORDER BY reactions.reactions_id DESC".format(
                 dhall)
             cursor.execute(get_query)
             return cursor.fetchall()
@@ -105,7 +105,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
-            get_query = "SELECT reviews.review FROM reviews WHERE reviews.food_id='{}' ORDER BY reviews.time ASC".format(
+            get_query = "SELECT reviews.review FROM reviews WHERE reviews.food_id='{}' ORDER BY reviews.time DESC, reviews.review_id DESC".format(
                 food_id)
             cursor.execute(get_query)
             return cursor.fetchall()
@@ -117,16 +117,33 @@ class Database():
     def add_review(self, review_data, rating, food_id):
         try:
             cursor = self._connection.cursor()
-            insert_query = "INSERT INTO reviews (user_id, food_id, review, rating, time) VALUES (%s, %s, %s, %s, %s)"
-            update_query = "UPDATE food SET num_ratings = num_ratings + 1, num_stars = num_stars + '{}' WHERE food.food_id = '{}'".format(
-                rating, food_id)
-            cursor.execute(insert_query, review_data)
-            cursor.execute(update_query)
-            self._connection.commit()
+            boolean_query = "SELECT EXISTS(SELECT 1 FROM reviews WHERE net_id='{}' and food_id='{}')".format(
+                review_data[0], review_data[1])
+            cursor.execute(boolean_query)
+            # user never reviews this food
+            if cursor.fetchone()[0] == False:
+                insert_query = "INSERT INTO reviews (net_id, food_id, review, rating, time) VALUES (%s, %s, %s, %s, %s)"
+                update_query = "UPDATE food SET num_ratings = num_ratings + 1, num_stars = num_stars + '{}' WHERE food.food_id = '{}'".format(
+                    rating, food_id)
+                cursor.execute(insert_query, review_data)
+                cursor.execute(update_query)
+                self._connection.commit()
+            else:
+                get_query = "SELECT rating FROM reviews WHERE net_id='{}' and food_id='{}'".format(
+                    review_data[0], review_data[1])
+                cursor.execute(get_query)
+                old_rating = cursor.fetchone()[0]
+                update_query = "UPDATE reviews SET review = '{}', rating = '{}', time = '{}' WHERE reviews.net_id = '{}' AND reviews.food_id = '{}'".format(
+                    review_data[2], rating, review_data[4], review_data[0], review_data[1])
+                cursor.execute(update_query)
+                update_query = "UPDATE food SET num_stars = num_stars - '{}' + '{}' WHERE food.food_id = '{}'".format(
+                    old_rating, rating, food_id)
+                cursor.execute(update_query)
+                self._connection.commit()
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception(
-                'Failed to insert review into PostgreSQL table')
+                'Failed to insert/update review in PostgreSQL table')
 
     def add_food_image(self, api_id, food_url):
         try:
@@ -167,26 +184,14 @@ class Database():
         try:
             cursor = self._connection.cursor()
             # is this user already in the users table
-            boolean_query = "SELECT EXISTS(SELECT 1 FROM users WHERE netid='{}')".format(
+            boolean_query = "SELECT EXISTS(SELECT 1 FROM users WHERE net_id='{}')".format(
                 netid)
             cursor.execute(boolean_query)
             if cursor.fetchone()[0] == False:
-                insert_query = "INSERT INTO users (netid) VALUES (%s)"
+                insert_query = "INSERT INTO users (net_id) VALUES (%s)"
                 cursor.execute(insert_query, [netid])
                 self._connection.commit()
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to add user into PostgreSQL table')
-
-    def get_userid(self, netid):
-        try:
-            cursor = self._connection.cursor()
-            get_query = "SELECT users.user_id FROM users WHERE users.netid='{}'".format(
-                netid)
-            cursor.execute(get_query)
-            return cursor.fetchall()[0]
-        except Exception as e:
-            print(f'{e}', file=stderr)
-            raise Exception(
-                'Failed to get user id from PostgreSQL table')

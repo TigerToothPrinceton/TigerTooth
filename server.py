@@ -58,9 +58,7 @@ def reactions():
             database = Database()
             database.connect()
             database.add_user(username)
-            # must come after prev line
-            user_id = database.get_userid(username)
-            data = (reaction, user_id, dhall, cur_time)
+            data = (reaction, username, dhall, cur_time)
             database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
@@ -195,8 +193,7 @@ def food_desc():
             database = Database()
             database.connect()
             database.add_user(username)
-            user_id = database.get_userid(username)
-            review_data = (user_id, food_id, review, rating, cur_time)
+            review_data = (username, food_id, review, rating, cur_time)
             database.add_review(review_data, rating, food_id)
             # UPDATE food SET num_rating = num_rating + 1, num_stars = num_stars + rating WHERE food.food_id = food_id
             database.disconnect()
