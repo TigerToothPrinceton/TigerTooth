@@ -24,7 +24,7 @@ p {
 .mymessage {
 	color: white; 
 	background: #0B93F6;
-  align-self: flex-start;
+  align-self: flex-end;
 		
 	&:before {
 		left: -7px;
