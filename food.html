@@ -87,6 +87,25 @@
 
   {% endif %}
 
+  <button onclick="show()" id = "show_hide" type = "button" class = "btn btn-secondary">Show Reviews</button>
+
+  <div id="reactions">
+      This is my DIV element.
+  </div>
+  <script>  
+  function show() {
+    var div = document.getElementById("reactions");
+    var button = document.getElementById("show_hide");
+    if (div.style.display === "none") {
+      div.style.display = "block";
+      button.textContent = "Hide Reviews";
+    } else {
+      div.style.display = "none";
+      button.textContent = "Show Reviews";
+    }
+  }
+  </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>
