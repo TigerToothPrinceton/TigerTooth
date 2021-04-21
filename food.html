@@ -25,7 +25,7 @@
 
   <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand fs-4" href="index">TigerTooth</a>
+       <a class="navbar-brand fs-4" href="index"><img src="https://i.imgur.com/AufcPrM.png" width="auto" height="50"> TigerTooth</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -82,6 +82,14 @@
         {% else: %}
         <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
+        <!-- <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="padding-bottom: 10px;" class="card-text bttn">Submit a Review</a> -->
+        <!-- <button type="button" class="bttn" id="myButton">Submit a review</button> -->
+        <!-- <div id="foodModal" class="modal" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
     {% endfor %}
@@ -105,21 +113,35 @@
         <div class="col-10 col-sm-6 pl-1 pr-1"
           style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto">
           {% for row in rows: %}
-          {% if row[1] != "" %}
-          <div class="row border-bottom align-items-center">
-            <div class="col-9 col-sm-8 pt-2 pb-2" style="font-size: 16px;">
-              <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
-              <p class="message" id="message-box">
-                {{row[1]}}
-              </p>
-            </div>
-            <div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px">
-              <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
-              {{row[4]}}
-            </div>
-          </div>
-          {% endif %}
-          {% endfor %}
+            {% if row[1] != "" %}
+              <div class="row align-items-center">
+                {% if row[2] == username %}
+                  <div class="col-3 col-sm-4 pt-2 pb-2" style="font-size: 16px">
+                    <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
+                    <div class = "pBox" > {{row[4]}} </div>
+                  </div>
+                  <div class="col-9 col-sm-8 pt-2 pb-2 me-auto" style="font-size: 16px; ">
+                    <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
+                      <div class="mymessage pBox" style = "text-align: right; margin-right: 0">
+                        {{row[1]}}
+                      </div>
+                  </div>
+                {% else: %}
+                  <div class="col-9 col-sm-8 pt-2 pb-2" style="font-size: 16px;">
+                    <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
+                      <div class="message pBox">
+                        {{row[1]}}
+                      </div>
+                  </div>
+                  <div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px">
+                    <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
+                    <div class = "pBox" > {{row[4]}} </div>
+                  </div>
+                  
+                {% endif %}
+              </div>
+            {% endif %}
+            {% endfor %}
         </div>
         <div class="col-1 col-sm-3"></div>
       </div>
