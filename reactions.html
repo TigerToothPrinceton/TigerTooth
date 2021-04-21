@@ -21,15 +21,37 @@
 
 <body>
 
-  <nav class="navbar sticky-top navbar-light bg-primary">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-4" href="index">TigerTooth</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active fs-6 me-2" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active fs-6" aria-current="page" href="/history">Your Reviews</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <nav class="navbar sticky-top navbar-light bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand fs-4" href="index">TigerTooth</a>
       <div class="navbar-nav">
         <a class="nav-link active me-1 fs-6 d-sm-none" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
         <a class="nav-link active me-1 fs-5 d-none d-sm-block" aria-current="page" href="/food?college={{college}}">View {{college.capitalize()}} Menu</a>
+        <a class="nav-link active me-1 fs-6 d-sm-none" aria-current="page" href="/history">Your Reviews</a>
+        <a class="nav-link active me-1 fs-5 d-none d-sm-block" aria-current="page" href="/history">Your Reviews</a>
       </div>
     </div>
-  </nav>
+  </nav> -->
 
   <div class="container-fluid">
     <div class="row">

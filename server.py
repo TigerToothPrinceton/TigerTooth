@@ -160,8 +160,6 @@ def food():
         response = make_response(html)
         return response
     except Exception as e:
-        print(e)
-        error_msg = e
         html = render_template(
             'error.html', message="Look's like our menu is unavailable. Please try again later!")
         response = make_response(html)
@@ -256,6 +254,26 @@ def food_img_submit():
         except Exception as e:
             print(e)
             error_msg = e
+
+
+# User Past Reviews Page
+@app.route('/history', methods=['GET'])
+def history():
+    username = CASClient().authenticate()  # CAS
+    try:
+        database = Database()
+        database.connect()
+        reviews = database.get_history(username)
+        database.disconnect()
+        html = render_template('history.html', reviews=reviews)
+        response = make_response(html)
+        return response
+    except Exception as e:
+        print(e)
+        html = render_template(
+            'error.html', message="Look's like your history is unavailable. Please try again later!")
+        response = make_response(html)
+        return response
 
 
 @app.route('/logout', methods=['GET'])

@@ -92,7 +92,7 @@ class Database():
     def get_food_info(self, food_id):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT food.url, food.name, food.num_ratings, food.num_stars, food.description FROM food WHERE food.food_id='{}'".format(
+            get_query = "SELECT food.url, food.name, food.num_ratings, food.num_stars FROM food WHERE food.food_id='{}'".format(
                 food_id)
             cursor.execute(get_query)
             return cursor.fetchall()
@@ -126,6 +126,15 @@ class Database():
                 update_query = "UPDATE food SET num_ratings = num_ratings + 1, num_stars = num_stars + '{}' WHERE food.food_id = '{}'".format(
                     rating, food_id)
                 cursor.execute(insert_query, review_data)
+                cursor.execute(update_query)
+                self._connection.commit()
+
+                get_query = "SELECT review_id FROM reviews WHERE net_id='{}' and food_id='{}'".format(
+                    review_data[0], review_data[1])
+                cursor.execute(get_query)
+                review_id = cursor.fetchone()[0]
+                update_query = "UPDATE users SET rev_rate = array_append(rev_rate, '{}') WHERE net_id = '{}'".format(
+                    review_id, review_data[0])
                 cursor.execute(update_query)
                 self._connection.commit()
             else:
@@ -195,3 +204,35 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to add user into PostgreSQL table')
+
+    def get_history(self, net_id):
+        try:
+            cursor = self._connection.cursor()
+            ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
+            # get_query = "SELECT rev_rate FROM users WHERE net_id = '{}'".format(
+            #     net_id)
+            # cursor.execute(get_query)
+            # reviews_arr = cursor.fetchone()[0]
+            # for review_id in reviews_arr:
+            get_query = "SELECT food_id, review, rating FROM reviews WHERE net_id = '{}'".format(
+                net_id)
+            cursor.execute(get_query)
+            reviews_arr = cursor.fetchall()
+            result_arr = []
+            for reviews in reviews_arr:
+                food_id = reviews[0]
+                review = reviews[1]
+                rating = reviews[2]
+                get_query = "SELECT name, url, dhall, api_id FROM food WHERE food_id = '{}'".format(
+                    food_id)
+                cursor.execute(get_query)
+                result = list(cursor.fetchone())
+                result.append(rating)
+                result.append(review)
+                result_arr.append(result)
+            return result_arr
+
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to get food item review from PostgreSQL table')
