@@ -24,16 +24,16 @@ p {
 .mymessage {
 	color: white; 
 	background: #0B93F6;
-  align-self: flex-end;
+  	align-self: flex-end;
 		
-	&:before {
+	::before {
 		left: -7px;
     width: 20px;
     background-color: #E5E5EA;
 		border-bottom-right-radius: 16px 14px;
 	}
 
-	&:after {
+	::after {
 		left: -26px;
     width: 26px;
     background-color: white;
@@ -46,14 +46,14 @@ p {
 	color: black;
   align-self: flex-start;
 		
-	&:before {
+	::before {
 		left: -7px;
     width: 20px;
     background-color: #E5E5EA;
 		border-bottom-right-radius: 16px 14px;
 	}
 
-	&:after {
+	::after {
 		left: -26px;
     width: 26px;
     background-color: white;
