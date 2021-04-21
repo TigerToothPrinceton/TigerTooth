@@ -102,7 +102,7 @@
   {% endif %}
 
   <div class = "text-center">
-    <button onclick="show()" id = "show_hide" type = "button" class = "btn btn-secondary">Show Reviews</button>
+    <button onclick="show()" id = "show_hide" type = "button" class = "btn btn-secondary">Show Reactions!</button>
     <br>
     <br>
   </div>
@@ -110,7 +110,7 @@
   <div id="reactionsDiv" style = "display: none;">
     {% if rows|length == 0: %}
     {% else: %}
-      <div class="container-fluid">
+      <div class="container-fluid" id="rTable">
         <div class="row">
           <div class="col-1 col-sm-3"></div>
           <div class="col-10 col-sm-6 pl-1 pr-1" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto">
@@ -138,7 +138,7 @@
     <br>
     <div class="container-fluid">
       <div class="row">
-          <form action="reactions" method="POST" class="reactions-form" id="form1" onsubmit="refresh()">
+          <form action="reactions" method="POST" class="reactions-form" id="form1">
             <div class="controls">
               <div class="row">
                 <div class="col-2 col-md-3"></div>
@@ -176,11 +176,12 @@
       button.textContent = "Show Reviews";
     }
   }
-  
-  function refresh() {
-    var div = document.getElementById("reactionsDiv");
-    div.contentWindow.location.reload(true);
-  }
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+  $( "form1" ).submit(function( event ) {
+     $("#rTable").load(location.href+" #rTable>*","");
+  });
   </script>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
