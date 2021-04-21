@@ -3,29 +3,3 @@
   justify-content: center;
   margin: 20px 0;
 }
-
-.bttn {
-  background: coral;
-  padding: 1em 2em;
-  color: #fff;
-  border:0;
-}
-
-.modal {
-  display: none; /* Hidden by default */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 0% auto; /* 0% from the top and centered */
-  padding: 16px;
-  width: 80%; /* Could be more or less, depending on screen size */
-  overflow: auto;
-}

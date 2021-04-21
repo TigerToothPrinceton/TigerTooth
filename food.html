@@ -33,7 +33,8 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active fs-6 me-2" aria-current="page" href="/reactions?college={{college}}">View {{college.capitalize()}} Reactions</a>
+            <a class="nav-link active fs-6 me-2" aria-current="page" href="/reactions?college={{college}}">View
+              {{college.capitalize()}} Reactions</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active fs-6" aria-current="page" href="/history">Your Reviews</a>
@@ -71,13 +72,9 @@
       {% else: %}
       <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo"
           class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-
-      <!-- a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a -->
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <!--a data-target="#foodModal" data-toggle="modal" href="#foodModal" id="itemName" style="color: inherit;">{{food[1]}}</a -->
           <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
         </h5>
         {% if food[2] == 0 %}
@@ -85,15 +82,6 @@
         {% else: %}
         <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-        <!-- button -->
-        <button type="button" class="bttn" id="myButton">Submit a review</button>
-        <div id="foodModal" class="modal" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              {% include 'food-desc.html' %}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     {% endfor %}
@@ -101,109 +89,84 @@
 
   {% endif %}
 
-  <div class = "text-center">
-    <button onclick="show()" id = "show_hide" type = "button" class = "btn btn-secondary">Show Reactions!</button>
-    <br>
-    <br>
+  <div class="text-center">
+    <button onclick="show()" id="show_hide" type="button" class="btn btn-secondary">Show Reviews</button>
   </div>
-  
-  <div id="reactionsDiv" style = "display: none;">
+
+  <div id="reactionsDiv" style="display: none;">
     {% if rows|length == 0: %}
     {% else: %}
-      <div class="container-fluid" id="rTable">
-        <div class="row">
-          <div class="col-1 col-sm-3"></div>
-          <div class="col-10 col-sm-6 pl-1 pr-1" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto">
-            {% for row in rows: %}
-              {% if row[1] != "" %}
-                <div class="row border-bottom align-items-center">
-                  <div class="col-9 col-sm-8 pt-2 pb-2" style="font-size: 16px;"> 
-                    <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
-                    <p class="message">
-                      {{row[1]}}
-                    </p>
-                  </div>
-                  <div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px">
-                    <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
-                    {{row[4]}}
-                  </div>
-                </div>
-              {% endif %}
-            {% endfor %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-1 col-sm-3"></div>
+        <div class="col-10 col-sm-6 pl-1 pr-1"
+          style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto">
+          {% for row in rows: %}
+          {% if row[1] != "" %}
+          <div class="row border-bottom align-items-center">
+            <div class="col-9 col-sm-8 pt-2 pb-2" style="font-size: 16px;">
+              <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
+              <p class="message">
+                {{row[1]}}
+              </p>
+            </div>
+            <div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px">
+              <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
+              {{row[4]}}
+            </div>
           </div>
-          <div class="col-1 col-sm-3"></div>
+          {% endif %}
+          {% endfor %}
         </div>
+        <div class="col-1 col-sm-3"></div>
       </div>
+    </div>
     {% endif %}
     <br>
     <div class="container-fluid">
       <div class="row">
-          <form action="reactions" method="POST" class="reactions-form" id="form1">
-            <div class="controls">
-              <div class="row">
-                <div class="col-2 col-md-3"></div>
-                <div class="col-8 col-md-6">
-                  <div class="form-group">
-                      <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3" cols = "30" ></textarea>
-                  </div>
+        <form action="reactions" method="POST" class="reactions-form" id="form1">
+          <div class="controls">
+            <div class="row">
+              <div class="col-2 col-md-3"></div>
+              <div class="col-8 col-md-6">
+                <div class="form-group">
+                  <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3"
+                    cols="30"></textarea>
                 </div>
-                <div class="col-2 col-md-3"></div>
               </div>
-              <br>
-              <div class = "row">
-                <div class="col-sm">
-                  <input type="submit" class="btn btn-primary btn-send" value="React!">
-                  <input type="hidden" name="college" value="{{college}}">
-                </div>
+              <div class="col-2 col-md-3"></div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm">
+                <input type="submit" class="btn btn-primary btn-send" value="React!">
+                <input type="hidden" name="college" value="{{college}}">
               </div>
             </div>
-          </form>
+          </div>
+        </form>
       </div>
     </div>
-    <br>
-    <br>
   </div>
-  
-  <script>  
-  function show() {
-    var div = document.getElementById("reactionsDiv");
-    var button = document.getElementById("show_hide");
-    if (div.style.display === "none") {
-      div.style.display = "block";
-      button.textContent = "Hide Reviews";
-    } else {
-      div.style.display = "none";
-      button.textContent = "Show Reviews";
-    }
-  }
-  </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
   <script>
-  $( "form1" ).submit(function( event ) {
-     $("#rTable").load(location.href+" #rTable>*","");
-  });
+    function show() {
+      var div = document.getElementById("reactionsDiv");
+      var button = document.getElementById("show_hide");
+      if (div.style.display === "none") {
+        div.style.display = "block";
+        button.textContent = "Hide Reviews";
+      } else {
+        div.style.display = "none";
+        button.textContent = "Show Reviews";
+      }
+    }
   </script>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    var modal = document.getElementById("foodModal"); // get the modal
-    var button = document.getElementById("myButton"); // get the button
-    // var name = document.getElementById("itemName"); // get the button
-    button.addEventListener("click", openModal); // listen for click (https://www.youtube.com/watch?v=6ophW7Ask_0&t=1261s)
-    // name.addEventListener("click", openModal);
-    window.addEventListener("click", closeModal); // close the modal
-    function openModal() { // open the modal when button is clicked
-      modal.style.display = "block";
-    }
-    function closeModal(event) { // close the modal when the outside is clicked
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }   
-  </script>
-  
 </body>
 
 </html>
