@@ -229,6 +229,7 @@ class Database():
                 result = list(cursor.fetchone())
                 result.append(rating)
                 result.append(review)
+                result.append(food_id)
                 result_arr.append(result)
             return result_arr
 
