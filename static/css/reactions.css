@@ -4,7 +4,7 @@
   margin: 20px 0;
 }
 
-p {
+.pBox {
   max-width: 200px;
   word-wrap: break-word;
   margin-bottom: 12px;
