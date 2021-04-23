@@ -24,6 +24,7 @@
 
 .mymessage {
   color: white;
+  float: right;
   background: #0b93f6;
   align-content: right;
   align-self: flex-end;
