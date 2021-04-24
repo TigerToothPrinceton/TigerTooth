@@ -46,6 +46,20 @@
   }
 }
 
+.mymessagetime {
+
+  align-self: flex-start;
+  
+}
+
+.messagetime {
+  float: right;
+  align-content: right;
+  align-self: flex-end;
+  flex-direction: column;
+
+}
+
 .message {
   background: #e5e5ea;
   color: black;
