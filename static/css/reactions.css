@@ -62,8 +62,11 @@
 
 .message {
   background: #e5e5ea;
+  float:left;
   color: black;
   align-self: flex-start;
+  align-content: left;
+  flex-direction: column;
 
   ::before {
     left: -7px;
