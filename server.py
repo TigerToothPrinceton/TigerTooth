@@ -155,6 +155,10 @@ def food():
             foods.append(result)
         
         rows = database.get_reactions(dhall)
+        
+        food_id = request.args.get("food_id")
+        reviews = database.get_reviews(food_id)
+        
         database.disconnect()
         html = render_template('food.html', foods=foods, rows=rows,
                                college=dhall, meal_time=meal, username=username,
