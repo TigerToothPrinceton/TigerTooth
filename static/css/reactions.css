@@ -7,7 +7,7 @@
 
 .pBox {
   max-width: 200px;
-  word-wrap: break-word;
+  word-wrap: normal;
   margin-bottom: 12px;
   line-height: 24px;
   position: relative;
