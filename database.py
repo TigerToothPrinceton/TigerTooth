@@ -77,6 +77,18 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to get an individual food item from PostgreSQL table')
+            
+    def get_food_id(self, api_id, dhall):
+        try:
+            cursor = self._connection.cursor()
+            get_query = "SELECT food.food_id FROM food WHERE food.api_id='{}' and food.dhall='{}'".format(
+                api_id, dhall)
+            cursor.execute(get_query)
+            return cursor.fetchone()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to get an individual food item\'s ID from PostgreSQL table')
 
     def get_foods(self, dhall):
         try:
