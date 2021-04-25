@@ -148,21 +148,22 @@ def food():
         database.add_food(menu_arr, dhall)
 
         foods = []
+        reviews = []
         # grab the foods being served at the dhall with the same api_id as the dhall api
         for food in menu_arr:
             api_id = food['id']
             result = database.get_food(api_id, dhall)
             foods.append(result)
+            f_id = database.get_food_id(api_id, dhall)
+            review = database.get_reviews(f_id)
+            reviews.append(review)
         
         rows = database.get_reactions(dhall)
-        
-        food_id = request.args.get("food_id")
-        reviews = database.get_reviews(food_id)
         
         database.disconnect()
         html = render_template('food.html', foods=foods, rows=rows,
                                college=dhall, meal_time=meal, username=username,
-                               reviews=reviews, food_id=food_id)
+                               reviews=reviews)
         response = make_response(html)
         return response
     except Exception as e:
