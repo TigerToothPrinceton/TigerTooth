@@ -18,6 +18,24 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
 
+  <script>
+    $(document).ready(function(){
+        function alignModal(){
+            var modalDialog = $(this).find(".modal-dialog");
+
+            // Applying the top margin on modal to align it vertically center
+            modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+        }
+        // Align modal when it is displayed
+        $(".modal").on("shown.bs.modal", alignModal);
+
+        // Align modal when user resize the window
+        $(window).on("resize", function(){
+            $(".modal:visible").each(alignModal);
+        });   
+    });
+  </script>
+  
 </head>
 
 <body>
@@ -81,7 +99,7 @@
       </button>
     </div>
     <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" style="min-height: 57vh; max-height:57vh; overflow: auto" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header" style = "text-align:center; vertical-align:middle">
             <h3 class="modal-title" id="reactionsTitle">Reactions</h3>
