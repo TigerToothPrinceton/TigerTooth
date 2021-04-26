@@ -4,9 +4,10 @@
   margin: 20px 0;
 }
 
+
 .pBox {
-  max-width: 200px;
-  word-wrap: break-word;
+  max-width: 60%;
+  word-wrap: normal;
   margin-bottom: 12px;
   line-height: 24px;
   position: relative;
@@ -24,6 +25,7 @@
 
 .mymessage {
   color: white;
+  float: right;
   background: #0b93f6;
   align-content: right;
   align-self: flex-end;
@@ -44,10 +46,27 @@
   }
 }
 
+.mymessagetime {
+
+  align-self: flex-start;
+  
+}
+
+.messagetime {
+  float: right;
+  align-content: right;
+  align-self: flex-end;
+  flex-direction: column;
+
+}
+
 .message {
   background: #e5e5ea;
+  float:left;
   color: black;
   align-self: flex-start;
+  align-content: left;
+  flex-direction: column;
 
   ::before {
     left: -7px;

@@ -2,15 +2,13 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap CSS -->
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-
+  
 
   <title>{{college.capitalize()}} {{meal_time}} Menu</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
@@ -19,11 +17,29 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reactions.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+
+  <script>
+    $(document).ready(function(){
+        function alignModal(){
+            var modalDialog = $(this).find(".modal-dialog");
+
+            // Applying the top margin on modal to align it vertically center
+            modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+        }
+        // Align modal when it is displayed
+        $(".modal").on("shown.bs.modal", alignModal);
+
+        // Align modal when user resize the window
+        $(window).on("resize", function(){
+            $(".modal:visible").each(alignModal);
+        });   
+    });
+  </script>
+  
 </head>
 
 <body>
-
-  <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
        <a class="navbar-brand fs-4" href="index"><img src="https://i.imgur.com/AufcPrM.png" width="auto" height="50"> TigerTooth</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -44,18 +60,6 @@
     </div>
   </nav>
 
-  <!-- <nav class="navbar sticky-top navbar-light bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand fs-4" href="index">TigerTooth</a>
-      <div class="navbar-nav">
-        <a class="nav-link active me-1 fs-6 d-sm-none" aria-current="page" href="/reactions?college={{college}}">View
-          {{college.capitalize()}} Reactions</a>
-        <a class="nav-link active me-1 fs-5 d-none d-sm-block" aria-current="page"
-          href="/reactions?college={{college}}">View {{college.capitalize()}} Reactions</a>
-      </div>
-    </div>
-  </nav> -->
-
   <div class="food-dhall-title">
     <h1>{{college.capitalize()}} {{meal_time}}</h1>
   </div>
@@ -64,15 +68,15 @@
 
   <!-- For large devices like laptops -->
   <div class="card-group mx-5 text-center justify-content-center mb-4">
-    {% for food in foods: %}
-    <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
-      {% if food[0] is none: %}
-      <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-      {% else: %}
-      <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-      {% endif %}
+      {% for food in foods: %}
+      <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
+        {% if food[0] is none: %}
+        <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
+            class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
+        {% else: %}
+        <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo"
+            class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
+        {% endif %}
       <div class="card-body">
         <h5 class="card-title">
           <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
@@ -83,13 +87,6 @@
         <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
         <a href="/food-desc?food_id={{food[4]}}&college={{college}}" class="btn bttn rounded" style="color: #fff">Submit a Review</a>
-        <!-- <button type="button" class="bttn" id="myButton">Submit a review</button> -->
-        <!-- <div id="foodModal" class="modal" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
     {% endfor %}
@@ -97,75 +94,71 @@
 
   {% endif %}
 
-  <div class="text-center">
-    <button onclick="show()" id="show_hide" type="button" class="btn btn-primary">
-      Show Reactions
-    </button>
-  </div>
-
-  <br>
-  <br>
-
-  <div id="reactionsDiv" style="display: none;">
-    {% if rows|length == 0: %}
-    {% else: %}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-1 col-sm-3"></div>
-        <div class="col-10 col-sm-6 pl-1 pr-1"
-          style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto" id="message-box">
-        </div>
-        <div class="col-1 col-sm-3"></div>
-      </div>
+  <div class = "container-fluid">
+    <div style="display: flex; align-items: center; justify-content: center">
+      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#reactions">
+        See reactions!
+      </button>
     </div>
-    {% endif %}
-    <br>
-    <div class="container-fluid">
-      <div class="row">
-        <form action="reactions" method="POST" class="reactions-form" id="form1">
-          <div class="controls">
+    <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style = "text-align:center; vertical-align:middle">
+            <h5 class="modal-title" id="reactionsTitle">Reactions</h5>
+          </div>
+          <div class="modal-body">
+
+          {% if rows|length == 0: %}
+          {% else: %}
+          <div class="container-fluid">
             <div class="row">
-              <div class="col-2 col-md-3"></div>
-              <div class="col-8 col-md-6">
-                <div class="form-group">
-                  <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3"
-                    cols="30" id="reactions-text" required></textarea>
-                </div>
-              </div>
-              <div class="col-2 col-md-3"></div>
+                  <div class="col-1"></div>
+                  <div class="col-10 pl-1 pr-1"
+                    style="border:2px solid #000000; border-radius: 0.4rem; min-height: 40vh; max-height:40vh; overflow: auto" id="message-box">
+                  </div>
+                  <div class="col-1"></div>
             </div>
-            <br>
+          </div>
+          {% endif %}
+          <br>
+          <div class="container-fluid">
             <div class="row">
-              <div class="col-sm">
-                <input type="submit" class="btn btn-primary btn-send" value="React!" id="submit_but">
-                <input type="hidden" id="collegeid" name="college" value="{{college}}">
+              <form action="reactions" method="POST" class="reactions-form" id="form1">
+                <div class="controls">
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                      <div class="form-group">
+                        <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3"
+                          cols="30" id="reactions-text" required></textarea>
+                      </div>
+                    </div>
+                    <div class="col-2"></div>
+                  </div>
+                  <br>
+                    <div class="row">
+                      <div class="col-sm">
+                        <input type="submit" class="btn btn-primary btn-send" value="React!" id="submit_but">
+                        <input type="hidden" id="collegeid" name="college" value="{{college}}">
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-        </form>
+          <div class="modal-footer" style="display: flex; align-items: center; justify-content: center">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <br>
   <br>
-
-  <script>
-    function show() {
-      var div = document.getElementById("reactionsDiv");
-      var button = document.getElementById("show_hide");
-      if (div.style.display === "none") {
-        div.style.display = "block";
-        button.textContent = "Hide Reactions";
-      } else {
-        div.style.display = "none";
-        button.textContent = "Show Reactions";
-      }
-    }
-  </script>
-
+ 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-
   <script type=text/javascript>
     'use strict';
 
