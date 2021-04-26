@@ -154,8 +154,8 @@ def food():
             api_id = food['id']
             result = database.get_food(api_id, dhall)
             foods.append(result)
-            f_id = database.get_food_id(api_id, dhall)
-            review = database.get_reviews(f_id)
+            print(result[4])
+            review = database.get_reviews(result[4])
             reviews.append(review)
         
         rows = database.get_reactions(dhall)
