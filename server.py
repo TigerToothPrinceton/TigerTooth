@@ -154,7 +154,6 @@ def food():
             api_id = food['id']
             result = database.get_food(api_id, dhall)
             foods.append(result)
-            print(result[4])
             review = database.get_reviews(result[4])
             reviews.append(review)
         
