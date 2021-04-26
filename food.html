@@ -60,14 +60,21 @@
     </div>
   </nav>
 
-  <div class="food-dhall-title">
+  <div class="food-dhall-title" id="food_title">
     <h1>{{college.capitalize()}} {{meal_time}}</h1>
+  </div>
+  <div class="container mb-4">
+    <div style="display: flex; align-items: center; justify-content: center">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
+        View Reactions!
+      </button>
+    </div>
   </div>
   {% if foods|length == 0: %}
   {% else: %}
 
   <!-- For large devices like laptops -->
-  <div class="card-group mx-5 text-center justify-content-center mb-4">
+  <div class="card-group mx-5 text-center justify-content-center mb-4" id="card_group">
       {% for food in foods: %}
       <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
         {% if food[0] is none: %}
@@ -95,11 +102,11 @@
   {% endif %}
 
   <div class = "container-fluid">
-    <div style="display: flex; align-items: center; justify-content: center">
+    <!-- <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
         View Reactions!
       </button>
-    </div>
+    </div> -->
     <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
