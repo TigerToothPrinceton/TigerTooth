@@ -185,7 +185,7 @@
 
   <br>
   <br>
-  
+  <!--
   <div id="reviewsDiv" style="display:none"> 
     {% if reviews|length == 0: %}
       <div class="container-fluid">
@@ -206,7 +206,6 @@
               {% if review[0] is not none: %}
                 <div class="row border-bottom align-items-center">
                   <div class="col" style="font-size: 16px;">
-                    <!-- <p style="font-size: 16px;">{{review[0]}}</p> -->
                     {{review[0]}}
                   </div>
                 </div>
@@ -239,7 +238,6 @@
                       <label for="star2" title="text">2 stars</label>
                       <input type="radio" id="star1" name="rate" value="1" required/>
                       <label for="star1" title="text">1 stars</label>
-                      <!-- <input type="number" id="quantity" name="rating" min="1" max="5" value="3"> -->
                   </div>
                   <div class="form-group">
                       <textarea name="review" class="form-control mb-4" id="form2" placeholder="Leave a review here!" rows="3" cols = "30" ></textarea>
@@ -269,7 +267,8 @@
     <br>
     <br>
   </div>
-
+  --> 
+  <!--
   <div id="ex1" class="modal">
       <div id="reactionsDiv" style="display: none;">
       {% if rows|length == 0: %}
@@ -284,24 +283,20 @@
                 <div class="row align-items-center">
                   {% if row[2] == username %}
                     <div class="col-4 pt-2 pb-2" style="font-size: 16px;">
-                      <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
                       <div class = "pBox mymessagetime" style = "padding-left: 10px"> {{row[4]}} </div>
                     </div>
                     <div class="col-8 pt-2 pb-2" style="font-size: 16px;">
-                      <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
                         <div class="mymessage pBox" >
                           {{row[1]}}
                         </div>
                     </div>
                   {% else: %}
                     <div class="col-8 pt-2 pb-2" style="font-size: 16px;">
-                      <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
                         <div class="message pBox">
                           {{row[1]}}
                         </div>
                     </div>
                     <div class="col-4 pt-2 pb-2" style="font-size: 16px">
-                      <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
                       <div class = "pBox messagetime" style = "padding-right: 10px"> {{row[4]}} </div>
                     </div>
 
@@ -342,10 +337,11 @@
       </div>
     </div>
     <a href="#" rel="modal:close">Close</a>
-  </div>
-
-  <!-- Link to open the modal -->
+  <!-- Link to open the modal
   <p><a href="#ex1" rel="modal:open">Open Modal</a></p>
+  </div>
+  -->
+
   
   <script>
     function show() {
