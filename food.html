@@ -68,12 +68,91 @@
   </div>
   {% endif %}
   
-  <div id="rm" class="modal">
-    <p>Thanks for clicking. That felt good.</p>
-    <a href="#" rel="modal:close">Close</a>
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#reactions">
+    See reactions!
+  </button>
+  
+  <div class="modal fade" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" style = "text-align:center" id="exampleModalLongTitle">Reactions</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% if rows|length == 0: %}
+        {% else: %}
+        <div class="container-fluid">
+          <div class="row" id="error-box">
+            <div class="col-1 col-sm-3"></div>
+            <div class="col-10 col-sm-6 pl-1 pr-1"
+              style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto">
+              {% for row in rows: %}
+                {% if row[1] != "" %}
+                  <div class="row align-items-center">
+                    {% if row[2] == username %}
+                      <div class="col-4 pt-2 pb-2" style="font-size: 16px;">
+                        <div class = "pBox mymessagetime" style = "padding-left: 10px"> {{row[4]}} </div>
+                      </div>
+                      <div class="col-8 pt-2 pb-2" style="font-size: 16px;">
+                          <div class="mymessage pBox" >
+                            {{row[1]}}
+                          </div>
+                      </div>
+                    {% else: %}
+                      <div class="col-8 pt-2 pb-2" style="font-size: 16px;">
+                          <div class="message pBox">
+                            {{row[1]}}
+                          </div>
+                      </div>
+                      <div class="col-4 pt-2 pb-2" style="font-size: 16px">
+                        <div class = "pBox messagetime" style = "padding-right: 10px"> {{row[4]}} </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-1 col-sm-3"></div>
+          </div>
+        </div>
+        {% endif %}
+        <br>
+        <div class="container-fluid">
+          <div class="row">
+            <form action="reactions" method="POST" class="reactions-form" id="form1">
+              <div class="controls">
+                <div class="row">
+                  <div class="col-2 col-md-3"></div>
+                  <div class="col-8 col-md-6">
+                    <div class="form-group">
+                      <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3"
+                        cols="30" required></textarea>
+                    </div>
+                  </div>
+                  <div class="col-2 col-md-3"></div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm">
+                    <input type="submit" class="btn btn-primary btn-send" value="React!" id="submit_but">
+                    <input type="hidden" name="college" value="{{college}}">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="align-content:center">Close</button>
+      </div>
+    </div>
+  </div>
   </div>
 
-  <p><a href="#ex1" rel="modal:open">Open Modal</a></p>
   <!--
   <div class="text-center">
     <button onclick="show()" id="show_hide2" type="button" class="btn btn-primary">Show Reviews</button>
