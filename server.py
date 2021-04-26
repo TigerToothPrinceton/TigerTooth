@@ -153,16 +153,13 @@ def food():
         for food in menu_arr:
             api_id = food['id']
             result = database.get_food(api_id, dhall)
-            review = database.get_reviews(result[4])
             foods.append(result)
-            reviews.append(review)
             
         rows = database.get_reactions(dhall)
         
         database.disconnect()
         html = render_template('food.html', foods=foods, rows=rows,
-                               college=dhall, meal_time=meal, username=username,
-                               reviews=reviews)
+                               college=dhall, meal_time=meal, username=username)
         response = make_response(html)
         return response
     except Exception as e:
