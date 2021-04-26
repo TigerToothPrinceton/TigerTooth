@@ -91,17 +91,25 @@ def reactions():
                 if reaction[1] != "":
                     html += '<div class="row align-items-center">'
                     if reaction[2] == username:
-                        html += '<div class = "col-3 col-sm-4 pt-2 pb-2" style = "font-size: 16px" >' + \
-                            '<div class = "pBox" >' + reaction[4] + '</div >' + \
+                        # html += '<div class = "col-3 col-sm-4 pt-2 pb-2" style = "font-size: 16px" >' + \
+                        #     '<div class = "pBox" >' + reaction[4] + '</div >' + \
+                        #     '</div>' + \
+                        #     '<div class="col-9 col-sm-8 pt-2 pb-2 me-auto" style="font-size: 16px; ">' + \
+                        #     '<div class="mymessage pBox" style = "text-align: right; margin-right: 0">' + \
+                        #         reaction[1] + \
+                        #     '</div>' + \
+                        #     '</div>'
+                        html += '<div class = "col-4 pt-2 pb-2" style = "font-size: 16px;">' + \
+                            '<div class = "mymessagetime" style="padding-left: 10px; padding-bottom: 10px;">' + reaction[4] + '</div>' + \
                             '</div>' + \
-                            '<div class="col-9 col-sm-8 pt-2 pb-2 me-auto" style="font-size: 16px; ">' + \
-                            '<div class="mymessage pBox" style = "text-align: right; margin-right: 0">' + \
+                            '<div class="col-8 pt-2 pb-2" style="font-size: 16px;">' + \
+                            '<div class="mymessage pBox">' + \
                                 reaction[1] + \
                             '</div>' + \
                             '</div>'
                     else:
-                        html += '<div class = "col-9 col-sm-8 pt-2 pb-2" style = "font-size: 16px;" > <div class = "message pBox">' + \
-                            reaction[1] + '</div></div><div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px"><div class = "pBox">' + \
+                        html += '<div class = "col-8 pt-2 pb-2" style = "font-size: 16px;"> <div class = "message pBox">' + \
+                            reaction[1] + '</div></div><div class="col-4 pt-2 pb-2" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 10px; padding-bottom: 10px;">' + \
                                 reaction[4] + '</div></div>'
                     html += '</div>'
             # html = render_template('reactions.html', rows=rows, college=dhall)
