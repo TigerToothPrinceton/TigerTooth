@@ -66,7 +66,6 @@
 
   <!-- For large devices like laptops -->
   <div class="card-group mx-5 text-center justify-content-center mb-4">
-    {% if loop.odd: %}
       {% for food in foods: %}
       <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
         {% if food[0] is none: %}
@@ -96,7 +95,6 @@
         </div>
       </div>
       {% endfor %}
-    {% endif %}
   </div>
 
   {% endif %}
