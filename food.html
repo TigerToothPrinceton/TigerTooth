@@ -66,35 +66,37 @@
 
   <!-- For large devices like laptops -->
   <div class="card-group mx-5 text-center justify-content-center mb-4">
-    {% for food in foods: %}
-    <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
-      {% if food[0] is none: %}
-      <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-      {% else: %}
-      <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title">
-          <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
-        </h5>
-        {% if food[2] == 0 %}
-        <p class="card-text">Rating: No Rating Yet!</p>
+    {% if loop.odd: %}
+      {% for food in foods: %}
+      <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
+        {% if food[0] is none: %}
+        <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
+            class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
         {% else: %}
-        <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+        <a href="/food-desc?food_id={{food[4]}}&college={{college}}"><img src="{{food[0]}}" alt="No photo"
+            class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
         {% endif %}
-        <!-- <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="padding-bottom: 10px;" class="card-text bttn">Submit a Review</a> -->
-        <!-- <button type="button" class="bttn" id="myButton">Submit a review</button> -->
-        <!-- <div id="foodModal" class="modal" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
+          </h5>
+          {% if food[2] == 0 %}
+          <p class="card-text">Rating: No Rating Yet!</p>
+          {% else: %}
+          <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+          {% endif %}
+          <!-- <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="padding-bottom: 10px;" class="card-text bttn">Submit a Review</a> -->
+          <!-- <button type="button" class="bttn" id="myButton">Submit a review</button> -->
+          <!-- <div id="foodModal" class="modal" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+              </div>
             </div>
-          </div>
-        </div> -->
+          </div> -->
+        </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
+    {% endif %}
   </div>
 
   {% endif %}
