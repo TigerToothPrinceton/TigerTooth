@@ -81,7 +81,7 @@
       </button>
     </div>
     <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-lg" style="min-height: 57vh; max-height:57vh; overflow: auto" role="document">
         <div class="modal-content">
           <div class="modal-header" style = "text-align:center; vertical-align:middle">
             <h3 class="modal-title" id="reactionsTitle">Reactions</h3>
@@ -99,7 +99,7 @@
                         <div class="row align-items-center">
                           {% if row[2] == username %}
                             <div class="col-4 pt-2 pb-2" style="font-size: 16px;">
-                              <div class = "pBox mymessagetime" style = "padding-left: 10px"> {{row[4]}} </div>
+                              <div class = "mymessagetime" style = "padding-left: 10px; padding-bottom:10px"> {{row[4]}} </div>
                             </div>
                             <div class="col-8 pt-2 pb-2" style="font-size: 16px;">
                               <div class="mymessage pBox">{{row[1]}}</div>
@@ -109,7 +109,7 @@
                               <div class="message pBox">{{row[1]}}</div>
                             </div>
                             <div class="col-4 pt-2 pb-2" style="font-size: 16px">
-                              <div class = "pBox messagetime" style = "padding-right: 10px"> {{row[4]}} </div>
+                              <div class = "messagetime" style = "padding-right: 10px; padding-bottom:10px"> {{row[4]}} </div>
                             </div>
                           {% endif %}
                         </div>
