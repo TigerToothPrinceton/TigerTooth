@@ -82,7 +82,7 @@
         {% else: %}
         <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-        <!-- <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="padding-bottom: 10px;" class="card-text bttn">Submit a Review</a> -->
+        <a href="/food-desc?food_id={{food[4]}}&college={{college}}" class="btn bttn rounded" style="color: #fff">Submit a Review</a>
         <!-- <button type="button" class="bttn" id="myButton">Submit a review</button> -->
         <!-- <div id="foodModal" class="modal" role="dialog">
           <div class="modal-dialog">
@@ -98,7 +98,9 @@
   {% endif %}
 
   <div class="text-center">
-    <button onclick="show()" id="show_hide" type="button" class="btn btn-primary">Show Reviews</button>
+    <button onclick="show()" id="show_hide" type="button" class="btn btn-primary">
+      Show Reactions
+    </button>
   </div>
 
   <br>
@@ -108,40 +110,10 @@
     {% if rows|length == 0: %}
     {% else: %}
     <div class="container-fluid">
-      <div class="row" id="error-box">
+      <div class="row">
         <div class="col-1 col-sm-3"></div>
         <div class="col-10 col-sm-6 pl-1 pr-1"
-          style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto">
-          {% for row in rows: %}
-            {% if row[1] != "" %}
-              <div class="row align-items-center">
-                {% if row[2] == username %}
-                  <div class="col-3 col-sm-4 pt-2 pb-2" style="font-size: 16px">
-                    <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
-                    <div class = "pBox" > {{row[4]}} </div>
-                  </div>
-                  <div class="col-9 col-sm-8 pt-2 pb-2 me-auto" style="font-size: 16px; ">
-                    <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
-                      <div class="mymessage pBox" style = "text-align: right; margin-right: 0">
-                        {{row[1]}}
-                      </div>
-                  </div>
-                {% else: %}
-                  <div class="col-9 col-sm-8 pt-2 pb-2" style="font-size: 16px;">
-                    <!-- <p style="font-size: 16px;">{{row[0]}}</p> -->
-                      <div class="message pBox">
-                        {{row[1]}}
-                      </div>
-                  </div>
-                  <div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px">
-                    <!-- <p style="font-size: 16px;">{{row[3]}}</p> -->
-                    <div class = "pBox" > {{row[4]}} </div>
-                  </div>
-                  
-                {% endif %}
-              </div>
-            {% endif %}
-            {% endfor %}
+          style="border:2px solid #000000; border-radius: 0.4rem; min-height: 57vh; max-height:57vh; overflow: auto" id="message-box">
         </div>
         <div class="col-1 col-sm-3"></div>
       </div>
@@ -157,7 +129,7 @@
               <div class="col-8 col-md-6">
                 <div class="form-group">
                   <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3"
-                    cols="30" required></textarea>
+                    cols="30" id="reactions-text" required></textarea>
                 </div>
               </div>
               <div class="col-2 col-md-3"></div>
@@ -166,7 +138,7 @@
             <div class="row">
               <div class="col-sm">
                 <input type="submit" class="btn btn-primary btn-send" value="React!" id="submit_but">
-                <input type="hidden" name="college" value="{{college}}">
+                <input type="hidden" id="collegeid" name="college" value="{{college}}">
               </div>
             </div>
           </div>
@@ -183,17 +155,20 @@
       var button = document.getElementById("show_hide");
       if (div.style.display === "none") {
         div.style.display = "block";
-        button.textContent = "Hide Reviews";
+        button.textContent = "Hide Reactions";
       } else {
         div.style.display = "none";
-        button.textContent = "Show Reviews";
+        button.textContent = "Show Reactions";
       }
     }
   </script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
   <script type=text/javascript>
+    'use strict';
+
     $(document).ready(function() {
       $('#form1').validate({
         errorClass: "error fail-alert",
@@ -203,30 +178,194 @@
           }
         }
       });
-      // $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
-      // longPoll();
+
+      $("#form1").submit(function (event) 
+      {
+          let formData = {
+            reaction: $("#reactions-text").val(),
+            college: $("#collegeid").val(),
+          };
+          
+          if (formData.reaction != '') {
+            $.ajax({
+              type: "POST",
+              url: "/reactions",
+              data: formData,
+            }).done(function (data) {
+              console.log(data);
+              $('#reactions-text').val('');
+            }).catch(function (err) {
+              console.log(err);
+            });
+
+            event.preventDefault();
+          }
+      });
+
+      // window.setInterval(function() {
+      //       let college = $('#collegeid').val();
+      //       college = encodeURIComponent(college);
+      //       let url = '/reactions?college=' + college
+            
+      //       $.ajax(
+      //          {
+      //             type: 'GET',
+      //             url: url,
+      //             success: function(response) {
+      //               $('#message-box').html(response);
+      //             },
+      //             error: function(err) {
+      //               console.log(err);
+      //             }
+      //          }
+      //       );
+      // }, 1000);
+
+      $('#show_hide').click(function() {
+        console.log("React button clicked")
+        longPoll();
+      })
     });
-    
-    $(submit_but).onclick(function (){
-      longPoll();
-    })
 
     function longPoll() {
-        $.ajax({
-          url: $SCRIPT_ROOT + "/reactions",
-          success: function (data) {
-            $('#message-box').html(data);
+      console.log("In the longPoll function")
+      let college = $('#collegeid').val();
+      college = encodeURIComponent(college);
+      let url = '/reactions?college=' + college
+
+      $.ajax(
+        {
+          type: 'GET',
+          url: url,
+          success: function(response) {
+            $('#message-box').html(response);
           },
-          error: function (err) {
-            $('#error-box').prepend('Error retrieving new messages..');
+          error: function(err) {
+            console.log(err);
           },
-          type: "GET",
-          dataType: "json",
-          complete: longPoll,
-          timeout: 60000 // timeout every one minute
-        });
-      }
+          complete: longPoll
+        }
+      );
+    }
+
+        //  function handleResponse(response)
+        //  { 
+        //     $('#message-box').html(response);
+        //  }
+
+        //  function handleError(err)
+        //  {
+        //    console.log(err)
+        //  }
+          
+        //  let request = null;
+         
+        //  function getReactions()
+        //  {    
+        //     let college = $('#collegeid').val();
+        //     college = encodeURIComponent(college);
+        //     let url = '/reactions?college=' + college
+            
+        //     if (request != null)
+        //        request.abort();
+            
+        //     request = $.ajax(
+        //        {
+        //           type: 'GET',
+        //           url: url,
+        //           success: handleResponse
+        //           error: handleError
+        //        }
+        //     );
+        //  }
+
+        //  function postReactions()
+        //  {
+        //    $("#form1").submit
+        //    (
+        //      function (event) 
+        //      {
+        //         let formData = {
+        //           reaction: $("#reactions-text").val(),
+        //           college: $("#collegeid").val(),
+        //         };
+
+        //         $.ajax({
+        //           type: "POST",
+        //           url: "/reactions",
+        //           data: formData,
+        //           dataType: "json",
+        //           encode: true,
+        //         }).done(function (data) {
+        //           console.log(data);
+        //         });
+
+        //         event.preventDefault();
+        //      }
+        //    );
+        //  }
+
+        // //  function postReactions()
+        // //  {
+        // //   let formData = {
+        // //     reaction: $("#reactions-text").val(),
+        // //     college: $("#collegeid").val(),
+        // //   };
+
+        // //   $.ajax({
+        // //     type: "POST",
+        // //     url: "/reactions",
+        // //     data: formData,
+        // //     dataType: "json",
+        // //     encode: true,
+        // //   }).done(function (data) {
+        // //     console.log(data);
+        // //   }).catch(function (err) {
+        // //     console.log(err)
+        // //   });
+
+        // //   event.preventDefault();
+        // //  }
+         
+        //  function setup()
+        //  {
+        //     $('#form1').validate({
+        //       errorClass: "error fail-alert",
+        //       messages : {
+        //         reaction: {
+        //         required: "Please enter a reaction!",
+        //         }
+        //       }
+        //     });
+        //     $("#form1").submit(
+        //       function (event) 
+        //       {
+        //           let formData = {
+        //             reaction: $("#reactions-text").val(),
+        //             college: $("#collegeid").val(),
+        //           };
+
+        //           $.ajax({
+        //             type: "POST",
+        //             url: "/reactions",
+        //             data: formData,
+        //             dataType: "json",
+        //             encode: true,
+        //           }).done(function (data) {
+        //             console.log(data);
+        //           });
+
+        //           event.preventDefault();
+        //       });
+        //     // $('#form1').on('submit', postReactions);
+        //     window.setInterval(getReactions, 1000);
+        //     // $('#authorInput').focus();
+        //     // $('#authorInput').on('input', getResults);
+        //  }
+         
+        //  $(document).ready(setup()); 
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>

@@ -142,9 +142,11 @@ class Database():
                     review_data[0], review_data[1])
                 cursor.execute(get_query)
                 old_rating = cursor.fetchone()[0]
-                update_query = "UPDATE reviews SET review = '{}', rating = '{}', time = '{}' WHERE reviews.net_id = '{}' AND reviews.food_id = '{}'".format(
-                    review_data[2], rating, review_data[4], review_data[0], review_data[1])
-                cursor.execute(update_query)
+                # update_query = "UPDATE reviews SET review = '{}', rating = '{}', time = '{}' WHERE reviews.net_id = '{}' AND reviews.food_id = '{}'".format(
+                #     review_data[2], rating, review_data[4], review_data[0], review_data[1])
+                update_query = "UPDATE reviews SET review = (%s), rating = (%s), time = (%s) WHERE reviews.net_id = (%s) AND reviews.food_id = (%s)"
+                cursor.execute(update_query, [
+                               review_data[2], rating, review_data[4], review_data[0], review_data[1]])
                 update_query = "UPDATE food SET num_stars = num_stars - '{}' + '{}' WHERE food.food_id = '{}'".format(
                     old_rating, rating, food_id)
                 cursor.execute(update_query)

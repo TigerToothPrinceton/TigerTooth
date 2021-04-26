@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, redirect, url_for
+from flask import Flask, request, make_response, redirect, url_for, jsonify
 from flask import render_template
 from database import Database
 from datetime import datetime
@@ -47,7 +47,14 @@ def reactions():
     error_msg = ""
     username = CASClient().authenticate()  # CAS
     if request.method == "POST":
-        # user_id = 2
+        # Because data is JSON
+
+        # Parse the JSON into a Python dictionary
+        # print(request.form['reaction'])
+        # req = request.get_json()
+        # print(req)
+        # reaction = req['reaction']
+        # dhall = request['college']
         reaction = request.form['reaction']
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
@@ -62,18 +69,42 @@ def reactions():
             database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
-            return redirect(request.referrer)
+            # return redirect(request.referrer)
+
+            # no need to return any html code bc only POSTing to DB
+            # return '', 204
+
+            # or return a confirmation
+            return "Reaction successfully posted to DB"
         except Exception as e:
             error_msg = e
-    else:
+    if request.method == "GET":
         try:
             dhall = request.args.get("college")
             database = Database()
             database.connect()
             database.add_user(username)
-            rows = database.get_reactions(dhall)
+            reactions = database.get_reactions(dhall)
             database.disconnect()
-            html = render_template('reactions.html', rows=rows, college=dhall)
+            html = ''
+            for reaction in reactions:
+                if reaction[1] != "":
+                    html += '<div class="row align-items-center">'
+                    if reaction[2] == username:
+                        html += '<div class = "col-3 col-sm-4 pt-2 pb-2" style = "font-size: 16px" >' + \
+                            '<div class = "pBox" >' + reaction[4] + '</div >' + \
+                            '</div>' + \
+                            '<div class="col-9 col-sm-8 pt-2 pb-2 me-auto" style="font-size: 16px; ">' + \
+                            '<div class="mymessage pBox" style = "text-align: right; margin-right: 0">' + \
+                                reaction[1] + \
+                            '</div>' + \
+                            '</div>'
+                    else:
+                        html += '<div class = "col-9 col-sm-8 pt-2 pb-2" style = "font-size: 16px;" > <div class = "message pBox">' + \
+                            reaction[1] + '</div></div><div class="col-3 col-sm-4 pt-2 pb-2" style="text-align: right; font-size: 16px"><div class = "pBox">' + \
+                                reaction[4] + '</div></div>'
+                    html += '</div>'
+            # html = render_template('reactions.html', rows=rows, college=dhall)
             response = make_response(html)
             return response
         except Exception as e:
@@ -81,12 +112,6 @@ def reactions():
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
-
-
-# @app.route('/reactions-temp', methods=['GET'])
-# def temp():
-#     print("in temp")
-#     return redirect(url_for('/reactions', college=request.args.get("college")))
 
 
 # Food Page
@@ -153,7 +178,7 @@ def food():
             api_id = food['id']
             result = database.get_food(api_id, dhall)
             foods.append(result)
-        
+
         rows = database.get_reactions(dhall)
         database.disconnect()
         html = render_template('food.html', foods=foods, rows=rows,
@@ -168,18 +193,41 @@ def food():
 
 
 # Food Item Description Page
-@app.route('/food-desc', methods=['GET', 'POST'])
+@app.route('/food-desc', methods=['GET'])
 def food_desc():
+    username = CASClient().authenticate()  # CAS
+    error_msg = ""
+    # For reading existing reviews, the name/image of food, and description
+    try:
+        food_id = request.args.get("food_id")
+        college = request.args.get("college")
+        database = Database()
+        database.connect()
+        database.add_user(username)
+        food = database.get_food_info(food_id)[0]
+        # reviews = database.get_reviews(food_id)
+        database.disconnect()
+        html = render_template(
+            'food-desc.html', college=college, food=food, food_id=food_id)
+        response = make_response(html)
+        return response
+    except Exception as e:
+        error_msg = e
+
+
+# Food Item Description Page for JQuery AJAX calls
+@app.route('/food-updates', methods=['GET', 'POST'])
+def food_updates():
     username = CASClient().authenticate()  # CAS
     error_msg = ""
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
-        if 'rate' not in request.form:
+        rating = request.form['rate']
+        if rating == 0 or rating is None:
             html = render_template(
                 'error.html', message="Please submit a rating")
             response = make_response(html)
             return response
-        rating = request.form['rate']
         review = request.form['review']
         if review == "":
             review = None
@@ -187,17 +235,15 @@ def food_desc():
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
-        # review_data = (user_id, food_id, review, rating, cur_time)
         try:
             database = Database()
             database.connect()
             database.add_user(username)
             review_data = (username, food_id, review, rating, cur_time)
             database.add_review(review_data, rating, food_id)
-            # UPDATE food SET num_rating = num_rating + 1, num_stars = num_stars + rating WHERE food.food_id = food_id
             database.disconnect()
-            # return redirect(url_for('/reactions-temp'), college=dhall)
-            return redirect(request.referrer)
+            # return redirect(request.referrer)
+            return "Rating and review successfully posted to DB"
         except Exception as e:
             error_msg = e
             html = render_template('error.html', message=error_msg)
@@ -208,15 +254,56 @@ def food_desc():
         try:
             food_id = request.args.get("food_id")
             college = request.args.get("college")
+
             database = Database()
             database.connect()
             database.add_user(username)
             food = database.get_food_info(food_id)[0]
             reviews = database.get_reviews(food_id)
             database.disconnect()
-            html = render_template(
-                'food-desc.html', college=college, food=food, reviews=reviews, food_id=food_id)
-            response = make_response(html)
+
+            if food[2] == 0:
+                the_rating = '<p style="margin: 10px 0;"> Rating: No Rating Yet!</p>'
+            else:
+                rating = round((food[3]/food[2]), 1)
+                the_rating = '<p style = "margin: 10px 0;"> Rating: ' + \
+                    str(rating) + '</p>'
+
+            html = ''
+            if len(reviews) == 0 or reviews[0][0] == None:
+                html += '<div class = "col-3" ></div>' + \
+                    '<div class = "col-6 pr-1 pl-1" style = "border:2px solid #000000; border-radius: 0.4rem;">' + \
+                    '<p style = "font-size: 16px; text-align:center; margin: 10px"> No reviews submitted yet! Be the first to review!</p>' + \
+                    '</div>' + \
+                    '<div class = "col-3"></div>'
+            else:
+                html += '<div class="col-2"></div>' + \
+                    '<div class="col-8 pl-1 pr-1 pt-1 pb-1" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 15vh; max-height:30vh; overflow: auto" id="reviews-box">'
+
+                for review in reviews:
+                    if review[0] is not None:
+                        html += '<div class="row border-bottom align-items-center">' + \
+                                '<div class="col" style="font-size: 16px;">' + \
+                            review[0] + \
+                                '</div>' + \
+                            '</div>'
+
+                html += '</div>' + \
+                        '<div class="col-2"></div>'
+
+            # for review in reviews:
+            #     if review[0] is not None:
+            #         html += '<div class="row border-bottom align-items-center">' + \
+            #                 '<div class="col" style="font-size: 16px;">' + \
+            #             review[0] + \
+            #                 '</div>' + \
+            #             '</div >'
+
+            response_body = {
+                "food_rating": the_rating,
+                "reviews": html,
+            }
+            response = make_response(jsonify(response_body), 200)
             return response
         except Exception as e:
             error_msg = e
