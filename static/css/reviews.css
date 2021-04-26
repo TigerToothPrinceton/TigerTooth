@@ -94,3 +94,27 @@ textarea {
   padding: 2px 0 6px 6px;
   background: #ffe6eb;
 }
+
+#food_descrip {
+  animation-duration: 1s;
+  animation-name: fadein;
+}
+
+.reviews_area {
+  animation-duration: 1.2s;
+  animation-name: fadein;
+}
+
+#submit_area {
+  animation-duration: 1.4s;
+  animation-name: fadein;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

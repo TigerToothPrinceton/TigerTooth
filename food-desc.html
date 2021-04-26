@@ -50,7 +50,7 @@
   <!-- Food description portion -->
   {% if food|length == 0: %}
   {% else: %}
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt-5" id="food_descrip">
       <div class="row">
         <div class="col-1 col-sm-3 col-md-4"></div>
         <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
@@ -75,20 +75,20 @@
   
   <hr/>
   <!-- Review Display Portion -->
-  <div class="container-fluid">
+  <div class="container-fluid reviews_area">
     <div class="row">
       <h3 class="text-xs-center text-center">Reviews</h3>
     </div>
   </div> 
 
-  <div class="container-fluid">
+  <div class="container-fluid reviews_area">
     <div class="row" id="reviews-box">
     </div>
   </div>
 
   <br>
   <hr>
-  <div class="container-fluid">
+  <div class="container-fluid" id="submit_area">
     <div class="row">
         <form action="food-desc" method="POST" class="reviews-form" id="form1">
           <div class="controls">

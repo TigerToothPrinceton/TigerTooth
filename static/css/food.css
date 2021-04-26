@@ -6,7 +6,7 @@
 }
 
 .bttn {
-  background: coral;
+  background: rgb(255, 0, 0);
   /* padding: 1em 2em; */
   color: #fff;
   /* border:0; */
@@ -32,18 +32,23 @@
 }
 
 #food_title {
-  animation-duration: 1.3s;
+  animation-duration: 1s;
+  animation-name: fadein;
+}
+
+#history_title {
+  animation-duration: 1.2s;
   animation-name: fadein;
 }
 
 #card_group {
-  animation-duration: 1.7s;
+  animation-duration: 1.3s;
   animation-name: fadein;
 }
 
 #show_hide {
   font-size: larger;
-  animation-duration: 1.5s;
+  animation-duration: 1.2s;
   animation-name: fadein;
 }
 

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
 </head>
 
 <body>
@@ -24,7 +25,7 @@
   {% include 'header.html' %}
 
   <div class="container">
-    <div class="row">
+    <div class="row" id="history_title">
       <h3 class="text-center my-5">Your Past Food Reviews</h3>
     </div>
   </div>
@@ -37,7 +38,7 @@
   </div>
   {% else: %}
 
-  <div class="card-group mx-5 text-center justify-content-center mb-4">
+  <div class="card-group mx-5 text-center justify-content-center mb-4" id="card_group">
     {% for review in reviews: %}
     <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
       {% if review[1] is none: %}

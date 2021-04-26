@@ -78,3 +78,27 @@ a:hover {
   text-decoration: none;
   color: black;
 }
+
+#hall_title {
+  animation-duration: 1s;
+  animation-name: fadein;
+}
+
+#img_large {
+  animation-duration: 1.2s;
+  animation-name: fadein;
+}
+
+#img_small {
+  animation-duration: 1.2s;
+  animation-name: fadein;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
