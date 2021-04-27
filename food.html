@@ -83,14 +83,14 @@
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
             class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% else: %}
-        <div>  
+        <div style="cursor: pointer">
           <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})" name="review_but">
+               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}}, {{foods|length}})" name="review_but">
         </div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <div style="color: inherit;" onclick = "show({{loop.index}})" name="review_but">
+          <div style="color: inherit; cursor: pointer;" onclick="show({{loop.index}}, {{foods|length}})" name="review_but">
             {{food[1]}}
           </div>
         </h5>
@@ -99,11 +99,12 @@
         {% else: %}
           <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-          <!-- <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
-               name="review_but">Submit a Review</div> -->
-        <button class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}})" name="review_but" id="review_but_id" value="{{food[4]}}">
+        <button class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}}, {{foods|length}})" name="review_but" id="review_but_id" value="{{food[4]}}">
           Submit a Review
         </button>
+
+          <!-- <div class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}}, {{foods|length}})"
+            id="button{{loop.index}}">Submit a Review</div> -->
         <!-- <input type="button" class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}})" name="review_but" value="{{loop.index}}"/> -->
       </div>
     </div>  
@@ -121,9 +122,10 @@
             <div class="row">
               <div class="col-1 col-sm-3 col-md-4"></div>
               <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
+                <br>
                 <figure>
                   {% if food[0] is not none: %}
-                  <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 100%;">
+                  <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 80%; margin-right:10%; margin-left:10%">
                   {% endif %}
                   <figcaption style="margin-top: 10px" id="rating-box">
                     {{food[1]}}
@@ -150,7 +152,6 @@
           </div>
         </div>
 
-        <br>
         <div class="container-fluid" id="submit_area">
           <div class="row">
               <form action="food" method="POST" class="reviews-form" id="form1">
@@ -167,7 +168,7 @@
                     </div>
                     <div class="col-2 col-md-3"></div>
                   </div>
-                  <br>
+
                   <div class ="row">
                     <div class="col-sm"></div>
                     <div class="col-sm">
@@ -186,8 +187,8 @@
               </form>
           </div>
         </div>
-        <br>
-        <br>
+
+        
       </div>
     {% endfor %}
   {% endif %}
@@ -253,7 +254,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
-  <script>
+  <!-- <script>
     function show(index){
       temp = document.getElementById("rev" + index);
       if (temp.style.display === "none") {
@@ -263,10 +264,32 @@
         temp.style.display = "none";
       }
     }
-  </script>
+  </script> -->
   
    <script type=text/javascript>
       'use strict';
+      window.onload = function () {
+        window.scrollTo(0,0);
+      };
+
+      function show(index, max) {
+     
+        temp = document.getElementById("rev" + index);
+        if (temp.style.display === "none") {
+          temp.style.display = "block";
+          temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          temp.style.display = "none";
+        }
+        console.log(max);
+        for (i = 1; i < max; i++) {
+          if (i != index)
+          {
+            clear = document.getElementById("rev" + i);
+            clear.style.display = "none";
+          }
+        }
+      }
 
       // Reviews Box Generation Code when Submit a Review Button is Clicked
       $(document).ready(function() {
