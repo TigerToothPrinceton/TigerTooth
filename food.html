@@ -249,6 +249,7 @@
       temp = document.getElementById("rev" + index);
       if (temp.style.display === "none") {
         temp.style.display = "block";
+        temp.scrollTop = temp.scrollHeight;
       } else {
         temp.style.display = "none";
       }

@@ -151,87 +151,116 @@ def reactions():
 
 
 # Food Page
-@app.route('/food', methods=['GET'])
+@app.route('/food', methods=['GET', 'POST'])
 def food():
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
     error_msg = ""
-    try:
-        dhall = request.args.get('college')
-        # dhall = request.args['college']
-        ### Code for grabbing food from dining hall API ###
-        request_lib = RequestsLib()
-
-        # timezone
+    if request.method == "POST":
+        rating = request.form['rate']
+        if rating == 0 or rating is None:
+            html = render_template(
+                'error.html', message="Please submit a rating")
+            response = make_response(html)
+            return response
+        review = request.form['review']
+        if review == "":
+            review = None
+        food_id = request.form['food_id']
         est = pytz.timezone('US/Eastern')
-        # Get today's date
-        today = datetime.today().astimezone(est)
-        year = str(today.year)
+        now = datetime.now(est)
+        cur_time = now.strftime("%I:%M %p")
+        try:
+            database = Database()
+            database.connect()
+            database.add_user(username)
+            review_data = (username, food_id, review, rating, cur_time)
+            database.add_review(review_data, rating, food_id)
+            database.disconnect()
+            # return redirect(request.referrer)
+            return "Rating and review successfully posted to DB"
+        except Exception as e:
+            error_msg = e
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
+    if request.method == 'GET': 
+        try:
+            dhall = request.args.get('college')
+            # dhall = request.args['college']
+            ### Code for grabbing food from dining hall API ###
+            request_lib = RequestsLib()
 
-        # Pad the number with zeros so that
-        # there are always exactly two digits
-        month = str(today.month).zfill(2)
-        day = str(today.day).zfill(2)
+            # timezone
+            est = pytz.timezone('US/Eastern')
+            # Get today's date
+            today = datetime.today().astimezone(est)
+            year = str(today.year)
 
-        # Get current time
-        time_hour = datetime.now(est).hour
-        meal = "Lunch"  # default value, case-sensitive
-        # breakfast, lunch, dinner
-        if (time_hour >= 5 and time_hour < 10):
-            meal = "Breakfast"
-        elif (time_hour >= 10 and time_hour < 14):
-            meal = "Lunch"
-        elif (time_hour >= 14 and time_hour < 20):
-            meal = "Dinner"
-        # database.clear_db(meal)
+            # Pad the number with zeros so that
+            # there are always exactly two digits
+            month = str(today.month).zfill(2)
+            day = str(today.day).zfill(2)
 
-        # Get locationID
-        locationID = 1
-        if dhall == "wilcox":
+            # Get current time
+            time_hour = datetime.now(est).hour
+            meal = "Lunch"  # default value, case-sensitive
+            # breakfast, lunch, dinner
+            if (time_hour >= 5 and time_hour < 10):
+                meal = "Breakfast"
+            elif (time_hour >= 10 and time_hour < 14):
+                meal = "Lunch"
+            elif (time_hour >= 14 and time_hour < 20):
+                meal = "Dinner"
+            # database.clear_db(meal)
+
+            # Get locationID
             locationID = 1
-        elif dhall == "forbes":
-            locationID = 5
-        elif dhall == "roma":
-            locationID = 4
-        elif dhall == "whitman":
-            locationID = 6
+            if dhall == "wilcox":
+                locationID = 1
+            elif dhall == "forbes":
+                locationID = 5
+            elif dhall == "roma":
+                locationID = 4
+            elif dhall == "whitman":
+                locationID = 6
 
-        # make a call to dining hall api and grab all the items in the current meal menu
-        menu = request_lib.getJSON(
-            request_lib.configs.DINING_MENU,
-            locationID=locationID,
-            menuID=year + "-" + month + "-" + day + "-" + meal,
-        )
-        menu_arr = menu['menus']
-        database = Database()
-        database.connect()
-        database.add_user(username)
-        # add new foods to the database if they do not exist
-        database.add_food(menu_arr, dhall)
+            # make a call to dining hall api and grab all the items in the current meal menu
+            menu = request_lib.getJSON(
+                request_lib.configs.DINING_MENU,
+                locationID=locationID,
+                menuID=year + "-" + month + "-" + day + "-" + meal,
+            )
+            menu_arr = menu['menus']
+            database = Database()
+            database.connect()
+            database.add_user(username)
+            # add new foods to the database if they do not exist
+            database.add_food(menu_arr, dhall)
 
-        foods = []
-        reviews = []
-        # grab the foods being served at the dhall with the same api_id as the dhall api
-        for food in menu_arr:
-            api_id = food['id']
-            result = database.get_food(api_id, dhall)
-            foods.append(result)
-            food_id = database.get_food(api_id, dhall)[4]
-            review = database.get_reviews(food_id)
-            reviews.append(review)
-        rows = database.get_reactions(dhall)
+            foods = []
+            reviews = []
+            # grab the foods being served at the dhall with the same api_id as the dhall api
+            for food in menu_arr:
+                api_id = food['id']
+                result = database.get_food(api_id, dhall)
+                foods.append(result)
+                food_id = database.get_food(api_id, dhall)[4]
+                review = database.get_reviews(food_id)
+                reviews.append(review)
+            rows = database.get_reactions(dhall)
 
-        database.disconnect()
-        html = render_template('food.html', foods=foods, rows=rows,
-                               college=dhall, meal_time=meal, username=username, reviews=reviews)
-        response = make_response(html)
-        return response
-    except Exception as e:
-        html = render_template(
-            'error.html', message="Look's like our menu is unavailable. Please try again later!")
-        response = make_response(html)
-        return response
+            database.disconnect()
+            html = render_template('food.html', foods=foods, rows=rows,
+                                   college=dhall, meal_time=meal, username=username, reviews=reviews)
+            response = make_response(html)
+            return response
+        except Exception as e:
+            html = render_template(
+                'error.html', message="Look's like our menu is unavailable. Please try again later!")
+            response = make_response(html)
+            return response
 
 
 # Food Item Description Page
