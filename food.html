@@ -99,13 +99,17 @@
       </div>
     </div>  
   </div>
-  <div id = "rev{{loop.index}}" style = "display: none;">
-      {{food[0]}}
-  </div>
   
   {% endfor %}
   {% endif %}
-
+  {% if foods|length == 0: %}
+  {% else: %}
+   {% for food in foods: %}
+      <div id = "rev{{loop.index}}" style = "display: none;">
+        {{food[0]}}
+      </div>
+   {% endfor %}
+  {% endif %}
 
   <div class = "container-fluid">
 
