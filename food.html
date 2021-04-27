@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reactions.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
 
   <script>
@@ -74,70 +75,67 @@
   {% else: %}
   <!-- For large devices like laptops -->
   <div class="card-group mx-5 text-center justify-content-center mb-4" id="card_group">
-      {% for food in foods: %}
-      <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
-        {% if food[0] is none: %}
+    {% for food in foods: %}
+    <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
+      {% if food[0] is none: %}
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
             class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-        {% else: %}
-        <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-             style="min-height: 11rem; max-height: 11rem;" onClick="onClick({{food[4]}}, {{loop.index}})">
-        {% endif %}
+      {% else: %}
+        <div>  
+          <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
+               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})">
+        </div>
+      {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
+          <div style="color: inherit;" onclick = "show({{loop.index}})">{{food[1]}}</div>
         </h5>
         {% if food[2] == 0 %}
-        <p class="card-text">Rating: No Rating Yet!</p>
+          <p class="card-text">Rating: No Rating Yet!</p>
         {% else: %}
-        <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+          <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-        <a href="/food-desc?food_id={{food[4]}}&college={{college}}" class="btn bttn rounded" style="color: #fff">Submit a Review</a>
+          <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
+               id = "button{{loop.index}}">Submit a Review</div>
       </div>
-    </div>
+    </div>  
     {% endfor %}
   </div>
   {% endif %}
-  
   {% if foods|length == 0: %}
   {% else: %}
     {% for food in foods: %}
-      <div id="review-{{loop.index}}" style: "display:show">
-        <div class="container-fluid mt-5" id="food_descrip-{{food[4]}}">
-          <div class="row">
-          <div class="col-1 col-sm-3 col-md-4"></div>
-          <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
-            <figure>
-              {% if food[0] is not none: %}
-                <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 100%;">
-              {% endif %}
-              <figcaption style="margin-top: 10px" id="rating-box">
-                {{food[1]}}
-                {% if food[2] == 0 %}
-                <p style="margin: 10px 0;">Rating: No Rating Yet!</p>
-                {% else: %}
-                <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
-                {% endif %}
-              </figcaption>
-            </figure>
+      <div id = "rev{{loop.index}}" style = "display: none;">
+        {% if food|length == 0: %}
+        {% else: %}
+          <div class="container-fluid mt-5" id="food_descrip">
+            <div class="row">
+              <div class="col-1 col-sm-3 col-md-4"></div>
+              <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
+                <figure>
+                  {% if food[0] is not none: %}
+                  <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 100%;">
+                  {% endif %}
+                  <figcaption style="margin-top: 10px" id="rating-box">
+                    {{food[1]}}
+                    {% if food[2] == 0 %}
+                    <p style="margin: 10px 0;">Rating: No Rating Yet!</p>
+                    {% else: %}
+                    <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
+                    {% endif %}
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="col-1 col-sm-3 col-md-4"></div>
+            </div>
           </div>
-          <div class="col-1 col-sm-3 col-md-4"></div>
-        </div>
-        <div class="container-fluid reviews_area">
-          <div class="row">
-            <h3 class="text-xs-center text-center">Reviews</h3>
-          </div>
-        </div> 
+        {% endif %}
       </div>
     {% endfor %}
   {% endif %}
 
   <div class = "container-fluid">
-    <!-- <div style="display: flex; align-items: center; justify-content: center">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
-        View Reactions!
-      </button>
-    </div> -->
+
     <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" style = "max-width:80%" role="document">
         <div class="modal-content">
@@ -163,7 +161,7 @@
           <br>
           <div class="container-fluid">
             <div class="row">
-              <form action="reactions" method="POST" class="reactions-form" id="form1">
+              <form action="reactions" method="POST" class="reactions-form" id="formR">
                 <div class="controls">
                   <div class="row">
                     <div class="col-2"></div>
@@ -196,10 +194,15 @@
  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
   <script>
-    function onClick(food_id, index) {
-      console.log(food_id);
-      console.log(index);
+    function show(index){
+      temp = document.getElementById("rev" + index);
+      if (temp.style.display === "none") {
+        temp.style.display = "block";
+      } else {
+        temp.style.display = "none";
+      }
     }
   </script>
   
@@ -207,7 +210,7 @@
     'use strict';
 
     $(document).ready(function() {
-      $('#form1').validate({
+      $('#formR').validate({
         errorClass: "error fail-alert",
         messages : {
           reaction: {
@@ -216,7 +219,7 @@
         }
       });
 
-      $("#form1").submit(function (event) 
+      $("#formR").submit(function (event) 
       {
           let formData = {
             reaction: $("#reactions-text").val(),
@@ -238,26 +241,6 @@
             event.preventDefault();
           }
       });
-
-      // window.setInterval(function() {
-      //       let college = $('#collegeid').val();
-      //       college = encodeURIComponent(college);
-      //       let url = '/reactions?college=' + college
-            
-      //       $.ajax(
-      //          {
-      //             type: 'GET',
-      //             url: url,
-      //             success: function(response) {
-      //               $('#message-box').html(response);
-      //             },
-      //             error: function(err) {
-      //               console.log(err);
-      //             }
-      //          }
-      //       );
-      // }, 1000);
-
       $('#show_hide').click(function() {
         console.log("React button clicked")
         longPoll();
@@ -285,124 +268,9 @@
       );
     }
 
-        //  function handleResponse(response)
-        //  { 
-        //     $('#message-box').html(response);
-        //  }
-
-        //  function handleError(err)
-        //  {
-        //    console.log(err)
-        //  }
-          
-        //  let request = null;
-         
-        //  function getReactions()
-        //  {    
-        //     let college = $('#collegeid').val();
-        //     college = encodeURIComponent(college);
-        //     let url = '/reactions?college=' + college
-            
-        //     if (request != null)
-        //        request.abort();
-            
-        //     request = $.ajax(
-        //        {
-        //           type: 'GET',
-        //           url: url,
-        //           success: handleResponse
-        //           error: handleError
-        //        }
-        //     );
-        //  }
-
-        //  function postReactions()
-        //  {
-        //    $("#form1").submit
-        //    (
-        //      function (event) 
-        //      {
-        //         let formData = {
-        //           reaction: $("#reactions-text").val(),
-        //           college: $("#collegeid").val(),
-        //         };
-
-        //         $.ajax({
-        //           type: "POST",
-        //           url: "/reactions",
-        //           data: formData,
-        //           dataType: "json",
-        //           encode: true,
-        //         }).done(function (data) {
-        //           console.log(data);
-        //         });
-
-        //         event.preventDefault();
-        //      }
-        //    );
-        //  }
-
-        // //  function postReactions()
-        // //  {
-        // //   let formData = {
-        // //     reaction: $("#reactions-text").val(),
-        // //     college: $("#collegeid").val(),
-        // //   };
-
-        // //   $.ajax({
-        // //     type: "POST",
-        // //     url: "/reactions",
-        // //     data: formData,
-        // //     dataType: "json",
-        // //     encode: true,
-        // //   }).done(function (data) {
-        // //     console.log(data);
-        // //   }).catch(function (err) {
-        // //     console.log(err)
-        // //   });
-
-        // //   event.preventDefault();
-        // //  }
-         
-        //  function setup()
-        //  {
-        //     $('#form1').validate({
-        //       errorClass: "error fail-alert",
-        //       messages : {
-        //         reaction: {
-        //         required: "Please enter a reaction!",
-        //         }
-        //       }
-        //     });
-        //     $("#form1").submit(
-        //       function (event) 
-        //       {
-        //           let formData = {
-        //             reaction: $("#reactions-text").val(),
-        //             college: $("#collegeid").val(),
-        //           };
-
-        //           $.ajax({
-        //             type: "POST",
-        //             url: "/reactions",
-        //             data: formData,
-        //             dataType: "json",
-        //             encode: true,
-        //           }).done(function (data) {
-        //             console.log(data);
-        //           });
-
-        //           event.preventDefault();
-        //       });
-        //     // $('#form1').on('submit', postReactions);
-        //     window.setInterval(getReactions, 1000);
-        //     // $('#authorInput').focus();
-        //     // $('#authorInput').on('input', getResults);
-        //  }
-         
-        //  $(document).ready(setup()); 
   </script>
 
+    
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>
