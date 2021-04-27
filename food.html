@@ -82,19 +82,19 @@
       {% else: %}
         <div>  
           <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-             style="min-height: 11rem; max-height: 11rem;" onclick = "show(food[4], loop.index)">
+             style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})">
         </div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <div style="color: inherit;" onclick = "show(loop.index)">{{food[1]}}</div>
+          <div style="color: inherit;" onclick = "show({{loop.index}})">{{food[1]}}</div>
         </h5>
         {% if food[2] == 0 %}
           <p class="card-text">Rating: No Rating Yet!</p>
         {% else: %}
           <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-          <div class="btn bttn rounded" style="color: #fff" onclick = "show(food[4], loop.index)" 
+          <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
                id = "button{{loop.index}}">Submit a Review</div>
       </div>
     </div>
