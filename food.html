@@ -97,12 +97,13 @@
           <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
                id = "button{{loop.index}}">Submit a Review</div>
       </div>
-    </div>
-    <div id = "rev{{loop.index}}" style = "display: none;">
-      {{loop.index}}
-    </div>
-    {% endfor %}
+    </div>  
   </div>
+  <div id = "rev{{loop.index}}" style = "display: none;">
+      {{food[0]}}
+  </div>
+  
+  {% endfor %}
   {% endif %}
 
 
