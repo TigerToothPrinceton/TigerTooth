@@ -101,12 +101,10 @@
   
   <div id="reviewDiv">
     {% for food in foods: %}
-      {{food[1]}}
+      <p> {{food[1]}} </p>
       <div id="replace">
-        {% if loop.index = 3 %}
-          Sweet Home Alabama
       </div>
-        {% endif %}
+        
     {% endfor %}
   </div>
 
