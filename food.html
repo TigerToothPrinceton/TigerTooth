@@ -102,11 +102,33 @@
   {% if foods|length == 0: %}
   {% else: %}
     {% for food in foods: %}
-      {% if food[0] is none: %}
-      {% else: %}
-      <div id="review-{{loop.index}}">TEST, {{loop.index}}</div>
-        
-      {% endif %}
+      <div id="review-{{loop.index}}" style: "display:show">
+        <div class="container-fluid mt-5" id="food_descrip-{{food[4]}}">
+          <div class="row">
+          <div class="col-1 col-sm-3 col-md-4"></div>
+          <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
+            <figure>
+              {% if food[0] is not none: %}
+                <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 100%;">
+              {% endif %}
+              <figcaption style="margin-top: 10px" id="rating-box">
+                {{food[1]}}
+                {% if food[2] == 0 %}
+                <p style="margin: 10px 0;">Rating: No Rating Yet!</p>
+                {% else: %}
+                <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
+                {% endif %}
+              </figcaption>
+            </figure>
+          </div>
+          <div class="col-1 col-sm-3 col-md-4"></div>
+        </div>
+        <div class="container-fluid reviews_area">
+          <div class="row">
+            <h3 class="text-xs-center text-center">Reviews</h3>
+          </div>
+        </div> 
+      </div>
     {% endfor %}
   {% endif %}
 
