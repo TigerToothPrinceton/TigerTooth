@@ -247,7 +247,7 @@
       temp = document.getElementById("rev" + index);
       if (temp.style.display === "none") {
         temp.style.display = "block";
-        temp.scrollIntoView(alignToTop);
+        temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
         temp.style.display = "none";
       }
