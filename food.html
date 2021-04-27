@@ -241,11 +241,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
   <script>
+  
+  var closeR = null;
     function show(index){
+     
       temp = document.getElementById("rev" + index);
       if (temp.style.display === "none") {
+        if (closeR != null)
+        {
+          closed = document.getElementById(closeR);
+          closed.style.display = "none";
+        }
         temp.style.display = "block";
         temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        closeR = "rev" + index;
       } else {
         temp.style.display = "none";
       }
