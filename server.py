@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response, redirect, url_for, jsonify
-from flask import render_template
+from flask import render_template, abort
 from database import Database
 from datetime import datetime
 from CASClient import CASClient
@@ -23,7 +23,9 @@ app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 @app.route('/index', methods=['GET'])
 def index():
     # try:
-    # username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if not err:
+        return redirect(url_for('dinhall'))
     try:
         database = Database()
         database.connect()
@@ -45,7 +47,9 @@ def index():
 @app.route('/dhall', methods=['GET'])
 def dinhall():
     # try:
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     try:
         database = Database()
         database.connect()
@@ -67,7 +71,9 @@ def dinhall():
 @app.route('/reactions', methods=['GET', 'POST'])
 def reactions():
     error_msg = ""
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     if request.method == "POST":
         # Because data is JSON
 
@@ -147,7 +153,9 @@ def reactions():
 # Food Page
 @app.route('/food', methods=['GET'])
 def food():
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     error_msg = ""
     try:
         dhall = request.args.get('college')
@@ -229,7 +237,9 @@ def food():
 # Food Item Description Page
 @app.route('/food-desc', methods=['GET'])
 def food_desc():
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     error_msg = ""
     # For reading existing reviews, the name/image of food, and description
     try:
@@ -252,7 +262,9 @@ def food_desc():
 # Food Item Description Page for JQuery AJAX calls
 @app.route('/food-updates', methods=['GET', 'POST'])
 def food_updates():
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     error_msg = ""
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
@@ -346,7 +358,9 @@ def food_updates():
 # Submit a Photo URL to a Food Item
 @app.route('/foodimg-submit', methods=['GET', 'POST'])
 def food_img_submit():
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     database = Database()
     database.connect()
     database.add_user(username)
@@ -381,7 +395,9 @@ def food_img_submit():
 # User Past Reviews Page
 @app.route('/history', methods=['GET'])
 def history():
-    username = CASClient().authenticate()  # CAS
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
     try:
         database = Database()
         database.connect()
