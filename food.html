@@ -72,7 +72,6 @@
   </div>
   {% if foods|length == 0: %}
   {% else: %}
-
   <!-- For large devices like laptops -->
   <div class="card-group mx-5 text-center justify-content-center mb-4" id="card_group">
       {% for food in foods: %}
@@ -98,7 +97,17 @@
     </div>
     {% endfor %}
   </div>
-
+  {% endif %}
+  
+  {% if foods|length == 0: %}
+  {% else: %}
+    {% for food in foods: %}
+      {% if food[0] is none: %}
+      {% else: %}
+      <div id="review-{{loop.index}}">TEST, {{loop.index}}</div>
+        
+      {% endif %}
+    {% endfor %}
   {% endif %}
 
   <div class = "container-fluid">
