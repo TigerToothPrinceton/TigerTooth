@@ -177,7 +177,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
   <script>
     function onClick(food_id, index) {
-      document.getElementById("replace").innerHTML = '`{% if loop.index == 1 %}`<p> CHANGED </p>`{% endif %}`';
+      document.getElementById("replace").innerHTML = `{% if loop.index == 1 %}` + '<p> CHANGED </p>' + `{% endif %}`;
     }
   </script>
   
