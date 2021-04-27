@@ -81,14 +81,14 @@
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
             class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% else: %}
-        <div>  
+        <div style="cursor: pointer">  
           <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
                style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})">
         </div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <div style="color: inherit;" onclick = "show({{loop.index}})">{{food[1]}}</div>
+          <div style="color: inherit; cursor: pointer" onclick = "show({{loop.index}})">{{food[1]}}</div>
         </h5>
         {% if food[2] == 0 %}
           <p class="card-text">Rating: No Rating Yet!</p>
