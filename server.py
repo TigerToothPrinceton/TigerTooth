@@ -18,10 +18,32 @@ app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 # https://www.figma.com/file/HkBlr87OPJfC8jKhJWQQDm/Prototype-Views?node-id=14%3A25
 
 
-# For now, dining hall selection page
+# Landing Page
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
+    # try:
+    # username = CASClient().authenticate()  # CAS
+    try:
+        database = Database()
+        database.connect()
+        database.add_user(username)
+        database.disconnect()
+    except Exception as e:
+        error_msg = e
+    html = render_template('index.html')
+    response = make_response(html)
+    return response
+   # except Exception as e:
+    # CASClient().authenticate() triggers an exception
+   #  print("in the exception")
+    # error_msg = e
+   # print(error_msg)
+
+
+# Dining hall selection page
+@app.route('/dhall', methods=['GET'])
+def dinhall():
     # try:
     username = CASClient().authenticate()  # CAS
     try:
@@ -31,7 +53,7 @@ def index():
         database.disconnect()
     except Exception as e:
         error_msg = e
-    html = render_template('index.html')
+    html = render_template('dhall.html')
     response = make_response(html)
     return response
    # except Exception as e:
@@ -194,7 +216,7 @@ def food():
 
         database.disconnect()
         html = render_template('food.html', foods=foods, rows=rows,
-                               college=dhall, meal_time=meal, username=username, reviews = reviews)
+                               college=dhall, meal_time=meal, username=username, reviews=reviews)
         response = make_response(html)
         return response
     except Exception as e:

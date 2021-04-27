@@ -94,11 +94,100 @@ a:hover {
   animation-name: fadein;
 }
 
+#landing_content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+#landing_title {
+  animation-duration: 3s;
+  animation-name: title_expand;
+}
+
+#landing_sub {
+  opacity: 0;
+  animation-duration: 4s;
+  animation-name: sub_expand;
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
+}
+
+#landing_but {
+  opacity: 0;
+  animation-duration: 4s;
+  animation-name: fadein;
+  animation-delay: 4.4s;
+  animation-fill-mode: forwards;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes title_expand {
+  from {
+    transform: scale(0.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes sub_expand {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#landing_image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+
+  opacity: 0.5;
+  width: 50%;
+
+  animation: pulse 3s infinite;
+  animation-direction: alternate;
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+}
+
+@-webkit-keyframes pulse {
+  from {
+    opacity: 0.2;
+    /* -webkit-transform: scale(1); */
+    /* -webkit-transform: translate(-50%, -50%); */
+  }
+  to {
+    opacity: 0.4;
+    /* -webkit-transform: scale(1.1); */
+    /* -webkit-transform: translate(-50%, -50%); */
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.2;
+    /* transform: scale(1); */
+  }
+  to {
+    opacity: 0.4;
+    /* transform: scale(1.1); */
   }
 }
