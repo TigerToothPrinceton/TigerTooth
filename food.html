@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reactions.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
 
   <script>
@@ -103,11 +104,34 @@
   {% endif %}
   {% if foods|length == 0: %}
   {% else: %}
-   {% for food in foods: %}
+    {% for food in foods: %}
       <div id = "rev{{loop.index}}" style = "display: none;">
-        {{food[0]}}
+        {% if food|length == 0: %}
+        {% else: %}
+          <div class="container-fluid mt-5" id="food_descrip">
+            <div class="row">
+              <div class="col-1 col-sm-3 col-md-4"></div>
+              <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
+                <figure>
+                  {% if food[0] is not none: %}
+                  <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 100%;">
+                  {% endif %}
+                  <figcaption style="margin-top: 10px" id="rating-box">
+                    {{food[1]}}
+                    {% if food[2] == 0 %}
+                    <p style="margin: 10px 0;">Rating: No Rating Yet!</p>
+                    {% else: %}
+                    <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
+                    {% endif %}
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="col-1 col-sm-3 col-md-4"></div>
+            </div>
+          </div>
+        {% endif %}
       </div>
-   {% endfor %}
+  {% endfor %}
   {% endif %}
 
   <div class = "container-fluid">
