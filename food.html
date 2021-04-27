@@ -103,7 +103,7 @@
     {% for food in foods: %}
       <p> {{food[1]}} </p>
       <div id="replace">
-        {% if loop.index = 3 %}
+        {% if loop.index == 3 %}
           <p> TEST </p>
         {% endif %}
       </div>
