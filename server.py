@@ -187,14 +187,11 @@ def food():
             api_id = food['id']
             result = database.get_food(api_id, dhall)
             foods.append(result)
-            food_id = database.get_food(api_id, dhall)[4]
-            review = database.get_reviews(food_id)
-            reviews.append(review)
         rows = database.get_reactions(dhall)
 
         database.disconnect()
         html = render_template('food.html', foods=foods, rows=rows,
-                               college=dhall, meal_time=meal, username=username, reviews = reviews)
+                               college=dhall, meal_time=meal, username=username)
         response = make_response(html)
         return response
     except Exception as e:
