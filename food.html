@@ -99,38 +99,10 @@
   </div>
   {% endif %}
   
-  {% if foods|length == 0: %}
-  {% else: %}
-    {% for food in foods: %}
-      <div id="review-{{loop.index}}" style: "display:show">
-        <div class="container-fluid mt-5" id="food_descrip-{{food[4]}}">
-          <div class="row">
-          <div class="col-1 col-sm-3 col-md-4"></div>
-          <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
-            <figure>
-              {% if food[0] is not none: %}
-                <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 100%;">
-              {% endif %}
-              <figcaption style="margin-top: 10px" id="rating-box">
-                {{food[1]}}
-                {% if food[2] == 0 %}
-                <p style="margin: 10px 0;">Rating: No Rating Yet!</p>
-                {% else: %}
-                <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
-                {% endif %}
-              </figcaption>
-            </figure>
-          </div>
-          <div class="col-1 col-sm-3 col-md-4"></div>
-        </div>
-        <div class="container-fluid reviews_area">
-          <div class="row">
-            <h3 class="text-xs-center text-center">Reviews</h3>
-          </div>
-        </div> 
-      </div>
-    {% endfor %}
-  {% endif %}
+  <div id="reviewDiv">
+    {% food = foods[0] %}
+    {{food[0]}}
+  </div>
 
   <div class = "container-fluid">
     <!-- <div style="display: flex; align-items: center; justify-content: center">
@@ -163,7 +135,7 @@
           <br>
           <div class="container-fluid">
             <div class="row">
-              <form action="reactions" method="POST" class="reactions-form" id="form1">
+              <form action="reactions" method="POST" class="reactions-form" id="formR">
                 <div class="controls">
                   <div class="row">
                     <div class="col-2"></div>
@@ -198,8 +170,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
   <script>
     function onClick(food_id, index) {
-      console.log(food_id);
-      console.log(index);
+      r = document.getElementById("reviewDiv");
+      r.innerHTML = '{% food = foods[index] %}{{food[0]}}'
+      
     }
   </script>
   
@@ -207,7 +180,7 @@
     'use strict';
 
     $(document).ready(function() {
-      $('#form1').validate({
+      $('#formR').validate({
         errorClass: "error fail-alert",
         messages : {
           reaction: {
@@ -216,7 +189,7 @@
         }
       });
 
-      $("#form1").submit(function (event) 
+      $("#formR").submit(function (event) 
       {
           let formData = {
             reaction: $("#reactions-text").val(),
@@ -238,26 +211,6 @@
             event.preventDefault();
           }
       });
-
-      // window.setInterval(function() {
-      //       let college = $('#collegeid').val();
-      //       college = encodeURIComponent(college);
-      //       let url = '/reactions?college=' + college
-            
-      //       $.ajax(
-      //          {
-      //             type: 'GET',
-      //             url: url,
-      //             success: function(response) {
-      //               $('#message-box').html(response);
-      //             },
-      //             error: function(err) {
-      //               console.log(err);
-      //             }
-      //          }
-      //       );
-      // }, 1000);
-
       $('#show_hide').click(function() {
         console.log("React button clicked")
         longPoll();
@@ -285,123 +238,99 @@
       );
     }
 
-        //  function handleResponse(response)
-        //  { 
-        //     $('#message-box').html(response);
-        //  }
-
-        //  function handleError(err)
-        //  {
-        //    console.log(err)
-        //  }
-          
-        //  let request = null;
-         
-        //  function getReactions()
-        //  {    
-        //     let college = $('#collegeid').val();
-        //     college = encodeURIComponent(college);
-        //     let url = '/reactions?college=' + college
-            
-        //     if (request != null)
-        //        request.abort();
-            
-        //     request = $.ajax(
-        //        {
-        //           type: 'GET',
-        //           url: url,
-        //           success: handleResponse
-        //           error: handleError
-        //        }
-        //     );
-        //  }
-
-        //  function postReactions()
-        //  {
-        //    $("#form1").submit
-        //    (
-        //      function (event) 
-        //      {
-        //         let formData = {
-        //           reaction: $("#reactions-text").val(),
-        //           college: $("#collegeid").val(),
-        //         };
-
-        //         $.ajax({
-        //           type: "POST",
-        //           url: "/reactions",
-        //           data: formData,
-        //           dataType: "json",
-        //           encode: true,
-        //         }).done(function (data) {
-        //           console.log(data);
-        //         });
-
-        //         event.preventDefault();
-        //      }
-        //    );
-        //  }
-
-        // //  function postReactions()
-        // //  {
-        // //   let formData = {
-        // //     reaction: $("#reactions-text").val(),
-        // //     college: $("#collegeid").val(),
-        // //   };
-
-        // //   $.ajax({
-        // //     type: "POST",
-        // //     url: "/reactions",
-        // //     data: formData,
-        // //     dataType: "json",
-        // //     encode: true,
-        // //   }).done(function (data) {
-        // //     console.log(data);
-        // //   }).catch(function (err) {
-        // //     console.log(err)
-        // //   });
-
-        // //   event.preventDefault();
-        // //  }
-         
-        //  function setup()
-        //  {
-        //     $('#form1').validate({
-        //       errorClass: "error fail-alert",
-        //       messages : {
-        //         reaction: {
-        //         required: "Please enter a reaction!",
-        //         }
-        //       }
-        //     });
-        //     $("#form1").submit(
-        //       function (event) 
-        //       {
-        //           let formData = {
-        //             reaction: $("#reactions-text").val(),
-        //             college: $("#collegeid").val(),
-        //           };
-
-        //           $.ajax({
-        //             type: "POST",
-        //             url: "/reactions",
-        //             data: formData,
-        //             dataType: "json",
-        //             encode: true,
-        //           }).done(function (data) {
-        //             console.log(data);
-        //           });
-
-        //           event.preventDefault();
-        //       });
-        //     // $('#form1').on('submit', postReactions);
-        //     window.setInterval(getReactions, 1000);
-        //     // $('#authorInput').focus();
-        //     // $('#authorInput').on('input', getResults);
-        //  }
-         
-        //  $(document).ready(setup()); 
   </script>
+   <script type=text/javascript>
+      'use strict';
+  
+      let request = null;
+
+      $(document).ready(function() {
+        if (request != null)
+            request.abort();
+        
+        let reqData = {
+          food_id: $("[name='food_id']").val(),
+          college: $("[name='college']").val(),
+        };
+
+        request = $.ajax(
+          {
+            type: 'GET',
+            url: "/food-updates",
+            data: reqData,
+            success: function(response) {
+              $('#reviews-box').html(response['reviews']);
+            },
+            error: function(err) {
+              console.log(err);
+            },
+          }
+        );
+        
+        $("#form1").submit(function (event) 
+        {
+            let formData = {
+              rate: $('#star_rating').rateit('value'),
+              review: $("#reviews-text").val(),
+              food_id: $("[name='food_id']").val(),
+            };
+            
+            // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
+            let star_value = $('#star_rating').rateit('value');
+            let isValid = true;
+            if (star_value == 0) {
+              isValid = false;
+            }
+
+            // Display error message if no star is selected.
+            if (isValid) {
+              console.log("Submit button clicked")
+              $.ajax({
+                type: "POST",
+                url: "/food-updates",
+                data: formData,
+              }).done(function (data) {
+                console.log(data);
+                $('#reviews-text').val('');
+                $('#star_rating').rateit('reset');
+                // $('#reviews-box').prepend(formData['review'])
+
+                let reqData = {
+                  food_id: $("[name='food_id']").val(),
+                  college: $("[name='college']").val(),
+                };
+
+                $.ajax(
+                  {
+                    type: 'GET',
+                    url: "/food-updates",
+                    data: reqData,
+                    success: function(response) {
+                      $('#rating-box > p').html(response['food_rating'])
+                      $('#reviews-box').html(response['reviews']);
+                    },
+                    error: function(err) {
+                      console.log(err);
+                    },
+                  }
+                );
+              }).catch(function (err) {
+                console.log(err);
+              });
+  
+              event.preventDefault();
+            }
+            else {
+              // $("#spnError")[0].style.display = isValid ? "none" : "block";
+              event.preventDefault();
+              $("#spnError")[0].style.display = "block";
+              return false;
+            }
+        });
+
+        $("#star_rating").click(function () {
+          $("#spnError")[0].style.display = "none";
+        });
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
