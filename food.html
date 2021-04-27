@@ -74,28 +74,32 @@
   {% else: %}
   <!-- For large devices like laptops -->
   <div class="card-group mx-5 text-center justify-content-center mb-4" id="card_group">
-      {% for food in foods: %}
-      <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
-        {% if food[0] is none: %}
+    {% for food in foods: %}
+    <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
+      {% if food[0] is none: %}
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
             class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
-        {% else: %}
-        <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}">
+      {% else: %}
+        <div>  
           <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-             style="min-height: 11rem; max-height: 11rem;">
-        </a>
-        {% endif %}
+             style="min-height: 11rem; max-height: 11rem;" onclick = "show(food[4], loop.index)">
+        </div>
+      {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <a href="/food-desc?food_id={{food[4]}}&college={{college}}" style="color: inherit;">{{food[1]}}</a>
+          <div style="color: inherit;" onclick = "show(loop.index)">{{food[1]}}</div>
         </h5>
         {% if food[2] == 0 %}
-        <p class="card-text">Rating: No Rating Yet!</p>
+          <p class="card-text">Rating: No Rating Yet!</p>
         {% else: %}
-        <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+          <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-        <a href="/food-desc?food_id={{food[4]}}&college={{college}}" class="btn bttn rounded" style="color: #fff">Submit a Review</a>
+          <div class="btn bttn rounded" style="color: #fff" onclick = "show(food[4], loop.index)" 
+               id = "button{{loop.index}}">Submit a Review</div>
       </div>
+    </div>
+    <div id = "rev{{loop.index}}" style = "display: none;">
+      {{loop.index}}
     </div>
     {% endfor %}
   </div>
@@ -103,11 +107,7 @@
 
 
   <div class = "container-fluid">
-    <!-- <div style="display: flex; align-items: center; justify-content: center">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
-        View Reactions!
-      </button>
-    </div> -->
+
     <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" style = "max-width:80%" role="document">
         <div class="modal-content">
@@ -167,6 +167,19 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
+  <script>
+    function show(index){
+      temp = document.getElementById("rev" + index);
+      button = document.getElementById("button" + index);
+      if (temp.style.display === "none") {
+        div.style.display = "block";
+        button.textContent = "Hide Reviews";
+      } else {
+        div.style.display = "none";
+        button.textContent = "Show Reviews";
+      }
+    }
+  </script>
   
   <script type=text/javascript>
     'use strict';
