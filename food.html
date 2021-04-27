@@ -100,8 +100,14 @@
   {% endif %}
   
   <div id="reviewDiv">
-    {{food = foods[0]}}
-    {{food[0]}}
+    {% for food in foods: %}
+      {{food[1]}}
+      <div id="replace">
+        {% if loop.index = 3 %}
+          Sweet Home Alabama
+      </div>
+        {% endif %}
+    {% endfor %}
   </div>
 
   <div class = "container-fluid">
