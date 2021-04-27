@@ -98,9 +98,8 @@
                id = "button{{loop.index}}">Submit a Review</div>
       </div>
     </div>  
+    {% endfor %}
   </div>
-  
-  {% endfor %}
   {% endif %}
   {% if foods|length == 0: %}
   {% else: %}
