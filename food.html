@@ -64,6 +64,7 @@
   <div class="food-dhall-title" id="food_title">
     <h1>{{college.capitalize()}} {{meal_time}}</h1>
   </div>
+
   <div class="container mb-4">
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
@@ -71,6 +72,7 @@
       </button>
     </div>
   </div>
+
   {% if foods|length == 0: %}
   {% else: %}
   <!-- For large devices like laptops -->
@@ -83,25 +85,32 @@
       {% else: %}
         <div>  
           <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})">
+               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})" name="review_but">
         </div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <div style="color: inherit;" onclick = "show({{loop.index}})">{{food[1]}}</div>
+          <div style="color: inherit;" onclick = "show({{loop.index}})" name="review_but">
+            {{food[1]}}
+          </div>
         </h5>
         {% if food[2] == 0 %}
           <p class="card-text">Rating: No Rating Yet!</p>
         {% else: %}
           <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-          <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
-               id = "button{{loop.index}}">Submit a Review</div>
+          <!-- <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
+               name="review_but">Submit a Review</div> -->
+        <button class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}})" name="review_but" id="review_but_id" value="{{food[4]}}">
+          Submit a Review
+        </button>
+        <!-- <input type="button" class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}})" name="review_but" value="{{loop.index}}"/> -->
       </div>
     </div>  
     {% endfor %}
   </div>
   {% endif %}
+
   {% if foods|length == 0: %}
   {% else: %}
     {% for food in foods: %}
@@ -258,19 +267,17 @@
   
    <script type=text/javascript>
       'use strict';
-  
-      let request = null;
 
+      // Reviews Box Generation Code when Submit a Review Button is Clicked
       $(document).ready(function() {
-        if (request != null)
-            request.abort();
-        
-        let reqData = {
-          food_id: $("[name='food_id']").val(),
-          college: $("[name='college']").val(),
-        };
+        $("[name='review_but']").click(function () {
+          let reqData = {
+            food_id: $('#review_but_id').val(),
+            college: $("[name='college']").val(),
+          };
+          console.log(reqData);
 
-        request = $.ajax(
+          $.ajax(
           {
             type: 'GET',
             url: "/food-updates",
@@ -281,9 +288,11 @@
             error: function(err) {
               console.log(err);
             },
-          }
-        );
+          });
+        });
         
+
+        // Reviews Box Code
         $("#form1").submit(function (event) 
         {
             let formData = {
@@ -292,12 +301,14 @@
               food_id: $("[name='food_id']").val(),
             };
 
+            // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
             let star_value = $('#star_rating').rateit('value');
             let isValid = true;
             if (star_value == 0) {
               isValid = false;
             }
 
+            // Display error message if no star is selected.
             if (isValid) {
               console.log("Submit button clicked")
               $.ajax({
@@ -347,73 +358,66 @@
           $("#spnError")[0].style.display = "none";
         });
 
-      });
-  </script>
-  
-  <script type=text/javascript>
-    'use strict';
-
-    $(document).ready(function() {
-      $('#formR').validate({
-        errorClass: "error fail-alert",
-        messages : {
-          reaction: {
-          required: "Please enter a reaction!",
+        // Reactions Box Code
+        $('#formR').validate({
+          errorClass: "error fail-alert",
+          messages : {
+            reaction: {
+            required: "Please enter a reaction!",
+            }
           }
-        }
-      });
+        });
 
-      $("#formR").submit(function (event) 
-      {
-          let formData = {
-            reaction: $("#reactions-text").val(),
-            college: $("#collegeid").val(),
-          };
-          
-          if (formData.reaction != '') {
-            $.ajax({
-              type: "POST",
-              url: "/reactions",
-              data: formData,
-            }).done(function (data) {
-              console.log(data);
-              $('#reactions-text').val('');
-            }).catch(function (err) {
-              console.log(err);
-            });
-
-            event.preventDefault();
-          }
-      });
-      $('#show_hide').click(function() {
-        console.log("React button clicked")
-        longPoll();
-      })
-    });
-
-    function longPoll() {
-      console.log("In the longPoll function")
-      let college = $('#collegeid').val();
-      college = encodeURIComponent(college);
-      let url = '/reactions?college=' + college
-
-      $.ajax(
+        $("#formR").submit(function (event) 
         {
-          type: 'GET',
-          url: url,
-          success: function(response) {
-            $('#message-box').html(response);
-          },
-          error: function(err) {
-            console.log(err);
-          },
-          complete: longPoll
-        }
-      );
-    }
+            let formData = {
+              reaction: $("#reactions-text").val(),
+              college: $("#collegeid").val(),
+            };
+            
+            if (formData.reaction != '') {
+              $.ajax({
+                type: "POST",
+                url: "/reactions",
+                data: formData,
+              }).done(function (data) {
+                console.log(data);
+                $('#reactions-text').val('');
+              }).catch(function (err) {
+                console.log(err);
+              });
 
+              event.preventDefault();
+            }
+        });
+
+        $('#show_hide').click(function() {
+          console.log("React button clicked")
+          longPoll();
+        });
+      });
+
+      function longPoll() {
+        console.log("In the longPoll function")
+        let college = $('#collegeid').val();
+        college = encodeURIComponent(college);
+        let url = '/reactions?college=' + college
+
+        $.ajax(
+          {
+            type: 'GET',
+            url: url,
+            success: function(response) {
+              $('#message-box').html(response);
+            },
+            error: function(err) {
+              console.log(err);
+            },
+            complete: longPoll
+          }
+        );
+      }
   </script>
-
     
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
