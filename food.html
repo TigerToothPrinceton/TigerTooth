@@ -177,8 +177,6 @@
               </form>
           </div>
         </div>
-        <br>
-        <br>
       </div>
     {% endfor %}
   {% endif %}
@@ -249,7 +247,7 @@
       temp = document.getElementById("rev" + index);
       if (temp.style.display === "none") {
         temp.style.display = "block";
-        temp.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        temp.scrollIntoView(alignToTop);
       } else {
         temp.style.display = "none";
       }
