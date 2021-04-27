@@ -83,19 +83,19 @@
       {% else: %}
         <div style="cursor: pointer">  
           <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}})">
+               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}}, {{foods|length}})">
         </div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <div style="color: inherit; cursor: pointer" onclick = "show({{loop.index}})">{{food[1]}}</div>
+          <div style="color: inherit; cursor: pointer" onclick = "show({{loop.index}}, {{foods|length}})">{{food[1]}}</div>
         </h5>
         {% if food[2] == 0 %}
           <p class="card-text">Rating: No Rating Yet!</p>
         {% else: %}
           <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-          <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}})" 
+          <div class="btn bttn rounded" style="color: #fff" onclick = "show({{loop.index}}, {{foods|length}})" 
                id = "button{{loop.index}}">Submit a Review</div>
       </div>
     </div>  
@@ -243,21 +243,24 @@
 
   <script>
   
-  var closeR = null;
-    function show(index){
+
+    function show(index, max){
      
       temp = document.getElementById("rev" + index);
       if (temp.style.display === "none") {
-        if (closeR != null)
-        {
-          closed = document.getElementById(closeR);
-          closed.style.display = "none";
-        }
         temp.style.display = "block";
         temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        closeR = "rev" + index;
       } else {
         temp.style.display = "none";
+      }
+    
+      var i;
+      for (i = 0; i < max; i++) {
+        if (i != index)
+        {
+          clear = document.getElementById("rev" + i);
+          clear.style.display === "none";
+        }
       }
     }
   </script>
