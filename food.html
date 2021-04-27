@@ -100,8 +100,7 @@
   {% endif %}
   
   <div id="reviewDiv">
-    {% food = foods[0] %}
-    {{food[0]}}
+    {{foods[0]}}
   </div>
 
   <div class = "container-fluid">
@@ -171,7 +170,6 @@
   <script>
     function onClick(food_id, index) {
       r = document.getElementById("reviewDiv");
-      r.innerHTML = '{% food = foods[index] %}{{food[0]}}'
       
     }
   </script>
@@ -239,99 +237,8 @@
     }
 
   </script>
-   <script type=text/javascript>
-      'use strict';
-  
-      let request = null;
 
-      $(document).ready(function() {
-        if (request != null)
-            request.abort();
-        
-        let reqData = {
-          food_id: $("[name='food_id']").val(),
-          college: $("[name='college']").val(),
-        };
-
-        request = $.ajax(
-          {
-            type: 'GET',
-            url: "/food-updates",
-            data: reqData,
-            success: function(response) {
-              $('#reviews-box').html(response['reviews']);
-            },
-            error: function(err) {
-              console.log(err);
-            },
-          }
-        );
-        
-        $("#form1").submit(function (event) 
-        {
-            let formData = {
-              rate: $('#star_rating').rateit('value'),
-              review: $("#reviews-text").val(),
-              food_id: $("[name='food_id']").val(),
-            };
-            
-            // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
-            let star_value = $('#star_rating').rateit('value');
-            let isValid = true;
-            if (star_value == 0) {
-              isValid = false;
-            }
-
-            // Display error message if no star is selected.
-            if (isValid) {
-              console.log("Submit button clicked")
-              $.ajax({
-                type: "POST",
-                url: "/food-updates",
-                data: formData,
-              }).done(function (data) {
-                console.log(data);
-                $('#reviews-text').val('');
-                $('#star_rating').rateit('reset');
-                // $('#reviews-box').prepend(formData['review'])
-
-                let reqData = {
-                  food_id: $("[name='food_id']").val(),
-                  college: $("[name='college']").val(),
-                };
-
-                $.ajax(
-                  {
-                    type: 'GET',
-                    url: "/food-updates",
-                    data: reqData,
-                    success: function(response) {
-                      $('#rating-box > p').html(response['food_rating'])
-                      $('#reviews-box').html(response['reviews']);
-                    },
-                    error: function(err) {
-                      console.log(err);
-                    },
-                  }
-                );
-              }).catch(function (err) {
-                console.log(err);
-              });
-  
-              event.preventDefault();
-            }
-            else {
-              // $("#spnError")[0].style.display = isValid ? "none" : "block";
-              event.preventDefault();
-              $("#spnError")[0].style.display = "block";
-              return false;
-            }
-        });
-
-        $("#star_rating").click(function () {
-          $("#spnError")[0].style.display = "none";
-        });
-
+    
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>
