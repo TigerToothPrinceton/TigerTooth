@@ -255,6 +255,100 @@
     }
   </script>
   
+   <script type=text/javascript>
+      'use strict';
+  
+      let request = null;
+
+      $(document).ready(function() {
+        if (request != null)
+            request.abort();
+        
+        let reqData = {
+          food_id: $("[name='food_id']").val(),
+          college: $("[name='college']").val(),
+        };
+
+        request = $.ajax(
+          {
+            type: 'GET',
+            url: "/food-updates",
+            data: reqData,
+            success: function(response) {
+              $('#reviews-box').html(response['reviews']);
+            },
+            error: function(err) {
+              console.log(err);
+            },
+          }
+        );
+        
+        $("#form1").submit(function (event) 
+        {
+            let formData = {
+              rate: $('#star_rating').rateit('value'),
+              review: $("#reviews-text").val(),
+              food_id: $("[name='food_id']").val(),
+            };
+
+            let star_value = $('#star_rating').rateit('value');
+            let isValid = true;
+            if (star_value == 0) {
+              isValid = false;
+            }
+
+            if (isValid) {
+              console.log("Submit button clicked")
+              $.ajax({
+                type: "POST",
+                url: "/food-updates",
+                data: formData,
+              }).done(function (data) {
+                console.log(data);
+                $('#reviews-text').val('');
+                $('#star_rating').rateit('reset');
+
+
+                let reqData = {
+                  food_id: $("[name='food_id']").val(),
+                  college: $("[name='college']").val(),
+                };
+
+                $.ajax(
+                  {
+                    type: 'GET',
+                    url: "/food-updates",
+                    data: reqData,
+                    success: function(response) {
+                      $('#rating-box > p').html(response['food_rating'])
+                      $('#reviews-box').html(response['reviews']);
+                    },
+                    error: function(err) {
+                      console.log(err);
+                    },
+                  }
+                );
+              }).catch(function (err) {
+                console.log(err);
+              });
+  
+              event.preventDefault();
+            }
+            else {
+
+              event.preventDefault();
+              $("#spnError")[0].style.display = "block";
+              return false;
+            }
+        });
+
+        $("#star_rating").click(function () {
+          $("#spnError")[0].style.display = "none";
+        });
+
+      });
+  </script>
+  
   <script type=text/javascript>
     'use strict';
 
