@@ -102,12 +102,11 @@
   <div id="reviewDiv">
     {% for food in foods: %}
       <p> {{food[1]}} </p>
-      <div id="replace">
         {% if loop.index == 3 %}
-          <p> TEST </p>
+          <div id="replace">
+            <p> TEST </p>
+          </div>
         {% endif %}
-      </div>
-
     {% endfor %}
   </div>
 
@@ -177,8 +176,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
   <script>
     function onClick(food_id, index) {
-      r = document.getElementById("replace");
-      r.innerHTML = '{% if loop.index == 3 %} <p> CHANGED </p> {% endif %}';
+      document.getElementById("replace").innerHTML = '<p> CHANGED </p>';
     }
   </script>
   
