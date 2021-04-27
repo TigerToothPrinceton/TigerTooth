@@ -80,8 +80,10 @@
         <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
             class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
         {% else: %}
-        <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-             style="min-height: 11rem; max-height: 11rem;" onClick="onClick({{food[4]}}, {{loop.index}})">
+        <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}">
+          <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
+             style="min-height: 11rem; max-height: 11rem;">
+        </a>
         {% endif %}
       <div class="card-body">
         <h5 class="card-title">
@@ -98,18 +100,7 @@
     {% endfor %}
   </div>
   {% endif %}
-  
-  <div id="reviewDiv">
-    {% for food in foods: %}
-      <p> {{food[1]}} </p>
-        <div id="replace">
-          {% if loop.index == 3 %}
 
-            <p> TEST </p>
-          {% endif %}
-        </div>
-    {% endfor %}
-  </div>
 
   <div class = "container-fluid">
     <!-- <div style="display: flex; align-items: center; justify-content: center">
@@ -175,11 +166,7 @@
  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-  <script>
-    function onClick(food_id, index) {
-      document.getElementById("replace").innerHTML = `{% if loop.index == 1 %}` + '<p> CHANGED </p>' + `{% endif %}`;
-    }
-  </script>
+
   
   <script type=text/javascript>
     'use strict';
