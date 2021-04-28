@@ -26,7 +26,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
 
-            insert_query = "INSERT INTO reactions (reaction, net_id, dhall, time) VALUES (%s, %s, %s, %s)"
+            insert_query = "INSERT INTO reactions (reaction, net_id, dhall, time, hour) VALUES (%s, %s, %s, %s, %s)"
 
             cursor.execute(insert_query, data)
             self._connection.commit()
@@ -158,20 +158,27 @@ class Database():
             cursor = self._connection.cursor()
             time1 = 20
             time2 = 5
+
             if meal == "Breakfast":
                 time1 = 5
                 time2 = 10
+                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
+                cursor.execute(delete_query, [time1, time2])
+                self._connection.commit()
             if meal == "Lunch":
                 time1 = 10
                 time2 = 14
+                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
+                cursor.execute(delete_query, [time1, time2])
+                self._connection.commit()
             if meal == "Dinner":
                 time1 = 14
                 time2 = 20
-            # do not use .format for the SQL statements; use %s (see code above for example)
-            delete_query = "DELETE from reactions WHERE ".format(
-                food_url, api_id)
-            cursor.execute(update_query)
-            self._connection.commit()
+                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
+                cursor.execute(delete_query, [time1, time2])
+                self._connection.commit()
+            
+
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception(

@@ -80,13 +80,14 @@ def reactions():
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
+        hour = now.strftime("%-H")
         cur_time = now.strftime("%I:%M %p")
         # data = (reaction, user_id, dhall, cur_time)
         try:
             database = Database()
             database.connect()
             database.add_user(username)
-            data = (reaction, username, dhall, cur_time)
+            data = (reaction, username, dhall, cur_time, hour)
             database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
@@ -121,7 +122,7 @@ def reactions():
                         #     '</div>' + \
                         #     '</div>'
                         html += '<div class = "col-4 pt-2 pb-2" style = "font-size: 16px;">' + \
-                            '<div class = "mymessagetime" style="padding-left: 10px; padding-bottom: 10px;">' + reaction[4] + '</div>' + \
+                            '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 5px; font-size:12px">' + reaction[4] + '</div>' + \
                             '</div>' + \
                             '<div class="col-8 pt-2 pb-2" style="font-size: 16px;">' + \
                             '<div class="mymessage pBox">' + \
@@ -130,7 +131,7 @@ def reactions():
                             '</div>'
                     else:
                         html += '<div class = "col-8 pt-2 pb-2" style = "font-size: 16px;"> <div class = "message pBox">' + \
-                            reaction[1] + '</div></div><div class="col-4 pt-2 pb-2" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 10px; padding-bottom: 10px;">' + \
+                            reaction[1] + '</div></div><div class="col-4 pt-2 pb-2" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 5px; font-size:12px; padding-bottom: 10px;">' + \
                                 reaction[4] + '</div></div>'
                     html += '</div>'
             # html = render_template('reactions.html', rows=rows, college=dhall)
@@ -206,7 +207,6 @@ def food():
                 meal = "Lunch"
             elif (time_hour >= 14 and time_hour < 20):
                 meal = "Dinner"
-            # database.clear_db(meal)
 
             # Get locationID
             locationID = 1
@@ -228,6 +228,7 @@ def food():
             menu_arr = menu['menus']
             database = Database()
             database.connect()
+            database.clear_db(meal)
             database.add_user(username)
             # add new foods to the database if they do not exist
             database.add_food(menu_arr, dhall)
