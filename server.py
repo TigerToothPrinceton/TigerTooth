@@ -129,7 +129,7 @@ def reactions():
                         #     '</div>' + \
                         #     '</div>'
                         html += '<div class = "col-4 pt-2 pb-2" style = "font-size: 16px;">' + \
-                            '<div class = "mymessagetime" style="padding-left: 10px; padding-bottom: 10px;">' + reaction[4] + '</div>' + \
+                            '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 10px;">' + reaction[4] + '</div>' + \
                             '</div>' + \
                             '<div class="col-8 pt-2 pb-2" style="font-size: 16px;">' + \
                             '<div class="mymessage pBox">' + \
@@ -138,7 +138,7 @@ def reactions():
                             '</div>'
                     else:
                         html += '<div class = "col-8 pt-2 pb-2" style = "font-size: 16px;"> <div class = "message pBox">' + \
-                            reaction[1] + '</div></div><div class="col-4 pt-2 pb-2" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 10px; padding-bottom: 10px;">' + \
+                            reaction[1] + '</div></div><div class="col-4 pt-2 pb-2" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 5px; padding-bottom: 10px;">' + \
                                 reaction[4] + '</div></div>'
                     html += '</div>'
             # html = render_template('reactions.html', rows=rows, college=dhall)
