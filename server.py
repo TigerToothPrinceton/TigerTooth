@@ -87,14 +87,14 @@ def reactions():
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
-        hour = now.strftim("%-H")
+        # hour = now.strftim("%-H")
         cur_time = now.strftime("%I:%M %p")
         # data = (reaction, user_id, dhall, cur_time)
         try:
             database = Database()
             database.connect()
             database.add_user(username)
-            data = (reaction, username, dhall, cur_time, hour)
+            data = (reaction, username, dhall, cur_time)
             database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
