@@ -76,7 +76,7 @@
       </div>
       <div class="container mb-4">
         <div style="display: flex; align-items: center; justify-content: center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviews-{{loop.index}}">
+          <button type="button" class="btn bttn rounded" style="color: #fff" data-toggle="modal" data-target="#reviews-{{loop.index}}">
             See Your Review!
           </button>
         </div>
@@ -100,8 +100,11 @@
                       <figure>
                         <img src="{{review[1]}}" alt="Submit a Photo Here!" class="img-fluid rounded" style="height: auto; width: 100%;">
                         <figcaption style="margin-top: 10px">
-                          {{review[0]}}
-                          <p style="margin: 10px 0;">Rating: {{review[4]}}</p>
+                          <h3>
+                            {{review[0]}}
+                          </h3>
+                          <p style="margin: 10px 0; font-size: smaller">Dining Hall: {{review[2].capitalize()}}</p>
+                          <p style="margin: 10px 0; font-size: smaller">Your Rating: {{review[4]}}</p>
                         </figcaption>
                       </figure>
                     </div>
@@ -110,7 +113,7 @@
                 </div>
                 <div class="container-fluid">
                   <div class="row">
-                    <h3 class="text-xs-center text-center">Reviews</h3>
+                    <h3 class="text-xs-center text-center" style="font-weight: 400;">Your Review</h3>
                   </div>
                 </div> 
                 <div class="container-fluid">
