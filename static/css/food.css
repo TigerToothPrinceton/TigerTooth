@@ -31,16 +31,15 @@
   overflow: auto;
 }
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {...}
-{
-  .modal-content{
-    width: 100%;
-  } 
-  .modal-dialog{
-    max-width: 100%;
+@media (max-width: 480px) {
+  .modal-content {
+    width:100%;
+  }
+  .modal-dialog {
+    max-width:100%;
   }
 }
+
 body.modal-open {
     position: fixed;
     overflow: hidden;
