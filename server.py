@@ -214,7 +214,6 @@ def food():
                 meal = "Lunch"
             elif (time_hour >= 14 and time_hour < 20):
                 meal = "Dinner"
-            print("Lunch time")
             database.clear_db(meal)
 
             # Get locationID
@@ -252,7 +251,6 @@ def food():
                 review = database.get_reviews(food_id)
                 reviews.append(review)
             rows = database.get_reactions(dhall)
-            print(rows)
 
             database.disconnect()
             html = render_template('food.html', foods=foods, rows=rows,
