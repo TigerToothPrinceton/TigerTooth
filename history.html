@@ -57,7 +57,7 @@
       </div>
       <div class="container mb-4">
         <div style="display: flex; align-items: center; justify-content: center">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviews">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviews" onclick="passData({{review}})">
             See Your Review!
           </button>
         </div>
@@ -85,8 +85,8 @@
                       <figure>
                         <img src="{{review[1]}}" alt="Submit a Photo Here!" class="img-fluid rounded" style="height: auto; width: 100%;">
                         <figcaption style="margin-top: 10px">
-                          {{review[0]}}
-                          <p style="margin: 10px 0;">Rating: {{review[6]}}</p>
+                          <div id = "name"></div>
+                          <p style="margin: 10px 0;" id = "rating"></p>
                         </figcaption>
                       </figure>
                     </div>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="container-fluid">
                   <div class="row">
-                    <h3 class="text-xs-center text-center">Reviews</h3>
+                    <h3 class="text-xs-center text-center">Review</h3>
                   </div>
                 </div> 
                 <div class="container-fluid">
@@ -103,8 +103,7 @@
                     <div class="col-2"></div>
                     <div class="col-8 pl-1 pr-1 pt-1 pb-1" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 15vh; max-height:30vh; overflow: auto">
                           <div class="row border-bottom align-items-center">
-                            <div class="col" style="font-size: 16px;">
-                              {{review[5]}}
+                            <div class="col" style="font-size: 16px;" id = "review">
                             </div>
                           </div>
                     </div>
@@ -117,6 +116,16 @@
       </div>
     </div>
 
+  <script>
+      function passData(review){
+        name = document.getElementById("name");
+        rating = document.getElementById("rating");
+        reviews = document.getElementById("review");
+        name.innerHTML += review[0];
+        rating.innerHTML += "Rating: " + review[6];
+        reviews += review[5];
+      }
+  </script>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
