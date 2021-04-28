@@ -87,7 +87,6 @@ def reactions():
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
-        # hour = now.strftim("%-H")
         cur_time = now.strftime("%I:%M %p")
         # data = (reaction, user_id, dhall, cur_time)
         try:
