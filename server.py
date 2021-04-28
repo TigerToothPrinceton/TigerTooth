@@ -129,7 +129,7 @@ def reactions():
                         #     '</div>' + \
                         #     '</div>'
                         html += '<div class = "col-4 pt-2 pb-2" style = "font-size: 16px;">' + \
-                            '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 10px; font-size:12px">' + reaction[4] + '</div>' + \
+                            '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 5px; font-size:12px">' + reaction[4] + '</div>' + \
                             '</div>' + \
                             '<div class="col-8 pt-2 pb-2" style="font-size: 16px;">' + \
                             '<div class="mymessage pBox">' + \
