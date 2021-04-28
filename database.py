@@ -26,7 +26,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
 
-            insert_query = "INSERT INTO reactions (reaction, net_id, dhall, time) VALUES (%s, %s, %s, %s)"
+            insert_query = "INSERT INTO reactions (reaction, net_id, dhall, time, hour) VALUES (%s, %s, %s, %s, %s)"
 
             cursor.execute(insert_query, data)
             self._connection.commit()
