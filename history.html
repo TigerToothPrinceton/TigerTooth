@@ -46,22 +46,74 @@
           class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% else: %}
       <!-- Clicking on this link should lead to a pop up rectangular box with more info like review[5] (written review) and review[4] (rating) -->
-      <a href="food-desc?food_id={{review[6]}}&college={{review[2]}}"><img src="{{review[1]}}" alt="No photo"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
+      <div ><img src="{{review[1]}}" alt="No photo" data-toggle="modal" data-target="#reviews"
+          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
           <!-- Clicking on this link should lead to a pop up rectangular box with more info like review[4] (written review) and review[3] (rating) -->
-          <a href="/food-desc?food_id={{review[6]}}&college={{review[2]}}" style="color: inherit;">{{review[0]}}</a>
+          <p data-toggle="modal" data-target="#reviews" style="color: inherit;">{{review[0]}}</p>
         </h5>
-        <p class="card-text">Dining Hall: {{review[2].capitalize()}}</p>
+        <div class="card-text">Dining Hall: {{review[2].capitalize()}}</div>
+      </div>
+    </div>
+    <div class = "container-fluid">
+      <div class="modal fade" data-backdrop="false" id="reviews" tabindex="-1" role="dialog" aria-labelledby="reviewsTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style = "max-width:80%" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style = "text-align:center; vertical-align:middle">
+              <h5 class="modal-title" id="reviewsTitle">Reviews</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid mt-5">
+                  <div class="row">
+                    <div class="col-1 col-sm-3 col-md-4"></div>
+                    <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
+                      <figure>
+                        <img src="{{review[1]}}" alt="Submit a Photo Here!" class="img-fluid rounded" style="height: auto; width: 100%;">
+                        <figcaption style="margin-top: 10px">
+                          {{review[0]}}
+                          <p style="margin: 10px 0;">Rating: {{(review[6]}}</p>
+                          <!-- removing description <i>Description: {{food[4]}}</i> -->
+                        </figcaption>
+                      </figure>
+                    </div>
+                    <div class="col-1 col-sm-3 col-md-4"></div>
+                  </div>
+                </div>
+                <div class="container-fluid">
+                  <div class="row">
+                    <h3 class="text-xs-center text-center">Reviews</h3>
+                  </div>
+                </div> 
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8 pl-1 pr-1 pt-1 pb-1" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 15vh; max-height:30vh; overflow: auto">
+                          <div class="row border-bottom align-items-center">
+                            <div class="col" style="font-size: 16px;">
+                              {{review[5]}}
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-2"></div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endfor %}
   </div>
 
   {% endif %}
+ 
 
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>
