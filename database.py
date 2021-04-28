@@ -158,24 +158,25 @@ class Database():
             cursor = self._connection.cursor()
             time1 = 20
             time2 = 5
+            print("Here")
             if meal == "Breakfast":
                 time1 = 5
                 time2 = 10
-                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour > %s"
+                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
                 print("Breakfast")
             if meal == "Lunch":
                 time1 = 10
                 time2 = 14
-                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour > %s"
+                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
                 print("Lunch")
             if meal == "Dinner":
                 time1 = 14
                 time2 = 20
-                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour > %s"
+                delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
                 print("Dinner")
