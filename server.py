@@ -87,13 +87,14 @@ def reactions():
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
+        hour = now.strftime(%-H)
         cur_time = now.strftime("%I:%M %p")
         # data = (reaction, user_id, dhall, cur_time)
         try:
             database = Database()
             database.connect()
             database.add_user(username)
-            data = (reaction, username, dhall, cur_time)
+            data = (reaction, username, dhall, cur_time, hour)
             database.add_reaction(data)
             database.disconnect()
             # return redirect(url_for('/reactions-temp'), college=dhall)
@@ -234,6 +235,7 @@ def food():
             menu_arr = menu['menus']
             database = Database()
             database.connect()
+            database.clear_db(meal)
             database.add_user(username)
             # add new foods to the database if they do not exist
             database.add_food(menu_arr, dhall)
