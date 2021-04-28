@@ -177,6 +177,12 @@ class Database():
                 delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
+            
+            time1 = 5
+            time2 = 10
+            delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
+            cursor.execute(delete_query, [time1, time2])
+            self._connection.commit()
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception(
