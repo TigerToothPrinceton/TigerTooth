@@ -213,7 +213,6 @@ def food():
                 meal = "Lunch"
             elif (time_hour >= 14 and time_hour < 20):
                 meal = "Dinner"
-            # database.clear_db(meal)
 
             # Get locationID
             locationID = 1
