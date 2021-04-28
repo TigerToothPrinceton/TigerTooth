@@ -40,6 +40,15 @@
   }
 }
 
+@media (min-width: 481px) {
+  .modal-content {
+    width:100%;
+  }
+  .modal-dialog {
+    max-width:80%;
+  }
+}
+
 body.modal-open {
     position: fixed;
     overflow: hidden;
