@@ -7,8 +7,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
   
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/rateit.css') }}" />
+
 
   <title>{{college.capitalize()}} {{meal_time}} Menu</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
@@ -20,31 +22,32 @@
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
 
   <script>
-    $(document).ready(function(){
-        function alignModal(){
-            var modalDialog = $(this).find(".modal-dialog");
+    $(document).ready(function () {
+      function alignModal() {
+        var modalDialog = $(this).find(".modal-dialog");
 
-            // Applying the top margin on modal to align it vertically center
-            modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
-        }
-        // Align modal when it is displayed
-        $(".modal").on("shown.bs.modal", alignModal);
+        // Applying the top margin on modal to align it vertically center
+        modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+      }
+      // Align modal when it is displayed
+      $(".modal").on("shown.bs.modal", alignModal);
 
-        // Align modal when user resize the window
-        $(window).on("resize", function(){
-            $(".modal:visible").each(alignModal);
-        });   
+      // Align modal when user resize the window
+      $(window).on("resize", function () {
+        $(".modal:visible").each(alignModal);
+      });
     });
   </script>
-  
+
   <script>history.scrollRestoration = "manual"</script>
-  
+
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
-       <a class="navbar-brand fs-4" href="dhall"><img src="https://i.imgur.com/AufcPrM.png" width="auto" height="50"> TigerTooth</a>
+      <a class="navbar-brand fs-4" href="dhall"><img src="https://i.imgur.com/AufcPrM.png" width="auto" height="50">
+        TigerTooth</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -82,159 +85,78 @@
     {% for food in foods: %}
     <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
       {% if food[0] is none: %}
-        <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
-            class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
+      <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
+          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% else: %}
-        <div style="cursor: pointer">
-          <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top" 
-               style="min-height: 11rem; max-height: 11rem;" onclick = "show({{loop.index}}, {{foods|length}})" name="review_but">
-        </div>
+      <div style="cursor: pointer">
+        <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top"
+          style="min-height: 11rem; max-height: 11rem;" name="food_img" id="{{food[4]}}">
+      </div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
-          <div style="color: inherit; cursor: pointer;" onclick="show({{loop.index}}, {{foods|length}})" name="review_but">
+          <div style="color: inherit; cursor: pointer;" name="food_name" id="{{food[4]}}">
             {{food[1]}}
           </div>
         </h5>
         {% if food[2] == 0 %}
-          <p class="card-text">Rating: No Rating Yet!</p>
+        <p class="card-text" id="{{food[4]}}s">Rating: No Rating Yet!</p>
         {% else: %}
-          <p class="card-text">Rating: {{(food[3]/food[2])|round(1)}}</p>
+        <p class="card-text" id="{{food[4]}}s">Rating: {{(food[3]/food[2])|round(1)}}</p>
         {% endif %}
-        <button class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}}, {{foods|length}})" name="review_but" id="review_but_id" value="{{food[4]}}">
+        <button class="btn bttn rounded" style="color: #fff" name="review_but" value="{{food[4]}}">
           Submit a Review
         </button>
-
-          <!-- <div class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}}, {{foods|length}})"
-            id="button{{loop.index}}">Submit a Review</div> -->
-        <!-- <input type="button" class="btn bttn rounded" style="color: #fff" onclick="show({{loop.index}})" name="review_but" value="{{loop.index}}"/> -->
       </div>
-    </div>  
+    </div>
     {% endfor %}
   </div>
   {% endif %}
 
-  {% if foods|length == 0: %}
-  {% else: %}
-    {% for food in foods: %}
-      <div id = "rev{{loop.index}}" style = "display: none;">
-        {% if food|length == 0: %}
-        {% else: %}
-          <div class="container-fluid mt-5" id="food_descrip">
-            <div class="row">
-              <div class="col-1 col-sm-3 col-md-4"></div>
-              <div class="col-10 col-sm-6 col-md-4 pl-1 pr-1">
-                <br>
-                <figure>
-                  {% if food[0] is not none: %}
-                  <img src="{{food[0]}}" alt="" class="img-fluid rounded" style="height: auto; width: 80%; margin-right:10%; margin-left:10%">
-                  {% endif %}
-                  <figcaption style="margin-top: 10px" id="rating-box">
-                    {{food[1]}}
-                    {% if food[2] == 0 %}
-                    <p style="margin: 10px 0;">Rating: No Rating Yet!</p>
-                    {% else: %}
-                    <p style="margin: 10px 0;">Rating: {{(food[3]/food[2])|round(1)}}</p>
-                    {% endif %}
-                  </figcaption>
-                </figure>
-              </div>
-              <div class="col-1 col-sm-3 col-md-4"></div>
-            </div>
-          </div>
-        {% endif %}
-        <div class="container-fluid reviews_area">
-          <div class="row">
-            <h3 class="text-xs-center text-center">Reviews</h3>
-          </div>
-        </div> 
+  <!-- Code for the reviews popping up at bottom here -->
+  <span id="reviews-generate"></span>
 
-        <div class="container-fluid reviews_area">
-          <div class="row" id="reviews-box">
-          </div>
-        </div>
-
-        <div class="container-fluid" id="submit_area">
-          <div class="row">
-              <form action="food" method="POST" class="reviews-form" id="form1">
-                <div class="controls">
-                  <div class="row">
-                    <div class="col-2 col-md-3"></div>
-                    <div class="col-8 col-md-6">
-                      <p style="font-size: 18px; text-align:center;">Submit ratings and reviews here!</p>
-                      <div class="rateit mb-2" data-rateit-mode="font" data-rateit-resetable="false" style="font-size:40px" data-rateit-step="1" id="star_rating">
-                      </div>
-                      <div class="form-group">
-                          <textarea name="review" class="form-control mb-4" id="reviews-text" placeholder="Leave a review here!" rows="3" cols = "30" ></textarea>
-                      </div>
-                    </div>
-                    <div class="col-2 col-md-3"></div>
-                  </div>
-
-                  <div class ="row">
-                    <div class="col-sm"></div>
-                    <div class="col-sm">
-                      <p id="spnError" class="error" style="display: none; margin-top: -43px">Please select a rating!</p>
-                    </div>
-                    <div class="col-sm"></div>
-                  </div>
-                  <div class = "row">
-                    <div class="col-sm">
-                      <input type="submit" id="btnSubmit" class="btn btn-primary btn-send" value="Submit!">
-                      <input type="hidden" name="college" value="{{college}}">
-                      <input type="hidden" name="food_id" value="{{food[4]}}">
-                    </div>
-                  </div>
-                </div>
-              </form>
-          </div>
-        </div>
-
-        
-      </div>
-    {% endfor %}
-  {% endif %}
-
-  <div class = "container-fluid">
-
-    <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style = "max-width:80%" role="document">
+  <div class="container-fluid">
+    <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog"
+      aria-labelledby="reactionsTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width:80%" role="document">
         <div class="modal-content">
-          <div class="modal-header" style = "text-align:center; vertical-align:middle">
+          <div class="modal-header" style="text-align:center; vertical-align:middle">
             <h5 class="modal-title" id="reactionsTitle">Reactions</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true"></span>
             </button>
           </div>
           <div class="modal-body">
-          {% if rows|length == 0: %}
-          {% else: %}
-          <div class="container-fluid">
-            <div class="row">
-                  <div class="col-1 col-sm-2"></div>
-                  <div class="col-10 col-sm-8 pl-1 pr-1"
-                    style="border:2px solid #000000; border-radius: 0.4rem; min-height: 50vh; max-height:50vh; overflow: auto" id="message-box">
-                  </div>
-                  <div class="col-1 col-sm-2"></div>
+            {% if rows|length == 0: %}
+            {% else: %}
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-1 col-sm-2"></div>
+                <div class="col-10 col-sm-8 pl-1 pr-1"
+                  style="border:2px solid #000000; border-radius: 0.4rem; min-height: 50vh; max-height:50vh; overflow: auto"
+                  id="message-box">
+                </div>
+                <div class="col-1 col-sm-2"></div>
+              </div>
             </div>
-          </div>
-          {% endif %}
-          <br>
-          <div class="container-fluid">
-            <div class="row">
-              <form action="reactions" method="POST" class="reactions-form" id="formR">
-                <div class="controls">
-                  <div class="row">
-                    <div class="col-2"></div>
-                    <div class="col-8">
-                      <div class="form-group">
-                        <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!" rows="3"
-                          cols="30" id="reactions-text" required></textarea>
+            {% endif %}
+            <br>
+            <div class="container-fluid">
+              <div class="row">
+                <form action="reactions" method="POST" class="reactions-form" id="formR">
+                  <div class="controls">
+                    <div class="row">
+                      <div class="col-2"></div>
+                      <div class="col-8">
+                        <div class="form-group">
+                          <textarea name="reaction" class="form-control" placeholder="Enter your reaction here!"
+                            rows="3" cols="30" id="reactions-text" required></textarea>
+                        </div>
                       </div>
+                      <div class="col-2"></div>
                     </div>
-                    <div class="col-2"></div>
-                  </div>
-                  <br>
+                    <br>
                     <div class="row">
                       <div class="col-sm">
                         <input type="submit" class="btn btn-primary btn-send" value="React" id="submit_but">
@@ -250,54 +172,64 @@
       </div>
     </div>
   </div>
-  <br>
-  <br>
- 
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+  <script src="{{ url_for('static', filename='js/jquery.rateit.min.js') }}"></script>
 
-  <!-- <script>
-    function show(index){
-      temp = document.getElementById("rev" + index);
-      if (temp.style.display === "none") {
-        temp.style.display = "block";
-        temp.scrollTop = temp.scrollHeight;
-      } else {
-        temp.style.display = "none";
-      }
-    }
-  </script> -->
-  
-   <script type=text/javascript>
+  <script type=text/javascript>
       'use strict';
-      window.onload = function () {
-        window.scrollTo(0,0);
-      };
+      // window.onload = function () {
+      //   window.scrollTo(0,0);
+      // };
+      
+      // function show(index, max, food_id) {
+      //   let reqData = {
+      //     food_id: food_id,
+      //     college: $("[name='college']").val(),
+      //   };
+      //   console.log(reqData);
 
-      function show(index, max) {
-     
-        temp = document.getElementById("rev" + index);
-        if (temp.style.display === "none") {
-          temp.style.display = "block";
-          temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          temp.style.display = "none";
-        }
-        console.log(max);
-        for (i = 1; i < max; i++) {
-          if (i != index)
-          {
-            clear = document.getElementById("rev" + i);
-            clear.style.display = "none";
-          }
-        }
-      }
+      //   $.ajax(
+      //   {
+      //     type: 'GET',
+      //     url: "/food-updates",
+      //     data: reqData,
+      //     success: function(response) {
+      //       console.log(response)
+      //       let the_box = "#reviews-box" + index;
+      //       console.log(the_box)
+      //       $(the_box).html(response['reviews']);
+      //     },
+      //     error: function(err) {
+      //       console.log(err);
+      //     },
+      //   });
 
-      // Reviews Box Generation Code when Submit a Review Button is Clicked
+      //   let temp = document.getElementById("rev" + index);
+      //   if (temp.style.display === "none") {
+      //     temp.style.display = "block";
+      //     temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      //   } else {
+      //     temp.style.display = "none";
+      //   }
+      //   for (let i = 1; i < max; i++) {
+      //     if (i != index)
+      //     {
+      //       let clear = document.getElementById("rev" + i);
+      //       clear.style.display = "none";
+      //     }
+      //   }
+      //   $('div.rateit, span.rateit').rateit();
+        
+      //   $('div.rateit, span.rateit').rateit();
+      // }
+
       $(document).ready(function() {
+        // Reviews Generation Code when Submit a Review Button is Clicked
         $("[name='review_but']").click(function () {
           let reqData = {
-            food_id: $('#review_but_id').val(),
+            food_id: $(this).val(),
             college: $("[name='college']").val(),
           };
           console.log(reqData);
@@ -305,21 +237,67 @@
           $.ajax(
           {
             type: 'GET',
-            url: "/food-updates",
+            url: "/food-desc",
             data: reqData,
             success: function(response) {
-              $('#reviews-box').html(response['reviews']);
+              $('#reviews-generate').html(response);
+              $('div.rateit, span.rateit').rateit();
+              $.ajax(
+                {
+                  type: 'GET',
+                  url: "/food-updates",
+                  data: reqData,
+                  success: function(response) {
+                    $('#reviews-box').html(response['reviews']);
+                  },
+                  error: function(err) {
+                    console.log(err);
+                  },
+                });
             },
             error: function(err) {
               console.log(err);
             },
           });
         });
-        
 
-        // Reviews Box Code
-        $("#form1").submit(function (event) 
-        {
+        // $('body').on('click', "[name='food_img']", function() {
+        //   let reqData = {
+        //     food_id: $(this).val(),
+        //     college: $("[name='college']").val(),
+        //   };
+        //   console.log(reqData);
+
+        //   $.ajax(
+        //   {
+        //     type: 'GET',
+        //     url: "/food-desc",
+        //     data: reqData,
+        //     success: function(response) {
+        //       $('#reviews-generate').html(response);
+        //       $('div.rateit, span.rateit').rateit();
+        //       $.ajax(
+        //         {
+        //           type: 'GET',
+        //           url: "/food-updates",
+        //           data: reqData,
+        //           success: function(response) {
+        //             $('#reviews-box').html(response['reviews']);
+        //           },
+        //           error: function(err) {
+        //             console.log(err);
+        //           },
+        //         });
+        //     },
+        //     error: function(err) {
+        //       console.log(err);
+        //     },
+        //   });
+        // });
+
+        // Grabbing and Updating Reviews Box Code
+        $("#reviews-generate").on("submit", "#form1", function(event) {
+            console.log("In here");
             let formData = {
               rate: $('#star_rating').rateit('value'),
               review: $("#reviews-text").val(),
@@ -328,6 +306,7 @@
 
             // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
             let star_value = $('#star_rating').rateit('value');
+            console.log(star_value);
             let isValid = true;
             if (star_value == 0) {
               isValid = false;
@@ -357,8 +336,9 @@
                     url: "/food-updates",
                     data: reqData,
                     success: function(response) {
-                      $('#rating-box > p').html(response['food_rating'])
+                      $('#rating-box > p').html(response['food_rating']);
                       $('#reviews-box').html(response['reviews']);
+                      $('#' + reqData['food_id'] + 's').html(response['food_rating']);
                     },
                     error: function(err) {
                       console.log(err);
@@ -372,14 +352,76 @@
               event.preventDefault();
             }
             else {
-
               event.preventDefault();
               $("#spnError")[0].style.display = "block";
               return false;
             }
         });
 
-        $("#star_rating").click(function () {
+        // $("#form1").submit(function (event) 
+        // {
+        //     console.log("In here");
+        //     let formData = {
+        //       rate: $('#star_rating').rateit('value'),
+        //       review: $("#reviews-text").val(),
+        //       food_id: $("[name='food_id']").val(),
+        //     };
+
+        //     // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
+        //     let star_value = $('#star_rating').rateit('value');
+        //     console.log(star_value);
+        //     let isValid = true;
+        //     if (star_value == 0) {
+        //       isValid = false;
+        //     }
+
+        //     // Display error message if no star is selected.
+        //     if (isValid) {
+        //       console.log("Submit button clicked")
+        //       $.ajax({
+        //         type: "POST",
+        //         url: "/food-updates",
+        //         data: formData,
+        //       }).done(function (data) {
+        //         console.log(data);
+        //         $('#reviews-text').val('');
+        //         $('#star_rating').rateit('reset');
+
+
+        //         let reqData = {
+        //           food_id: $("[name='food_id']").val(),
+        //           college: $("[name='college']").val(),
+        //         };
+
+        //         $.ajax(
+        //           {
+        //             type: 'GET',
+        //             url: "/food-updates",
+        //             data: reqData,
+        //             success: function(response) {
+        //               $('#rating-box > p').html(response['food_rating'])
+        //               $('#reviews-box').html(response['reviews']);
+        //             },
+        //             error: function(err) {
+        //               console.log("In errors")
+        //               console.log(err);
+        //             },
+        //           }
+        //         );
+        //       }).catch(function (err) {
+        //         console.log(err);
+        //       });
+  
+        //       event.preventDefault();
+        //     }
+        //     else {
+        //       event.preventDefault();
+        //       $("#spnError")[0].style.display = "block";
+        //       return false;
+        //     }
+        // });
+
+        $("#reviews-generate").on("click", "#star_rating", function() {
           $("#spnError")[0].style.display = "none";
         });
 
@@ -417,16 +459,86 @@
         });
 
         $('#show_hide').click(function() {
-          console.log("React button clicked")
+          console.log("React button clicked");
           longPoll();
         });
       });
 
+      // $(window).load(function() {
+      //   $("[name='food_name'], [name='food_img']").click(function () {
+          // let reqData = {
+          //   food_id: $(this).val(),
+          //   college: $("[name='college']").val(),
+          // };
+          // console.log(reqData);
+
+          // $.ajax(
+          // {
+          //   type: 'GET',
+          //   url: "/food-desc",
+          //   data: reqData,
+          //   success: function(response) {
+          //     $('#reviews-generate').html(response);
+          //     $('div.rateit, span.rateit').rateit();
+          //     $.ajax(
+          //       {
+          //         type: 'GET',
+          //         url: "/food-updates",
+          //         data: reqData,
+          //         success: function(response) {
+          //           $('#reviews-box').html(response['reviews']);
+          //         },
+          //         error: function(err) {
+          //           console.log(err);
+          //         },
+          //       });
+          //   },
+          //   error: function(err) {
+          //     console.log(err);
+          //   },
+          // });
+      //   });
+      // });
+
+      $(document).on('click', "[name='food_name'], [name='food_img']", function(e) {
+        let reqData = {
+          food_id: $(this).attr('id'),
+          college: $("[name='college']").val(),
+        };
+        console.log(reqData);
+
+        $.ajax(
+        {
+          type: 'GET',
+          url: "/food-desc",
+          data: reqData,
+          success: function(response) {
+            $('#reviews-generate').html(response);
+            $('div.rateit, span.rateit').rateit();
+            $.ajax(
+              {
+                type: 'GET',
+                url: "/food-updates",
+                data: reqData,
+                success: function(response) {
+                  $('#reviews-box').html(response['reviews']);
+                },
+                error: function(err) {
+                  console.log(err);
+                },
+              });
+          },
+          error: function(err) {
+            console.log(err);
+          },
+        });
+      });
+      
       function longPoll() {
-        console.log("In the longPoll function")
+        console.log("In the longPoll function");
         let college = $('#collegeid').val();
         college = encodeURIComponent(college);
-        let url = '/reactions?college=' + college
+        let url = '/reactions?college=' + college;
 
         $.ajax(
           {
@@ -443,7 +555,6 @@
         );
       }
   </script>
-    
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
     crossorigin="anonymous"></script>

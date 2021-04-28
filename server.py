@@ -26,13 +26,6 @@ def index():
     username, err = CASClient().authenticate()  # CAS
     if not err:
         return redirect(url_for('dinhall'))
-    try:
-        database = Database()
-        database.connect()
-        database.add_user(username)
-        database.disconnect()
-    except Exception as e:
-        error_msg = e
     html = render_template('index.html')
     response = make_response(html)
     return response
@@ -185,7 +178,7 @@ def food():
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
-    if request.method == 'GET': 
+    if request.method == 'GET':
         try:
             dhall = request.args.get('college')
             # dhall = request.args['college']
@@ -264,6 +257,29 @@ def food():
 
 
 # Food Item Description Page
+# @app.route('/food-desc', methods=['GET'])
+# def food_desc():
+#     username, err = CASClient().authenticate()  # CAS
+#     if err:
+#         return redirect(username)
+#     error_msg = ""
+#     # For reading existing reviews, the name/image of food, and description
+#     try:
+#         food_id = request.args.get("food_id")
+#         college = request.args.get("college")
+#         database = Database()
+#         database.connect()
+#         database.add_user(username)
+#         food = database.get_food_info(food_id)[0]
+#         # reviews = database.get_reviews(food_id)
+#         database.disconnect()
+
+#         html = render_template(
+#             'food-desc.html', college=college, food=food, food_id=food_id)
+#         response = make_response(html)
+#         return response
+#     except Exception as e:
+#         error_msg = e
 @app.route('/food-desc', methods=['GET'])
 def food_desc():
     username, err = CASClient().authenticate()  # CAS
@@ -280,9 +296,11 @@ def food_desc():
         food = database.get_food_info(food_id)[0]
         # reviews = database.get_reviews(food_id)
         database.disconnect()
+
         html = render_template(
-            'food-desc.html', college=college, food=food, food_id=food_id)
+            'indiv-food.html', college=college, food=food, food_id=food_id)
         response = make_response(html)
+        response.mimetype = 'text/plain'
         return response
     except Exception as e:
         error_msg = e
@@ -298,6 +316,7 @@ def food_updates():
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
         rating = request.form['rate']
+        print(rating)
         if rating == 0 or rating is None:
             html = render_template(
                 'error.html', message="Please submit a rating")
