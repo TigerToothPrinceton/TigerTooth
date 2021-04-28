@@ -31,6 +31,17 @@
   overflow: auto;
 }
 
+body.modal-open {
+    position: fixed;
+    overflow: hidden;
+    left:0;
+    right:0;
+}
+
+.modal{
+    -webkit-overflow-scrolling: auto;
+}
+
 #food_title {
   animation-duration: 1s;
   animation-name: fadein;
