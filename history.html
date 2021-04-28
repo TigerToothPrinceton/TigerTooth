@@ -46,15 +46,21 @@
           class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
       {% else: %}
       <!-- Clicking on this link should lead to a pop up rectangular box with more info like review[5] (written review) and review[4] (rating) -->
-      <div ><img src="{{review[1]}}" alt="No photo" data-toggle="modal" data-target="#reviews"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></div>
+      <div ><img src="{{review[1]}}" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></div>
       {% endif %}
       <div class="card-body">
         <h5 class="card-title">
           <!-- Clicking on this link should lead to a pop up rectangular box with more info like review[4] (written review) and review[3] (rating) -->
-          <p data-toggle="modal" data-target="#reviews" style="color: inherit;">{{review[0]}}</p>
+          <p style="color: inherit;">{{review[0]}}</p>
         </h5>
         <div class="card-text">Dining Hall: {{review[2].capitalize()}}</div>
+      </div>
+      <div class="container mb-4">
+        <div style="display: flex; align-items: center; justify-content: center">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviews">
+            See Your Review!
+          </button>
+        </div>
       </div>
     </div>
     <div class = "container-fluid">
@@ -108,7 +114,6 @@
     </div>
     {% endfor %}
   </div>
-
   {% endif %}
  
 
