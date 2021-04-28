@@ -161,17 +161,21 @@ class Database():
             if meal == "Breakfast":
                 time1 = 5
                 time2 = 10
+                delete_query = "DELETE from reactions WHERE hour < %s OR hour > %s"
+                cursor.execute(delete_query, [time1, time2])
+                self._connection.commit()
             if meal == "Lunch":
                 time1 = 10
                 time2 = 14
+                delete_query = "DELETE from reactions WHERE hour < %s OR hour > %s"
+                cursor.execute(delete_query, [time1, time2])
+                self._connection.commit()
             if meal == "Dinner":
                 time1 = 14
                 time2 = 20
-            # do not use .format for the SQL statements; use %s (see code above for example)
-            delete_query = "DELETE from reactions WHERE ".format(
-                food_url, api_id)
-            cursor.execute(update_query)
-            self._connection.commit()
+                delete_query = "DELETE from reactions WHERE hour < %s OR hour > %s"
+                cursor.execute(delete_query, [time1, time2])
+                self._connection.commit()
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception(
