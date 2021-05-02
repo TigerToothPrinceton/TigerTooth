@@ -70,12 +70,6 @@ def reactions():
     if request.method == "POST":
         # Because data is JSON
 
-        # Parse the JSON into a Python dictionary
-        # print(request.form['reaction'])
-        # req = request.get_json()
-        # print(req)
-        # reaction = req['reaction']
-        # dhall = request['college']
         reaction = request.form['reaction']
         dhall = request.form['college']
         est = pytz.timezone('US/Eastern')
@@ -109,31 +103,42 @@ def reactions():
             reactions = database.get_reactions(dhall)
             database.disconnect()
             html = ''
-            for reaction in reactions:
-                if reaction[1] != "":
-                    html += '<div class="row align-items-center">'
-                    if reaction[2] == username:
-                        # html += '<div class = "col-3 col-sm-4 pt-2 pb-2" style = "font-size: 16px" >' + \
-                        #     '<div class = "pBox" >' + reaction[4] + '</div >' + \
-                        #     '</div>' + \
-                        #     '<div class="col-9 col-sm-8 pt-2 pb-2 me-auto" style="font-size: 16px; ">' + \
-                        #     '<div class="mymessage pBox" style = "text-align: right; margin-right: 0">' + \
-                        #         reaction[1] + \
-                        #     '</div>' + \
-                        #     '</div>'
-                        html += '<div class = "col-4 pt-2 pb-2" style = "font-size: 16px;">' + \
-                            '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 5px; font-size:12px">' + reaction[4] + '</div>' + \
-                            '</div>' + \
-                            '<div class="col-8 pt-2 pb-2" style="font-size: 16px;">' + \
-                            '<div class="mymessage pBox">' + \
-                                reaction[1] + \
-                            '</div>' + \
-                            '</div>'
-                    else:
-                        html += '<div class = "col-8 pt-2 pb-2" style = "font-size: 16px;"> <div class = "message pBox">' + \
-                            reaction[1] + '</div></div><div class="col-4 pt-2 pb-2" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 5px; font-size:12px; padding-bottom: 10px;">' + \
-                                reaction[4] + '</div></div>'
-                    html += '</div>'
+            if len(reactions) == 0:
+                html += '<div class="col-0 col-sm-2"></div>' + \
+                    '<div class="col-12 col-sm-8 text-center"' + \
+                    'style="border:2px solid #000000; border-radius: 0.4rem; min-height: 10vh; max-height: 10vh; overflow: auto" id="message-box">' + \
+                    '<br>' + \
+                    '<div class="row">' + \
+                    '<i>' + \
+                    'Be the first to leave a reaction!' + \
+                    '</i>' + \
+                    '</div>' + \
+                    '<div class="row">' + \
+                    '</div>' + \
+                    '</div>' + \
+                    '<div class="col-0 col-sm-2"></div>'
+            else:
+                html += '<div class="col-0 col-sm-2"></div>' + \
+                    '<div class="col-12 col-sm-8" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 50vh; max-height: 50vh; overflow: auto">'
+                for reaction in reactions:
+                    if reaction[1] != "":
+                        html += '<div class="row align-items-center mt-2">'
+                        if reaction[2] == username:
+                            html += '<div class = "col-4" style = "font-size: 16px;">' + \
+                                '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 5px; font-size:12px">' + reaction[4] + '</div>' + \
+                                '</div>' + \
+                                '<div class="col-8" style="font-size: 16px;">' + \
+                                '<div class="mymessage pBox">' + \
+                                    reaction[1] + \
+                                '</div>' + \
+                                '</div>'
+                        else:
+                            html += '<div class="col-8" style="font-size: 16px;"> <div class = "message pBox">' + \
+                                reaction[1] + '</div></div><div class="col-4" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 5px; font-size:12px; padding-bottom: 5px;">' + \
+                                    reaction[4] + '</div></div>'
+                        html += '</div>'
+                html += '</div>' + \
+                        '<div class="col-0 col-sm-2"></div>'
             # html = render_template('reactions.html', rows=rows, college=dhall)
             response = make_response(html)
             return response
@@ -201,11 +206,14 @@ def food():
             time_hour = datetime.now(est).hour
             meal = "Dinner"  # default value, case-sensitive
             # breakfast, lunch, dinner
-            if (time_hour >= 5 and time_hour < 10):
+            # 5 - 11: Breakfast
+            if (time_hour >= 5 and time_hour < 11):
                 meal = "Breakfast"
-            elif (time_hour >= 10 and time_hour < 14):
+            # 11 - 4: Lunch
+            elif (time_hour >= 11 and time_hour < 16):
                 meal = "Lunch"
-            elif (time_hour >= 14 and time_hour < 20):
+            # 4 - 10: Dinner
+            elif (time_hour >= 16 and time_hour < 22):
                 meal = "Dinner"
 
             # Get locationID
@@ -243,10 +251,10 @@ def food():
                 food_id = database.get_food(api_id, dhall)[4]
                 review = database.get_reviews(food_id)
                 reviews.append(review)
-            rows = database.get_reactions(dhall)
+            # rows = database.get_reactions(dhall)
 
             database.disconnect()
-            html = render_template('food.html', foods=foods, rows=rows,
+            html = render_template('food.html', foods=foods,
                                    college=dhall, meal_time=meal, username=username, reviews=reviews)
             response = make_response(html)
             return response

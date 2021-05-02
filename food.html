@@ -44,6 +44,7 @@
 </head>
 
 <body>
+  <!-- Navbar Code -->
   <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand fs-4" href="dhall"><img src="https://i.imgur.com/AufcPrM.png" width="auto" height="50">
@@ -66,10 +67,12 @@
     </div>
   </nav>
 
+  <!-- Food Page Title Message -->
   <div class="food-dhall-title" id="food_title">
     <h1>{{college.capitalize()}} {{meal_time}}</h1>
   </div>
 
+  <!-- View Reactions Button -->
   <div class="container mb-4">
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
@@ -78,6 +81,7 @@
     </div>
   </div>
 
+  <!-- Cards for Displaying All the Dining Hall Food -->
   {% if foods|length == 0: %}
   {% else: %}
   <!-- For large devices like laptops -->
@@ -116,6 +120,7 @@
   <!-- Code for the reviews popping up at bottom here -->
   <span id="reviews-generate"></span>
 
+  <!-- Code for modals for reactions -->
   <div class="container-fluid">
     <div class="modal fade" data-backdrop="false" id="reactions" tabindex="-1" role="dialog" aria-labelledby="reactionsTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -127,18 +132,11 @@
             </button>
           </div>
           <div class="modal-body">
-          {% if rows|length == 0: %}
-          {% else: %}
           <div class="container-fluid">
-            <div class="row">
-                  <div class="col-0 col-sm-2"></div>
-                  <div class="col-12 col-sm-8"
-                    style="border:2px solid #000000; border-radius: 0.4rem; min-height: 50vh; max-height:50vh; overflow: auto" id="message-box">
-                  </div>
-                  <div class="col-0 col-sm-2"></div>
+            <div class="row" id="message-box">
             </div>
           </div>
-          {% endif %}
+          
           <br>
           <div class="container-fluid">
             <div class="row">
@@ -324,7 +322,6 @@
                 $('#reviews-text').val('');
                 $('#star_rating').rateit('reset');
 
-
                 let reqData = {
                   food_id: $("[name='food_id']").val(),
                   college: $("[name='college']").val(),
@@ -425,6 +422,7 @@
           $("#spnError")[0].style.display = "none";
         });
 
+
         // Reactions Box Code
         $('#formR').validate({
           errorClass: "error fail-alert",
@@ -463,42 +461,6 @@
           longPoll();
         });
       });
-
-      // $(window).load(function() {
-      //   $("[name='food_name'], [name='food_img']").click(function () {
-          // let reqData = {
-          //   food_id: $(this).val(),
-          //   college: $("[name='college']").val(),
-          // };
-          // console.log(reqData);
-
-          // $.ajax(
-          // {
-          //   type: 'GET',
-          //   url: "/food-desc",
-          //   data: reqData,
-          //   success: function(response) {
-          //     $('#reviews-generate').html(response);
-          //     $('div.rateit, span.rateit').rateit();
-          //     $.ajax(
-          //       {
-          //         type: 'GET',
-          //         url: "/food-updates",
-          //         data: reqData,
-          //         success: function(response) {
-          //           $('#reviews-box').html(response['reviews']);
-          //         },
-          //         error: function(err) {
-          //           console.log(err);
-          //         },
-          //       });
-          //   },
-          //   error: function(err) {
-          //     console.log(err);
-          //   },
-          // });
-      //   });
-      // });
 
       $(document).on('click', "[name='food_name'], [name='food_img']", function(e) {
         let reqData = {

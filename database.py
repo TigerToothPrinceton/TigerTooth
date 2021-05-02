@@ -167,17 +167,16 @@ class Database():
                 self._connection.commit()
             if meal == "Lunch":
                 time1 = 10
-                time2 = 14
+                time2 = 16
                 delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
             if meal == "Dinner":
-                time1 = 14
-                time2 = 20
+                time1 = 16
+                time2 = 22
                 delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
-            
 
         except Exception as e:
             print(f'{e}', file=stderr)
