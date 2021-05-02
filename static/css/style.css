@@ -65,6 +65,7 @@ footer {
 }
 
 p {
+  font-style: italic;
   text-decoration: none;
   color: black;
 }
