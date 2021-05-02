@@ -199,7 +199,7 @@ def food():
 
             # Get current time
             time_hour = datetime.now(est).hour
-            meal = "Lunch"  # default value, case-sensitive
+            meal = "Dinner"  # default value, case-sensitive
             # breakfast, lunch, dinner
             if (time_hour >= 5 and time_hour < 10):
                 meal = "Breakfast"
