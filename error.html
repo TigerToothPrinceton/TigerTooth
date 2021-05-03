@@ -17,28 +17,25 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-light bg-primary">
-        <div class="container-fluid">
-          <a class="navbar-brand fs-4" href="dhall">TigerTooth</a>
-        </div>
-      </nav>
+  {% include 'header.html' %}
 
-      <div class="container-fluid">
-        <div class="row">
-          <h2 class="text-xs-center text-center my-3">Uh Oh! An Error Has Occured!</h2>
-          <h3 class="text-xs-center text-center my-3">{{message}}</h3>
-        </div>
-      </div>
+  <div class="container">
+    <div class="row" id="hall_title">
+      <h2 class="text-center mt-4" style="font-weight: 400;">Uh Oh! An Error Has Occured!</h2>
+      <h4 class="text-center mt-2 mb-4" style="font-weight: 400;"><i>{{message}}</i></h4>
+    </div>
+  </div>
 
-      <div class="container-fluid">
-        <figure>
-            <img src="https://imgur.com/xigZPzc.jpg" class="img-fluid rounded" alt="Responsive image">
-        </figure>
-      </div>
+  <div class="container">
+    <figure>
+        <img src="https://imgur.com/xigZPzc.jpg" class="img-fluid rounded" alt="Responsive image">
+    </figure>
+  </div>
 
-    {% include 'footer.html' %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+  {% include 'footer.html' %}
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
+
 </html>

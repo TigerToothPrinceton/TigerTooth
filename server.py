@@ -93,7 +93,10 @@ def reactions():
             # or return a confirmation
             return "Reaction successfully posted to DB"
         except Exception as e:
-            error_msg = e
+            error_msg = "Reaction failed to post to DB. Please try again later!"
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
     if request.method == "GET":
         try:
             dhall = request.args.get("college")
@@ -143,7 +146,7 @@ def reactions():
             response = make_response(html)
             return response
         except Exception as e:
-            error_msg = e
+            error_msg = "Failed to grab reactions. Please try again later!"
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
@@ -180,7 +183,7 @@ def food():
             # return redirect(request.referrer)
             return "Rating and review successfully posted to DB"
         except Exception as e:
-            error_msg = e
+            error_msg = "Rating and review failed to post to DB. Please try again later!"
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
@@ -217,7 +220,7 @@ def food():
                 meal = "Dinner"
 
             # Get locationID
-            locationID = 1
+            locationID = 0
             if dhall == "wilcox":
                 locationID = 1
             elif dhall == "forbes":
@@ -226,6 +229,12 @@ def food():
                 locationID = 4
             elif dhall == "whitman":
                 locationID = 6
+
+            if locationID == 0:
+                html = render_template(
+                    'error.html', message="Please enter a valid dining hall name!")
+                response = make_response(html)
+                return response
 
             # make a call to dining hall api and grab all the items in the current meal menu
             menu = request_lib.getJSON(
@@ -289,7 +298,10 @@ def food_desc():
         response.mimetype = 'text/plain'
         return response
     except Exception as e:
-        error_msg = e
+        error_msg = "Look's like we could not retrieve this food's information. Please try again later!"
+        html = render_template('error.html', message=error_msg)
+        response = make_response(html)
+        return response
 
 
 # Food Item Description Page for JQuery AJAX calls
@@ -325,7 +337,7 @@ def food_updates():
             # return redirect(request.referrer)
             return "Rating and review successfully posted to DB"
         except Exception as e:
-            error_msg = e
+            error_msg = "Rating and review failed to post to DB. Please try again later!"
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
@@ -386,7 +398,10 @@ def food_updates():
             response = make_response(jsonify(response_body), 200)
             return response
         except Exception as e:
-            error_msg = e
+            error_msg = "Look's like we could not retrieve this food's information. Please try again later!"
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
 
 
 # Submit a Photo URL to a Food Item
