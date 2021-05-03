@@ -428,10 +428,17 @@
         //     }
         // });
 
-        $("#reviews-generate").on("click", "#star_rating", function() {
+        $("#reviews-generate").on("change", "#backing15", function() {
+          console.log("Star value changed");
+          let star_value = $('#star_rating').rateit('value');
+          console.log(star_value);
           $("#spnError")[0].style.display = "none";
         });
 
+        // $("#reviews-generate").on("click", "#rateit-selected", function() {
+        //   console.log("Stars clicked");
+        //   $("#spnError")[0].style.display = "none";
+        // });
 
         // Reactions Box Code
         $('#formR').validate({
