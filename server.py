@@ -254,8 +254,8 @@ def food():
             # rows = database.get_reactions(dhall)
 
             database.disconnect()
-            html = render_template('food.html', foods=foods,
-                                   college=dhall, meal_time=meal, username=username, reviews=reviews)
+            html = render_template('food.html', foods=foods, hour=time_hour,
+                                   college=dhall, meal_time=meal)
             response = make_response(html)
             return response
         except Exception as e:
@@ -266,29 +266,6 @@ def food():
 
 
 # Food Item Description Page
-# @app.route('/food-desc', methods=['GET'])
-# def food_desc():
-#     username, err = CASClient().authenticate()  # CAS
-#     if err:
-#         return redirect(username)
-#     error_msg = ""
-#     # For reading existing reviews, the name/image of food, and description
-#     try:
-#         food_id = request.args.get("food_id")
-#         college = request.args.get("college")
-#         database = Database()
-#         database.connect()
-#         database.add_user(username)
-#         food = database.get_food_info(food_id)[0]
-#         # reviews = database.get_reviews(food_id)
-#         database.disconnect()
-
-#         html = render_template(
-#             'food-desc.html', college=college, food=food, food_id=food_id)
-#         response = make_response(html)
-#         return response
-#     except Exception as e:
-#         error_msg = e
 @app.route('/food-desc', methods=['GET'])
 def food_desc():
     username, err = CASClient().authenticate()  # CAS

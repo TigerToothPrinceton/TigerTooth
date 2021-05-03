@@ -73,6 +73,7 @@
   </div>
 
   <!-- View Reactions Button -->
+  {% if hour > 4 and hour < 24 %}
   <div class="container mb-4">
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
@@ -80,6 +81,7 @@
       </button>
     </div>
   </div>
+  {% endif %}
 
   <!-- Cards for Displaying All the Dining Hall Food -->
   {% if foods|length == 0: %}
@@ -355,7 +357,7 @@
             }
         });
 
-        // Grabbing and Updating Reviews Box Code
+        // Submit ratings and reviews when enter key is pressed
         $("#reviews-generate").on("keypress", "#reviews-text", function(e) {
           if (e.which == 13) {
             $('#form1').submit();
@@ -464,6 +466,7 @@
             }
         });
 
+        // Submit reactions when enter key is pressed
         $('#reactions-text').keypress(function (e) {
           if (e.which == 13) {
             $('#formR').submit();
@@ -471,12 +474,15 @@
           }
         });
 
+        // Pre-generate the reviews on load before view reactions is clicked
+        getReactions();
+
         $('#show_hide').click(function() {
-          console.log("React button clicked");
           longPoll();
         });
       });
 
+      // Generate ratings and reviews when food image or name is clicked
       $(document).on('click', "[name='food_name'], [name='food_img']", function(e) {
         let reqData = {
           food_id: $(this).attr('id'),
@@ -511,6 +517,27 @@
         });
       });
       
+      function getReactions() {
+        console.log("In the getReactions function");
+        let college = $('#collegeid').val();
+        college = encodeURIComponent(college);
+        let url = '/reactions?college=' + college;
+
+        $.ajax(
+          {
+            type: 'GET',
+            url: url,
+            success: function(response) {
+              $('#message-box').html(response);
+              console.log("Successfully grabbed and populated reactions");
+            },
+            error: function(err) {
+              console.log(err);
+            },
+          }
+        );
+      }
+
       function longPoll() {
         console.log("In the longPoll function");
         let college = $('#collegeid').val();
