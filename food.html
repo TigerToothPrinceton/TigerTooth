@@ -456,6 +456,13 @@
             }
         });
 
+        $('#reactions-text').keypress(function (e) {
+          if (e.which == 13) {
+            $('#formR').submit();
+            return false;
+          }
+        });
+
         $('#show_hide').click(function() {
           console.log("React button clicked");
           longPoll();
