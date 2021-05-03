@@ -355,6 +355,14 @@
             }
         });
 
+        // Grabbing and Updating Reviews Box Code
+        $("#reviews-generate").on("keypress", "#reviews-text", function(e) {
+          if (e.which == 13) {
+            $('#form1').submit();
+            return false;
+          }
+        });
+
         // $("#form1").submit(function (event) 
         // {
         //     console.log("In here");
