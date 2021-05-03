@@ -375,10 +375,13 @@ def food_updates():
 
                 for review in reviews:
                     if review[0] is not None:
-                        html += '<div class="row border-bottom align-items-center">' + \
-                                '<div class="col" style="font-size: 16px;">' + \
+                        html += html += '<div class="row border-bottom align-items-center">' + \
+                                '<div class="col-8" style="font-size: 16px;">' + \
                             review[0] + \
                                 '</div>' + \
+                                '<div class="col-4" style="font-size: 16px;">' + \
+                            review[1] + \ + review[2] + \
+                                '</div>' + \ 
                             '</div>'
 
                 html += '</div>' + \
