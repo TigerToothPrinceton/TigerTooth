@@ -29,11 +29,6 @@ def index():
     html = render_template('index.html')
     response = make_response(html)
     return response
-   # except Exception as e:
-    # CASClient().authenticate() triggers an exception
-   #  print("in the exception")
-    # error_msg = e
-   # print(error_msg)
 
 
 # Dining hall selection page
@@ -49,21 +44,19 @@ def dinhall():
         database.add_user(username)
         database.disconnect()
     except Exception as e:
-        error_msg = e
+        error_msg = "An error has occurred in the server. Please try again later!"
+        html = render_template('error.html', message=error_msg)
+        response = make_response(html)
+        return response
+
     html = render_template('dhall.html')
     response = make_response(html)
     return response
-   # except Exception as e:
-    # CASClient().authenticate() triggers an exception
-   #  print("in the exception")
-    # error_msg = e
-   # print(error_msg)
 
 
 # Reactions Page
 @app.route('/reactions', methods=['GET', 'POST'])
 def reactions():
-    error_msg = ""
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
@@ -158,7 +151,6 @@ def food():
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
-    error_msg = ""
     if request.method == "POST":
         rating = request.form['rate']
         if rating == 0 or rating is None:
@@ -242,6 +234,16 @@ def food():
                 locationID=locationID,
                 menuID=year + "-" + month + "-" + day + "-" + meal,
             )
+
+            if menu == None:
+                msg = "There is currently no food data in the dining hall API for " + \
+                    dhall.capitalize() + " because the " + dhall.capitalize() + \
+                    " dining hall staff has not uploaded their menu for " + \
+                    meal.lower() + " yet. Please try again later!"
+                html = render_template('error.html', message=msg)
+                response = make_response(html)
+                return response
+
             menu_arr = menu['menus']
             database = Database()
             database.connect()
@@ -280,7 +282,6 @@ def food_desc():
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
-    error_msg = ""
     # For reading existing reviews, the name/image of food, and description
     try:
         food_id = request.args.get("food_id")
@@ -310,7 +311,6 @@ def food_updates():
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
-    error_msg = ""
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
         rating = request.form['rate']
@@ -414,7 +414,6 @@ def food_img_submit():
     database.connect()
     database.add_user(username)
     database.disconnect()
-    error_msg = ""
     if request.method == "POST":
         try:
             api_id = request.form['api_id']
@@ -426,8 +425,10 @@ def food_img_submit():
             database.disconnect()
             return redirect(url_for('food', college=dhall))
         except Exception as e:
-            print(e)
-            error_msg = e
+            error_msg = "Look's like we could not upload your URL. Please try again later!"
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
     else:
         try:
             api_id = request.args.get("api_id")
@@ -437,8 +438,10 @@ def food_img_submit():
             response = make_response(html)
             return response
         except Exception as e:
-            print(e)
-            error_msg = e
+            error_msg = "Server-side error. Please try again later!"
+            html = render_template('error.html', message=error_msg)
+            response = make_response(html)
+            return response
 
 
 # User Past Reviews Page
