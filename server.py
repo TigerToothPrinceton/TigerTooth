@@ -354,7 +354,6 @@ def food_updates():
             database.add_user(username)
             food = database.get_food_info(food_id)[0]
             reviews = database.get_reviews(food_id)
-            print(reviews[0])
             database.disconnect()
 
             if food[2] == 0:
@@ -379,7 +378,7 @@ def food_updates():
                     if review[0] is not None:
                         html += '<div class="row border-bottom align-items-center">' + \
                                 '<div class="col" style="font-size: 16px;">' + \
-                            review[0] + review[1] + review[2] + \
+                            review[0] + \
                                 '</div>' + \
                             '</div>'
 
