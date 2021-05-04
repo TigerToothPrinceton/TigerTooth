@@ -354,6 +354,7 @@ def food_updates():
             database.add_user(username)
             food = database.get_food_info(food_id)[0]
             reviews = database.get_reviews(food_id)
+            print(reviews[0])
             database.disconnect()
 
             if food[2] == 0:
