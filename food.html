@@ -14,10 +14,8 @@
 
   <title>{{college.capitalize()}} {{meal_time}} Menu</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/food.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reactions.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
 
@@ -481,7 +479,7 @@
           }
         });
 
-        // Pre-generate the reviews on load before view reactions is clicked
+        // Pre-generate the reactions on load before view reactions is clicked
         getReactions();
 
         $('#show_hide').click(function() {

@@ -14,7 +14,6 @@
 
   <title>Submit a Photo</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}" />
 </head>
 
@@ -32,9 +31,6 @@
       <br>
       <br>
       <a href="https://imgur.com/" style="color: inherit;">Click here to generate an image URL</a>
-      <br>
-      <br>
-      <p class="text-center">Note: Please add a .jpg to the end of the URL generated at the above link</p>
       <input type="hidden" name="api_id" value="{{api_id}}">
       <input type="hidden" name="college" value="{{college}}">
     </form>

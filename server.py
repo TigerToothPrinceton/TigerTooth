@@ -14,9 +14,6 @@ app.static_folder = 'static'
 
 app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 
-# For all these functions, REFER to the FIGMA:
-# https://www.figma.com/file/HkBlr87OPJfC8jKhJWQQDm/Prototype-Views?node-id=14%3A25
-
 
 # Landing Page
 @app.route('/', methods=['GET'])
@@ -146,143 +143,110 @@ def reactions():
 
 
 # Food Page
-@app.route('/food', methods=['GET', 'POST'])
+@app.route('/food', methods=['GET'])
 def food():
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
-    if request.method == "POST":
-        rating = request.form['rate']
-        if rating == 0 or rating is None:
-            html = render_template(
-                'error.html', message="Please submit a rating")
-            response = make_response(html)
-            return response
-        review = request.form['review']
-        if review == "":
-            review = None
-        food_id = request.form['food_id']
+
+    try:
+        dhall = request.args.get('college')
+        # dhall = request.args['college']
+        ### Code for grabbing food from dining hall API ###
+        request_lib = RequestsLib()
+
+        # timezone
         est = pytz.timezone('US/Eastern')
-        now = datetime.now(est)
-        cur_time = now.strftime("%I:%M %p")
-        try:
-            database = Database()
-            database.connect()
-            database.add_user(username)
-            review_data = (username, food_id, review, rating, cur_time)
-            database.add_review(review_data, rating, food_id)
-            database.disconnect()
-            # return redirect(request.referrer)
-            return "Rating and review successfully posted to DB"
-        except Exception as e:
-            error_msg = "Rating and review failed to post to DB. Please try again later!"
-            html = render_template('error.html', message=error_msg)
-            response = make_response(html)
-            return response
-    if request.method == 'GET':
-        try:
-            dhall = request.args.get('college')
-            # dhall = request.args['college']
-            ### Code for grabbing food from dining hall API ###
-            request_lib = RequestsLib()
+        # Get today's date
+        today = datetime.today().astimezone(est)
+        year = str(today.year)
 
-            # timezone
-            est = pytz.timezone('US/Eastern')
-            # Get today's date
-            today = datetime.today().astimezone(est)
-            year = str(today.year)
+        # Pad the number with zeros so that
+        # there are always exactly two digits
+        month = str(today.month).zfill(2)
+        day = str(today.day).zfill(2)
 
-            # Pad the number with zeros so that
-            # there are always exactly two digits
-            month = str(today.month).zfill(2)
-            day = str(today.day).zfill(2)
+        # Get current time
+        time_hour = datetime.now(est).hour
+        meal = "Dinner"  # default value, case-sensitive
+        # breakfast, lunch, dinner
+        # 5 - 11: Breakfast
+        if (time_hour >= 5 and time_hour < 11):
+            meal = "Breakfast"
+        # 11 - 4: Lunch
+        elif (time_hour >= 11 and time_hour < 16):
+            meal = "Lunch"
+        # 4 - 10: Dinner
+        elif (time_hour >= 16 and time_hour < 22):
+            meal = "Dinner"
 
-            # Get current time
-            time_hour = datetime.now(est).hour
-            meal = "Dinner"  # default value, case-sensitive
-            # breakfast, lunch, dinner
-            # 5 - 11: Breakfast
-            if (time_hour >= 5 and time_hour < 11):
-                meal = "Breakfast"
-            # 11 - 4: Lunch
-            elif (time_hour >= 11 and time_hour < 16):
-                meal = "Lunch"
-            # 4 - 10: Dinner
-            elif (time_hour >= 16 and time_hour < 22):
-                meal = "Dinner"
+        # Get locationID
+        locationID = 0
+        if dhall == "wilcox":
+            locationID = 1
+        elif dhall == "forbes":
+            locationID = 5
+        elif dhall == "roma":
+            locationID = 4
+        elif dhall == "whitman":
+            locationID = 6
 
-            # Get locationID
-            locationID = 0
-            if dhall == "wilcox":
-                locationID = 1
-            elif dhall == "forbes":
-                locationID = 5
-            elif dhall == "roma":
-                locationID = 4
-            elif dhall == "whitman":
-                locationID = 6
-
-            if locationID == 0:
-                html = render_template(
-                    'error.html', message="Please enter a valid dining hall name!")
-                response = make_response(html)
-                return response
-
-            # make a call to dining hall api and grab all the items in the current meal menu
-            menu = request_lib.getJSON(
-                request_lib.configs.DINING_MENU,
-                locationID=locationID,
-                menuID=year + "-" + month + "-" + day + "-" + meal,
-            )
-
-            if menu == None:
-                msg = "There is currently no food data in the dining hall API for " + \
-                    dhall.capitalize() + " because the " + dhall.capitalize() + \
-                    " dining hall staff has not uploaded their menu for " + \
-                    meal.lower() + " yet. Please try again later!"
-                html = render_template('error.html', message=msg)
-                response = make_response(html)
-                return response
-
-            menu_arr = menu['menus']
-            database = Database()
-            database.connect()
-            database.clear_db(meal)
-            database.add_user(username)
-            # add new foods to the database if they do not exist
-            database.add_food(menu_arr, dhall)
-
-            foods = []
-            reviews = []
-            # grab the foods being served at the dhall with the same api_id as the dhall api
-            for food in menu_arr:
-                api_id = food['id']
-                result = database.get_food(api_id, dhall)
-                foods.append(result)
-                food_id = database.get_food(api_id, dhall)[4]
-                review = database.get_reviews(food_id)
-                reviews.append(review)
-            # rows = database.get_reactions(dhall)
-
-            database.disconnect()
-            html = render_template('food.html', foods=foods, hour=time_hour,
-                                   college=dhall, meal_time=meal)
-            response = make_response(html)
-            return response
-        except Exception as e:
+        if locationID == 0:
             html = render_template(
-                'error.html', message="Look's like our menu is unavailable. Please try again later!")
+                'error.html', message="Please enter a valid dining hall name!")
             response = make_response(html)
             return response
 
+        # make a call to dining hall api and grab all the items in the current meal menu
+        menu = request_lib.getJSON(
+            request_lib.configs.DINING_MENU,
+            locationID=locationID,
+            menuID=year + "-" + month + "-" + day + "-" + meal,
+        )
 
-# Food Item Description Page
+        if menu == None:
+            msg = "There is currently no food data in the dining hall API for " + \
+                dhall.capitalize() + " because the " + dhall.capitalize() + \
+                " dining hall staff has not uploaded their menu for " + \
+                meal.lower() + " yet. Please try again later!"
+            html = render_template('error.html', message=msg)
+            response = make_response(html)
+            return response
+
+        menu_arr = menu['menus']
+        database = Database()
+        database.connect()
+        database.clear_db(meal)
+        database.add_user(username)
+        # add new foods to the database if they do not exist
+        database.add_food(menu_arr, dhall)
+
+        foods = []
+        # grab the foods being served at the dhall with the same api_id as the dhall api
+        for food in menu_arr:
+            api_id = food['id']
+            result = database.get_food(api_id, dhall)
+            foods.append(result)
+
+        database.disconnect()
+        html = render_template('food.html', foods=foods, hour=time_hour,
+                               college=dhall, meal_time=meal)
+        response = make_response(html)
+        return response
+    except Exception as e:
+        html = render_template(
+            'error.html', message="Look's like our menu is unavailable. Please try again later!")
+        response = make_response(html)
+        return response
+
+
+# Food Item Description Page without Any Reviews Generated
 @app.route('/food-desc', methods=['GET'])
 def food_desc():
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
-    # For reading existing reviews, the name/image of food, and description
+    # For getting the name/image of food, its rating, and the the reviews form
     try:
         food_id = request.args.get("food_id")
         college = request.args.get("college")
@@ -305,7 +269,7 @@ def food_desc():
         return response
 
 
-# Food Item Description Page for JQuery AJAX calls
+# JQuery AJAX calls for POSTing reviews to database and grabbing the rating and reviews of a food
 @app.route('/food-updates', methods=['GET', 'POST'])
 def food_updates():
     username, err = CASClient().authenticate()  # CAS
@@ -341,7 +305,7 @@ def food_updates():
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
-    # For reading existing reviews, the name/image of food, and description
+    # For getting only the ratings and reviews of the food
     else:
         try:
             food_id = request.args.get("food_id")
@@ -469,5 +433,7 @@ def history():
 @app.route('/logout', methods=['GET'])
 def logout():
     casClient = CASClient()
-    casClient.authenticate()
+    username, err = casClient.authenticate()
+    if err:
+        return redirect(username)
     casClient.logout()
