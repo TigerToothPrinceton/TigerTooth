@@ -291,11 +291,12 @@ def food_updates():
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
         cur_time = now.strftime("%I:%M %p")
+        mdy = now.strftime("%m-%d-%Y")
         try:
             database = Database()
             database.connect()
             database.add_user(username)
-            review_data = (username, food_id, review, rating, cur_time)
+            review_data = (username, food_id, review, rating, cur_time, mdy)
             database.add_review(review_data, rating, food_id)
             database.disconnect()
             # return redirect(request.referrer)
