@@ -7,12 +7,6 @@
   box-sizing: border-box;
 }
 
-/* img {
-  width: 45vw;
-  height: auto;
-  height: 400px;
-} */
-
 figcaption {
   text-align: center;
   font-size: 25px;
@@ -35,19 +29,6 @@ textarea {
   justify-content: space-evenly;
   align-items: stretch;
 }
-
-/* body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  margin: 0;
-  font-family: Lato;
-}
-
-html {
-  height: -webkit-fill-available;
-} */
 
 header {
   background-color: orange;
@@ -161,7 +142,6 @@ a:hover {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* bring your own prefixes */
   transform: translate(-50%, -50%);
 
   opacity: 0.5;
@@ -176,23 +156,17 @@ a:hover {
 @-webkit-keyframes pulse {
   from {
     opacity: 0.2;
-    /* -webkit-transform: scale(1); */
-    /* -webkit-transform: translate(-50%, -50%); */
   }
   to {
     opacity: 0.4;
-    /* -webkit-transform: scale(1.1); */
-    /* -webkit-transform: translate(-50%, -50%); */
   }
 }
 
 @keyframes pulse {
   from {
     opacity: 0.2;
-    /* transform: scale(1); */
   }
   to {
     opacity: 0.4;
-    /* transform: scale(1.1); */
   }
 }

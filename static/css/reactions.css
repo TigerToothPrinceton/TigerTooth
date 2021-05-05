@@ -1,10 +1,3 @@
-.reactions-title {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-
 .pBox {
   max-width: 100%;
   word-wrap: normal;
@@ -47,9 +40,7 @@
 }
 
 .mymessagetime {
-
   align-self: flex-start;
-  
 }
 
 .messagetime {
@@ -57,12 +48,11 @@
   align-content: right;
   align-self: flex-end;
   flex-direction: column;
-
 }
 
 .message {
   background: #e5e5ea;
-  float:left;
+  float: left;
   color: black;
   align-self: flex-start;
   align-content: left;
