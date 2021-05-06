@@ -15,9 +15,9 @@
             {{food[1]}}
           </h3>
           {% if food[2] == 0 %}
-          <p style="margin: 10px 0; font-size: smaller;">Rating: No Rating Yet!</p>
+          <p style="margin-top: 10px; font-size: 19px;">Rating: No Rating Yet!</p>
           {% else: %}
-          <p style="margin: 10px 0; font-size: smaller;">Rating: {{(food[3]/food[2])|round(1)}}</p>
+          <p style="margin-top: 10px; font-size: 19px;">Rating: {{(food[3]/food[2])|round(1)}}</p>
           {% endif %}
         </figcaption>
       </figure>
