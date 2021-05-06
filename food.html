@@ -123,7 +123,7 @@
         <div class="modal-content">
           <div class="modal-header" style="text-align:center; vertical-align:middle">
             <h5 class="modal-title" id="reactionsTitle">Reactions</h5>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" id="modal_but">
               <span aria-hidden="true"></span>
             </button>
           </div>
@@ -429,10 +429,10 @@
           $("#spnError")[0].style.display = "none";
         });
 
-        // $("#reviews-generate").on("click", "#rateit-selected", function() {
-        //   console.log("Stars clicked");
-        //   $("#spnError")[0].style.display = "none";
-        // });
+        // Clear reactions textarea box when user closes modal
+        $("#modal_but").click(function () {
+          $('#reactions-text').val('');
+        });
 
         // Reactions Box Code
         $('#formR').validate({
