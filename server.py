@@ -216,7 +216,7 @@ def food():
         menu_arr = menu['menus']
         database = Database()
         database.connect()
-        database.clear_db(meal)
+        # database.clear_db(meal)
         database.add_user(username)
         # add new foods to the database if they do not exist
         database.add_food(menu_arr, dhall)
