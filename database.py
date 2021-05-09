@@ -8,14 +8,14 @@ from selenium import webdriver
 import image_scrape
 
 chrome_options = webdriver.ChromeOptions()
-# chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")
 # driver = webdriver.Chrome(executable_path=os.environ.get(
 #     "CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-DRIVER_PATH = "/Users/SamLiang/Desktop/Scraping/chromedriver"
+# DRIVER_PATH = "/Users/SamLiang/Desktop/Scraping/chromedriver"
 
 # wd = webdriver.Chrome(executable_path=DRIVER_PATH)
 # with webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=chrome_options) as wd:
@@ -23,7 +23,6 @@ DRIVER_PATH = "/Users/SamLiang/Desktop/Scraping/chromedriver"
 #                                                  wd=wd, sleep_between_interactions=0.5)
 
 # food_img_url = image_scrape.fetch_image_urls('apple', 1, wd)
-# print(food_img_url)
 
 
 class Database():
@@ -195,7 +194,7 @@ class Database():
                 if food_url == None or food_url == "":
                     # Scrape an image for this new food from Google unless an error occurs
                     try:
-                        with webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=chrome_options) as wd:
+                        with webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options) as wd:
                             food_img_url = image_scrape.fetch_image_urls(
                                 food_name, 1, wd=wd, sleep_between_interactions=0.5)
                     except Exception:
