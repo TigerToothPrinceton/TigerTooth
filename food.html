@@ -67,15 +67,7 @@
   </div>
 
   <!-- View Reactions Button -->
-  {% if hour > 4 and hour < 24 %}
-  <div class="container mb-4">
-    <div style="display: flex; align-items: center; justify-content: center">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
-        View Reactions!
-      </button>
-    </div>
-  </div>
-  {% endif %}
+
 
   <!-- Cards for Displaying All the Dining Hall Food -->
   {% if foods|length == 0: %}
