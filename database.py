@@ -24,13 +24,13 @@ import image_scrape
 
 
 # Try 3
-# CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-# chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', 'chromedriver')
-# options = webdriver.ChromeOptions()
-# options.binary_location = chrome_bin
-# options.add_argument('--disable-gpu')
-# options.add_argument('--no-sandbox')
-# options.add_argument('--headless')
+CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', 'chromedriver')
+options = webdriver.ChromeOptions()
+options.binary_location = chrome_bin
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
+options.add_argument('--headless')
 
 # driver = webdriver.Chrome(executable_path=os.environ.get(
 #     "CHROMEDRIVER_PATH"), chrome_options=chrome_options)

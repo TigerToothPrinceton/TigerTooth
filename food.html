@@ -261,40 +261,6 @@
           });
         });
 
-        // $('body').on('click', "[name='food_img']", function() {
-        //   let reqData = {
-        //     food_id: $(this).val(),
-        //     college: $("[name='college']").val(),
-        //   };
-        //   console.log(reqData);
-
-        //   $.ajax(
-        //   {
-        //     type: 'GET',
-        //     url: "/food-desc",
-        //     data: reqData,
-        //     success: function(response) {
-        //       $('#reviews-generate').html(response);
-        //       $('div.rateit, span.rateit').rateit();
-        //       $.ajax(
-        //         {
-        //           type: 'GET',
-        //           url: "/food-updates",
-        //           data: reqData,
-        //           success: function(response) {
-        //             $('#reviews-box').html(response['reviews']);
-        //           },
-        //           error: function(err) {
-        //             console.log(err);
-        //           },
-        //         });
-        //     },
-        //     error: function(err) {
-        //       console.log(err);
-        //     },
-        //   });
-        // });
-
         // Grabbing and Updating Reviews Box Code
         $("#reviews-generate").on("submit", "#form1", function(event) {
             console.log("In here");
@@ -505,7 +471,6 @@
                 firstTime = false;
                 var d = $('#reactions-box');
                 d.scrollTop(d.prop("scrollHeight"));
-                // $("#reactions-box").animate({ scrollTop: $('#reactions-box').prop("scrollHeight")}, 10);
               }
               
               const out = document.getElementById("reactions-box");
