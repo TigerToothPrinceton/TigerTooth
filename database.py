@@ -1,8 +1,29 @@
 import psycopg2
 from sys import argv, stderr
-from os import path
+# from os import path
+import os
 from datetime import datetime
 import pytz
+from selenium import webdriver
+import image_scrape
+
+chrome_options = webdriver.ChromeOptions()
+# chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+# driver = webdriver.Chrome(executable_path=os.environ.get(
+#     "CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+DRIVER_PATH = "/Users/SamLiang/Desktop/Scraping/chromedriver"
+
+# wd = webdriver.Chrome(executable_path=DRIVER_PATH)
+# with webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=chrome_options) as wd:
+#     food_img_url = image_scrape.fetch_image_urls('apples', 1,
+#                                                  wd=wd, sleep_between_interactions=0.5)
+
+# food_img_url = image_scrape.fetch_image_urls('apple', 1, wd)
+# print(food_img_url)
 
 
 class Database():
@@ -38,8 +59,18 @@ class Database():
     def get_reactions(self, dhall):
         try:
             cursor = self._connection.cursor()
-            get_query = "SELECT * FROM reactions WHERE reactions.dhall=%s ORDER BY reactions.reactions_id DESC"
+            get_query = "SELECT * FROM reactions WHERE reactions.dhall=%s ORDER BY reactions.reactions_id ASC"
             cursor.execute(get_query, [dhall])
+            return cursor.fetchall()
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception('Failed to get reactions from PostgreSQL table')
+
+    def get_new_reactions(self, reaction_id, dhall):
+        try:
+            cursor = self._connection.cursor()
+            get_query = "SELECT * FROM reactions WHERE reactions.dhall=%s AND reactions.reactions_id>%s ORDER BY reactions.reactions_id ASC"
+            cursor.execute(get_query, [dhall, reaction_id])
             return cursor.fetchall()
         except Exception as e:
             print(f'{e}', file=stderr)
@@ -100,7 +131,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
             ## name, ingredients, numRatings, numStars, description, url, dhall, lastServed
-            get_query = "SELECT reviews.review, reviews.date, reviews.time FROM reviews WHERE reviews.food_id=%s ORDER BY reviews.time DESC, reviews.review_id DESC"
+            get_query = "SELECT reviews.review FROM reviews WHERE reviews.food_id=%s ORDER BY reviews.time DESC, reviews.review_id DESC"
             cursor.execute(get_query, [food_id])
             return cursor.fetchall()
         except Exception as e:
@@ -115,7 +146,7 @@ class Database():
             cursor.execute(boolean_query, [review_data[0], review_data[1]])
             # user never reviews this food
             if cursor.fetchone()[0] == False:
-                insert_query = "INSERT INTO reviews (net_id, food_id, review, rating, time, date) VALUES (%s, %s, %s, %s, %s, %s)"
+                insert_query = "INSERT INTO reviews (net_id, food_id, review, rating, time) VALUES (%s, %s, %s, %s, %s)"
                 update_query = "UPDATE food SET num_ratings = num_ratings + 1, num_stars = num_stars + %s WHERE food.food_id = %s"
                 cursor.execute(insert_query, review_data)
                 cursor.execute(update_query, [rating, food_id])
@@ -131,9 +162,9 @@ class Database():
                 get_query = "SELECT rating FROM reviews WHERE net_id=%s and food_id=%s"
                 cursor.execute(get_query, [review_data[0], review_data[1]])
                 old_rating = cursor.fetchone()[0]
-                update_query = "UPDATE reviews SET review = %s, rating = %s, time = %s, date = %s WHERE reviews.net_id = %s AND reviews.food_id = %s"
+                update_query = "UPDATE reviews SET review = %s, rating = %s, time = %s WHERE reviews.net_id = %s AND reviews.food_id = %s"
                 cursor.execute(update_query, [
-                               review_data[2], rating, review_data[4], review_data[5], review_data[0], review_data[1]])
+                               review_data[2], rating, review_data[4], review_data[0], review_data[1]])
                 update_query = "UPDATE food SET num_stars = num_stars - %s + %s WHERE food.food_id = %s"
                 cursor.execute(update_query, [old_rating, rating, food_id])
                 self._connection.commit()
@@ -142,16 +173,42 @@ class Database():
             raise Exception(
                 'Failed to insert/update review in PostgreSQL table')
 
-    def add_food_image(self, api_id, food_url):
+    # def add_food_image(self, api_id, food_url):
+    #     try:
+    #         cursor = self._connection.cursor()
+    #         update_query = "UPDATE food SET url = %s WHERE food.api_id = %s"
+    #         cursor.execute(update_query, [food_url, api_id])
+    #         self._connection.commit()
+    #         print("Finished inserting image")
+    #     except Exception as e:
+    #         print(f'{e}', file=stderr)
+    #         raise Exception(
+    #             'Failed to insert food image into PostgreSQL table')
+
+    def add_food_images(self, api_ids, dhall):
         try:
             cursor = self._connection.cursor()
-            update_query = "UPDATE food SET url = %s WHERE food.api_id = %s"
-            cursor.execute(update_query, [food_url, api_id])
-            self._connection.commit()
+            for api_id in api_ids:
+                food = self.get_food(int(api_id), dhall)
+                food_url = food[0]
+                food_name = food[1]
+                if food_url == None or food_url == "":
+                    # Scrape an image for this new food from Google unless an error occurs
+                    try:
+                        with webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=chrome_options) as wd:
+                            food_img_url = image_scrape.fetch_image_urls(
+                                food_name, 1, wd=wd, sleep_between_interactions=0.5)
+                    except Exception:
+                        pass
+                    update_query = "UPDATE food SET url = %s WHERE food.api_id = %s AND food.dhall = %s"
+                    cursor.execute(
+                        update_query, [food_img_url.pop(), api_id, dhall])
+                    self._connection.commit()
+            return "Finished inserting images"
         except Exception as e:
             print(f'{e}', file=stderr)
             raise Exception(
-                'Failed to insert food image into PostgreSQL table')
+                'Failed to insert food images into PostgreSQL table')
 
     def clear_db(self, meal):
         try:
@@ -222,3 +279,15 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to get food item review from PostgreSQL table')
+
+    def delete_photo(self, food_id, dhall):
+        try:
+            cursor = self._connection.cursor()
+            update_query = "UPDATE food SET url = %s WHERE food.food_id = %s AND food.dhall= %s"
+            cursor.execute(update_query, ['', food_id, dhall])
+            self._connection.commit()
+            return "Successfully removed food image from PostgreSQL table"
+        except Exception as e:
+            print(f'{e}', file=stderr)
+            raise Exception(
+                'Failed to remove food image from PostgreSQL table')

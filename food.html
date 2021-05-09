@@ -67,15 +67,23 @@
   </div>
 
   <!-- View Reactions Button -->
-  {% if hour > 4 and hour < 24 %}
   <div class="container mb-4">
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
         View Reactions!
       </button>
     </div>
+    {% if username == "saml\n" or username == "sumanthm\n" or username == "dsliu\n" or username == "whchang\n" or username == "rdondero\n" %}
+    <div class="row text-center">
+      <div class="col">
+        <button class="btn bttn rounded mt-2" style="color: #fff" name="add_photo" value="{{api_ids}}">
+          Scrape Food Images
+        </button>
+      </div>
+    </div>
+    {% endif %}
   </div>
-  {% endif %}
+
 
   <!-- Cards for Displaying All the Dining Hall Food -->
   {% if foods|length == 0: %}
@@ -84,16 +92,10 @@
   <div class="card-group mx-5 text-center justify-content-center mb-4" id="card_group">
     {% for food in foods: %}
     <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
-      {% if food[0] is none: %}
-      <div style="cursor: pointer">
-        <img src="https://images.pexels.com/photos/326279/pexels-photo-326279.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;" name="food_img" id="{{food[4]}}">
-      </div>
-      {% else: %}
       <div style="cursor: pointer">
         <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top"
           style="min-height: 11rem; max-height: 11rem;" name="food_img" id="{{food[4]}}">
       </div>
-      {% endif %}
       <div class="card-body">
         <h5 class="card-title">
           <div style="color: inherit; cursor: pointer;" name="food_name" id="{{food[4]}}">
@@ -108,6 +110,11 @@
         <button class="btn bttn rounded" style="color: #fff" name="review_but" value="{{food[4]}}">
           Submit a Review
         </button>
+        {% if username == "saml\n" or username == "sumanthm\n" or username == "dsliu\n" or username == "whchang\n" or username == "rdondero\n" %}
+        <button class="btn bttn rounded mt-2" style="color: #fff" name="del_photo" value="{{food[4]}}">
+          Delete Food Image
+        </button>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
@@ -173,53 +180,51 @@
 
   <script type=text/javascript>
       'use strict';
-      // window.onload = function () {
-      //   window.scrollTo(0,0);
-      // };
-      
-      // function show(index, max, food_id) {
-      //   let reqData = {
-      //     food_id: food_id,
-      //     college: $("[name='college']").val(),
-      //   };
-      //   console.log(reqData);
-
-      //   $.ajax(
-      //   {
-      //     type: 'GET',
-      //     url: "/food-updates",
-      //     data: reqData,
-      //     success: function(response) {
-      //       console.log(response)
-      //       let the_box = "#reviews-box" + index;
-      //       console.log(the_box)
-      //       $(the_box).html(response['reviews']);
-      //     },
-      //     error: function(err) {
-      //       console.log(err);
-      //     },
-      //   });
-
-      //   let temp = document.getElementById("rev" + index);
-      //   if (temp.style.display === "none") {
-      //     temp.style.display = "block";
-      //     temp.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      //   } else {
-      //     temp.style.display = "none";
-      //   }
-      //   for (let i = 1; i < max; i++) {
-      //     if (i != index)
-      //     {
-      //       let clear = document.getElementById("rev" + i);
-      //       clear.style.display = "none";
-      //     }
-      //   }
-      //   $('div.rateit, span.rateit').rateit();
-        
-      //   $('div.rateit, span.rateit').rateit();
-      // }
+      var firstTime = false;
 
       $(document).ready(function() {
+        // Scrape Food Image
+        $("[name='add_photo']").click(function () {
+          let reqData = {
+            api_ids: $(this).val(),
+            college: $("[name='college']").val(),
+          };
+
+          $.ajax(
+          {
+            type: 'POST',
+            url: "/scrape",
+            data: reqData,
+            success: function(response) {
+              location.reload(true);
+            },
+            error: function(err) {
+              console.log(err);
+            },
+          });
+        });
+
+        // Delete Food Image
+        $("[name='del_photo']").click(function () {
+          let reqData = {
+            food_id: $(this).val(),
+            college: $("[name='college']").val(),
+          };
+
+          $.ajax(
+          {
+            type: 'POST',
+            url: "/delete",
+            data: reqData,
+            success: function(response) {
+              location.reload(true);
+            },
+            error: function(err) {
+              console.log(err);
+            },
+          });
+        });
+        
         // Reviews Generation Code when Submit a Review Button is Clicked
         $("[name='review_but']").click(function () {
           let reqData = {
@@ -360,74 +365,16 @@
           }
         });
 
-        // $("#form1").submit(function (event) 
-        // {
-        //     console.log("In here");
-        //     let formData = {
-        //       rate: $('#star_rating').rateit('value'),
-        //       review: $("#reviews-text").val(),
-        //       food_id: $("[name='food_id']").val(),
-        //     };
-
-        //     // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
-        //     let star_value = $('#star_rating').rateit('value');
-        //     console.log(star_value);
-        //     let isValid = true;
-        //     if (star_value == 0) {
-        //       isValid = false;
-        //     }
-
-        //     // Display error message if no star is selected.
-        //     if (isValid) {
-        //       console.log("Submit button clicked")
-        //       $.ajax({
-        //         type: "POST",
-        //         url: "/food-updates",
-        //         data: formData,
-        //       }).done(function (data) {
-        //         console.log(data);
-        //         $('#reviews-text').val('');
-        //         $('#star_rating').rateit('reset');
-
-
-        //         let reqData = {
-        //           food_id: $("[name='food_id']").val(),
-        //           college: $("[name='college']").val(),
-        //         };
-
-        //         $.ajax(
-        //           {
-        //             type: 'GET',
-        //             url: "/food-updates",
-        //             data: reqData,
-        //             success: function(response) {
-        //               $('#rating-box > p').html(response['food_rating'])
-        //               $('#reviews-box').html(response['reviews']);
-        //             },
-        //             error: function(err) {
-        //               console.log("In errors")
-        //               console.log(err);
-        //             },
-        //           }
-        //         );
-        //       }).catch(function (err) {
-        //         console.log(err);
-        //       });
-  
-        //       event.preventDefault();
-        //     }
-        //     else {
-        //       event.preventDefault();
-        //       $("#spnError")[0].style.display = "block";
-        //       return false;
-        //     }
-        // });
-
         $("#reviews-generate").on("change", "#backing15", function() {
           console.log("Star value changed");
           let star_value = $('#star_rating').rateit('value');
           console.log(star_value);
           $("#spnError")[0].style.display = "none";
+        });
+
+        $('#show_hide').click(function() {
+          firstTime = true;
+          longPoll();
         });
 
         // Clear reactions textarea box when user closes modal
@@ -478,10 +425,6 @@
 
         // Pre-generate the reactions on load before view reactions is clicked
         getReactions();
-
-        $('#show_hide').click(function() {
-          longPoll();
-        });
       });
 
       // Generate ratings and reviews when food image or name is clicked
@@ -531,6 +474,7 @@
             type: 'GET',
             url: url,
             success: function(response) {
+              console.log(response);
               $('#message-box').html(response);
               console.log("Successfully grabbed and populated reactions");
             },
@@ -544,15 +488,37 @@
       function longPoll() {
         console.log("In the longPoll function");
         let college = $('#collegeid').val();
+        let reaction_id = $('#reactions-box').children().last().attr('id');
         college = encodeURIComponent(college);
-        let url = '/reactions?college=' + college;
+        reaction_id = encodeURIComponent(reaction_id);
+        let url = '/new-reactions?college=' + college + '&reaction_id=' + reaction_id ;
 
         $.ajax(
           {
             type: 'GET',
             url: url,
             success: function(response) {
-              $('#message-box').html(response);
+              console.log(response);
+
+              // scroll to the bottom if just clicked View Reactions
+              if (firstTime) {
+                firstTime = false;
+                var d = $('#reactions-box');
+                d.scrollTop(d.prop("scrollHeight"));
+                // $("#reactions-box").animate({ scrollTop: $('#reactions-box').prop("scrollHeight")}, 10);
+              }
+              
+              const out = document.getElementById("reactions-box");
+
+              // allow 1px inaccuracy by adding 1
+              const isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1;
+
+              $('#reactions-box').append(response);
+
+              // auto scroll to bottom if the user is all the way at the bottom
+              if (isScrolledToBottom) {
+                out.scrollTop = out.scrollHeight - out.clientHeight;
+              }
             },
             error: function(err) {
               console.log(err);

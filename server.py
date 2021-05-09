@@ -19,7 +19,6 @@ app.secret_key = b'!\xcf]\x90\xa9\x00\xefsl\xb3<\xb43]\xfc\x88'
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
 def index():
-    # try:
     username, err = CASClient().authenticate()  # CAS
     if not err:
         return redirect(url_for('dinhall'))
@@ -31,7 +30,6 @@ def index():
 # Dining hall selection page
 @app.route('/dhall', methods=['GET'])
 def dinhall():
-    # try:
     username, err = CASClient().authenticate()  # CAS
     if err:
         return redirect(username)
@@ -66,7 +64,6 @@ def reactions():
         now = datetime.now(est)
         hour = now.strftime("%-H")
         cur_time = now.strftime("%I:%M %p")
-        # data = (reaction, user_id, dhall, cur_time)
         try:
             database = Database()
             database.connect()
@@ -74,13 +71,8 @@ def reactions():
             data = (reaction, username, dhall, cur_time, hour)
             database.add_reaction(data)
             database.disconnect()
-            # return redirect(url_for('/reactions-temp'), college=dhall)
-            # return redirect(request.referrer)
 
-            # no need to return any html code bc only POSTing to DB
-            # return '', 204
-
-            # or return a confirmation
+            # return a confirmation
             return "Reaction successfully posted to DB"
         except Exception as e:
             error_msg = "Reaction failed to post to DB. Please try again later!"
@@ -112,10 +104,11 @@ def reactions():
                     '<div class="col-0 col-sm-2"></div>'
             else:
                 html += '<div class="col-0 col-sm-2"></div>' + \
-                    '<div class="col-12 col-sm-8" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 50vh; max-height: 50vh; overflow: auto">'
+                    '<div class="col-12 col-sm-8" style="border:2px solid #000000; border-radius: 0.4rem; min-height: 50vh; max-height: 50vh; overflow: auto" id="reactions-box">'
                 for reaction in reactions:
                     if reaction[1] != "":
-                        html += '<div class="row align-items-center mt-2">'
+                        html += '<div class="row align-items-center mt-2" id=' + \
+                            str(reaction[0]) + '>'
                         if reaction[2] == username:
                             html += '<div class = "col-4" style = "font-size: 16px;">' + \
                                 '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 5px; font-size:12px">' + reaction[4] + '</div>' + \
@@ -132,14 +125,58 @@ def reactions():
                         html += '</div>'
                 html += '</div>' + \
                         '<div class="col-0 col-sm-2"></div>'
-            # html = render_template('reactions.html', rows=rows, college=dhall)
             response = make_response(html)
             return response
         except Exception as e:
             error_msg = "Failed to grab reactions. Please try again later!"
-            html = render_template('error.html', message=error_msg)
-            response = make_response(html)
+            response = make_response(error_msg)
             return response
+
+
+# Only Grab New Reactions
+@app.route('/new-reactions', methods=['GET'])
+def new_reactions():
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
+    try:
+        reaction_id = request.args.get('reaction_id')
+        dhall = request.args.get("college")
+        database = Database()
+        database.connect()
+        database.add_user(username)
+        new_reactions = database.get_new_reactions(reaction_id, dhall)
+        database.disconnect()
+        html = ''
+        print(new_reactions)
+        if len(new_reactions) != 0:
+            for reaction in new_reactions:
+                if reaction[1] != "":
+                    html += '<div class="row align-items-center mt-2" id=' + \
+                        str(reaction[0]) + '>'
+                    if reaction[2] == username:
+                        html += '<div class = "col-4" style = "font-size: 16px;">' + \
+                            '<div class = "mymessagetime" style="padding-left: 5px; padding-bottom: 5px; font-size:12px">' + reaction[4] + '</div>' + \
+                            '</div>' + \
+                            '<div class="col-8" style="font-size: 16px;">' + \
+                            '<div class="mymessage pBox">' + \
+                                reaction[1] + \
+                            '</div>' + \
+                            '</div>'
+                    else:
+                        html += '<div class="col-8" style="font-size: 16px;"> <div class = "message pBox">' + \
+                            reaction[1] + '</div></div><div class="col-4" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 5px; font-size:12px; padding-bottom: 5px;">' + \
+                                reaction[4] + '</div></div>'
+                    html += '</div>'
+        print("html is this: ", html)
+        response = make_response(html)
+        return response
+    except Exception as e:
+        print(e)
+        # Don't return anything if error so it's not appended to the reactions box
+        html = ''
+        response = make_response(html)
+        return response
 
 
 # Food Page
@@ -168,7 +205,7 @@ def food():
 
         # Get current time
         time_hour = datetime.now(est).hour
-        meal = "Breakfast"  # default value, case-sensitive
+        meal = "Lunch"  # default value, case-sensitive
         # breakfast, lunch, dinner
         # 5 - 11: Breakfast
         if (time_hour >= 5 and time_hour < 11):
@@ -177,7 +214,7 @@ def food():
         elif (time_hour >= 11 and time_hour < 16):
             meal = "Lunch"
         # 4 - 10: Dinner
-        elif (time_hour >= 16 and time_hour < 24):
+        elif (time_hour >= 16 and time_hour < 22):
             meal = "Dinner"
 
         # Get locationID
@@ -204,7 +241,7 @@ def food():
             menuID=year + "-" + month + "-" + day + "-" + meal,
         )
 
-        if menu == None:
+        if menu == None or menu == {}:
             msg = "There is currently no food data in the dining hall API for " + \
                 dhall.capitalize() + " because the " + dhall.capitalize() + \
                 " dining hall staff has not uploaded their menu for " + \
@@ -222,18 +259,22 @@ def food():
         database.add_food(menu_arr, dhall)
 
         foods = []
+        api_ids = []
         # grab the foods being served at the dhall with the same api_id as the dhall api
         for food in menu_arr:
             api_id = food['id']
+            if api_id not in api_ids:
+                api_ids.append(api_id)
             result = database.get_food(api_id, dhall)
             foods.append(result)
 
         database.disconnect()
         html = render_template('food.html', foods=foods, hour=time_hour,
-                               college=dhall, meal_time=meal)
+                               college=dhall, meal_time=meal, username=username, api_ids=api_ids)
         response = make_response(html)
         return response
     except Exception as e:
+        print(e)
         html = render_template(
             'error.html', message="Look's like our menu is unavailable. Please try again later!")
         response = make_response(html)
@@ -254,7 +295,6 @@ def food_desc():
         database.connect()
         database.add_user(username)
         food = database.get_food_info(food_id)[0]
-        # reviews = database.get_reviews(food_id)
         database.disconnect()
 
         html = render_template(
@@ -299,7 +339,6 @@ def food_updates():
             review_data = (username, food_id, review, rating, cur_time, mdy)
             database.add_review(review_data, rating, food_id)
             database.disconnect()
-            # return redirect(request.referrer)
             return "Rating and review successfully posted to DB"
         except Exception as e:
             error_msg = "Rating and review failed to post to DB. Please try again later!"
@@ -348,14 +387,6 @@ def food_updates():
                 html += '</div>' + \
                         '<div class="col-2"></div>'
 
-            # for review in reviews:
-            #     if review[0] is not None:
-            #         html += '<div class="row border-bottom align-items-center">' + \
-            #                 '<div class="col" style="font-size: 16px;">' + \
-            #             review[0] + \
-            #                 '</div>' + \
-            #             '</div >'
-
             response_body = {
                 "food_rating": the_rating,
                 "reviews": html,
@@ -364,46 +395,6 @@ def food_updates():
             return response
         except Exception as e:
             error_msg = "Look's like we could not retrieve this food's information. Please try again later!"
-            html = render_template('error.html', message=error_msg)
-            response = make_response(html)
-            return response
-
-
-# Submit a Photo URL to a Food Item
-@app.route('/foodimg-submit', methods=['GET', 'POST'])
-def food_img_submit():
-    username, err = CASClient().authenticate()  # CAS
-    if err:
-        return redirect(username)
-    database = Database()
-    database.connect()
-    database.add_user(username)
-    database.disconnect()
-    if request.method == "POST":
-        try:
-            api_id = request.form['api_id']
-            food_url = request.form['food_url'] + '.jpg'
-            dhall = request.form['college']
-            database = Database()
-            database.connect()
-            database.add_food_image(api_id, food_url)
-            database.disconnect()
-            return redirect(url_for('food', college=dhall))
-        except Exception as e:
-            error_msg = "Look's like we could not upload your URL. Please try again later!"
-            html = render_template('error.html', message=error_msg)
-            response = make_response(html)
-            return response
-    else:
-        try:
-            api_id = request.args.get("api_id")
-            dhall = request.args.get("college")
-            html = render_template(
-                'foodimg-submit.html', api_id=api_id, college=dhall)
-            response = make_response(html)
-            return response
-        except Exception as e:
-            error_msg = "Server-side error. Please try again later!"
             html = render_template('error.html', message=error_msg)
             response = make_response(html)
             return response
@@ -427,6 +418,54 @@ def history():
         print(e)
         html = render_template(
             'error.html', message="Look's like your history is unavailable. Please try again later!")
+        response = make_response(html)
+        return response
+
+
+# Delete Photo
+@app.route('/delete', methods=['POST'])
+def delete_photo():
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
+    try:
+        food_id = request.form['food_id']
+        dhall = request.form['college']
+        database = Database()
+        database.connect()
+        response = database.delete_photo(food_id, dhall)
+        database.disconnect()
+        return response
+    except Exception as e:
+        print(e)
+        html = render_template(
+            'error.html', message="Unable to delete photo. Please try again later!")
+        response = make_response(html)
+        return response
+
+
+# Scrape Photo
+@app.route('/scrape', methods=['POST'])
+def scrape():
+    username, err = CASClient().authenticate()  # CAS
+    if err:
+        return redirect(username)
+    try:
+        api_ids = request.form['api_ids']
+        dhall = request.form['college']
+        api_ids = api_ids[1:-1].split(", ")
+        for i in range(len(api_ids)):
+            api_ids[i] = api_ids[i].strip("'")
+        print(api_ids)
+        database = Database()
+        database.connect()
+        response = database.add_food_images(api_ids, dhall)
+        database.disconnect()
+        return response
+    except Exception as e:
+        print(e)
+        html = render_template(
+            'error.html', message="Unable to delete photo. Please try again later!")
         response = make_response(html)
         return response
 
