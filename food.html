@@ -311,6 +311,7 @@
                   }
                 );
               }).catch(function (err) {
+                console.log("In here")
                 console.log(err);
               });
   
@@ -340,7 +341,7 @@
 
         $('#show_hide').click(function() {
           firstTime = true;
-          longPoll();
+          // longPoll();
         });
 
         // Clear reactions textarea box when user closes modal
