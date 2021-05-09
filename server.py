@@ -171,7 +171,7 @@ def food():
         meal = "Lunch"  # default value, case-sensitive
         # breakfast, lunch, dinner
         # 5 - 11: Breakfast
-        if (time_hour >= 5 and time_hour < 11):
+        if (time_hour >= 6 and time_hour < 11):
             meal = "Breakfast"
         # 11 - 4: Lunch
         elif (time_hour >= 11 and time_hour < 16):
