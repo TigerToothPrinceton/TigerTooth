@@ -328,7 +328,6 @@ def food_updates():
     # For posting reviews and 5-star ratings to database
     if request.method == "POST":
         rating = request.form['rate']
-        print(rating)
         if rating == 0 or rating is None:
             html = render_template(
                 'error.html', message="Please submit a rating")
@@ -353,7 +352,7 @@ def food_updates():
         except Exception as e:
             print(e)
             error_msg = "Rating and review failed to post to DB. Please try again later!"
-            response = make_response(error_msg)
+            response = make_response(e)
             return response
     # For getting only the ratings and reviews of the food
     else:
