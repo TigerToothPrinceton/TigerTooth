@@ -8,7 +8,7 @@
 }
 
 hr {
-  height: 3px;
+  opacity: 0.75;
   background-color: #fd7e14;
 }
 
