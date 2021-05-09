@@ -67,7 +67,7 @@
   </div>
 
   <!-- View Reactions Button -->
-  {% if hour > 4 and hour < 22 %}
+  {% if hour > 4 and hour < 24 %}
   <div class="container mb-4">
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
@@ -85,8 +85,9 @@
     {% for food in foods: %}
     <div class="card mx-auto mx-sm-3 my-3 rounded" style="min-width: 16rem; max-width: 16rem;">
       {% if food[0] is none: %}
-      <a href="/foodimg-submit?api_id={{food[5]}}&college={{college}}"><img src="" alt="Submit a Photo Here!"
-          class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;"></a>
+      <div style="cursor: pointer">
+        <img src="https://images.pexels.com/photos/326279/pexels-photo-326279.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="No photo" class="img-fluid rounded card-img-top" style="min-height: 11rem; max-height: 11rem;" name="food_img" id="{{food[4]}}">
+      </div>
       {% else: %}
       <div style="cursor: pointer">
         <img src="{{food[0]}}" alt="No photo" class="img-fluid rounded card-img-top"
