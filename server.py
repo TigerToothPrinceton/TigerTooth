@@ -351,9 +351,9 @@ def food_updates():
             database.disconnect()
             return "Rating and review successfully posted to DB"
         except Exception as e:
+            print(e)
             error_msg = "Rating and review failed to post to DB. Please try again later!"
-            html = render_template('error.html', message=error_msg)
-            response = make_response(html)
+            response = make_response(error_msg)
             return response
     # For getting only the ratings and reviews of the food
     else:
