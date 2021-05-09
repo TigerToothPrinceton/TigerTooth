@@ -118,11 +118,13 @@
                           </h3>
                         </figcaption>
                       </figure>
-                      <p style="margin: 10px 0; font-size:20px">Dining Hall: {{review[2].capitalize()}}</p>
-                      <p style="margin: 10px 0; font-size:20px">Your Rating: {{review[4]}}</p>
+                      <p style="margin: 10px 0; font-size:20px"><b>Dining Hall:</b> {{review[2].capitalize()}}</p>
+                      <hr style="height: 3px;">
+                      <p style="margin: 10px 0; font-size:20px"><b>Your Rating:</b> {{review[4]}}</p>
+                      <hr style="height: 3px;">
                       {% if review[5] is none: %}
                       {% else: %}
-                        <p style="margin: 10px 0; font-size:20px">Your Review:<br>{{review[5]}}</p>
+                      <p style="margin: 10px 0; font-size:20px"><b>Your Review:</b><br>{{review[5]}}</p>
                       {% endif %}
                     </div>
                     <div class="col-1 col-sm-2 col-md-4"></div>
