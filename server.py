@@ -339,7 +339,7 @@ def food_updates():
         food_id = request.form['food_id']
         est = pytz.timezone('US/Eastern')
         now = datetime.now(est)
-        cur_time = now.strftime("%I:%M %p")
+        cur_time = now.strftime("%H:%M:%S")
         mdy = now.strftime("%m-%d-%Y")
         try:
             database = Database()
@@ -352,7 +352,7 @@ def food_updates():
         except Exception as e:
             print(e)
             error_msg = "Rating and review failed to post to DB. Please try again later!"
-            response = make_response(e)
+            response = make_response(error_msg)
             return response
     # For getting only the ratings and reviews of the food
     else:
