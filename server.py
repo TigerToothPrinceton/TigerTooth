@@ -148,7 +148,6 @@ def new_reactions():
         new_reactions = database.get_new_reactions(reaction_id, dhall)
         database.disconnect()
         html = ''
-        print(new_reactions)
         if len(new_reactions) != 0:
             for reaction in new_reactions:
                 if reaction[1] != "":
@@ -196,6 +195,9 @@ def food():
         est = pytz.timezone('US/Eastern')
         # Get today's date
         today = datetime.today().astimezone(est)
+        # Get the day of week (Monday, Tuesday, ....)
+        day_of_week = today.weekday()
+
         year = str(today.year)
 
         # Pad the number with zeros so that
@@ -205,7 +207,12 @@ def food():
 
         # Get current time
         time_hour = datetime.now(est).hour
-        meal = "Lunch"  # default value, case-sensitive
+
+        if day_of_week == 5 or day_of_week == 6:
+            meal = "Lunch"      # There's no breakfast on weekends
+        else:
+            meal = "Breakfast"  # default value, case-sensitive
+
         # breakfast, lunch, dinner
         # 5 - 11: Breakfast
         if (time_hour >= 6 and time_hour < 11):
@@ -253,7 +260,7 @@ def food():
         menu_arr = menu['menus']
         database = Database()
         database.connect()
-        # database.clear_db(meal)
+        database.clear_db(meal)
         database.add_user(username)
         # add new foods to the database if they do not exist
         database.add_food(menu_arr, dhall)
@@ -269,6 +276,9 @@ def food():
             foods.append(result)
 
         database.disconnect()
+        if (day_of_week == 5 or day_of_week == 6) and meal == "Lunch":
+            meal = "Brunch"      # So it shows up as Brunch on weekends
+
         html = render_template('food.html', foods=foods, hour=time_hour,
                                college=dhall, meal_time=meal, username=username, api_ids=api_ids)
         response = make_response(html)
