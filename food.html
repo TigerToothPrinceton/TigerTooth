@@ -68,11 +68,14 @@
 
   <!-- View Reactions Button -->
   <div class="container mb-4">
+    {% if hour > 4 and hour < 24 %}
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
         View Reactions!
       </button>
     </div>
+    {% endif %}
+
     {% if username == "saml\n" or username == "sumanthm\n" or username == "dsliu\n" or username == "whchang\n" or username == "rdondero\n" %}
     <div class="row text-center">
       <div class="col">
@@ -440,9 +443,7 @@
             type: 'GET',
             url: url,
             success: function(response) {
-              console.log(response);
               $('#message-box').html(response);
-              console.log("Successfully grabbed and populated reactions");
             },
             error: function(err) {
               console.log(err);

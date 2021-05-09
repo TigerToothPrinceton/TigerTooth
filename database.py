@@ -7,23 +7,6 @@ import pytz
 from selenium import webdriver
 import image_scrape
 
-# Try 1
-# chrome_options = webdriver.ChromeOptions()
-# chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--disable-dev-shm-usage")
-# chrome_options.add_argument("--no-sandbox")
-
-# Try 2
-# GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
-# CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-# chrome_options = webdriver.ChromeOptions()
-# chrome_options.add_argument('--disable-gpu')
-# chrome_options.add_argument('--no-sandbox')
-# chrome_options.binary_location = GOOGLE_CHROME_PATH
-
-
-# Try 3
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', 'chromedriver')
 options = webdriver.ChromeOptions()
@@ -31,18 +14,6 @@ options.binary_location = chrome_bin
 options.add_argument('--disable-gpu')
 options.add_argument('--no-sandbox')
 options.add_argument('--headless')
-
-# driver = webdriver.Chrome(executable_path=os.environ.get(
-#     "CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
-# DRIVER_PATH = "/Users/SamLiang/Desktop/Scraping/chromedriver"
-
-# wd = webdriver.Chrome(executable_path=DRIVER_PATH)
-# with webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=chrome_options) as wd:
-#     food_img_url = image_scrape.fetch_image_urls('apples', 1,
-#                                                  wd=wd, sleep_between_interactions=0.5)
-
-# food_img_url = image_scrape.fetch_image_urls('apple', 1, wd)
 
 
 class Database():
@@ -191,18 +162,6 @@ class Database():
             print(f'{e}', file=stderr)
             raise Exception(
                 'Failed to insert/update review in PostgreSQL table')
-
-    # def add_food_image(self, api_id, food_url):
-    #     try:
-    #         cursor = self._connection.cursor()
-    #         update_query = "UPDATE food SET url = %s WHERE food.api_id = %s"
-    #         cursor.execute(update_query, [food_url, api_id])
-    #         self._connection.commit()
-    #         print("Finished inserting image")
-    #     except Exception as e:
-    #         print(f'{e}', file=stderr)
-    #         raise Exception(
-    #             'Failed to insert food image into PostgreSQL table')
 
     def add_food_images(self, api_ids, dhall):
         try:

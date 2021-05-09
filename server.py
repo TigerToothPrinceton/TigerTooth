@@ -76,8 +76,7 @@ def reactions():
             return "Reaction successfully posted to DB"
         except Exception as e:
             error_msg = "Reaction failed to post to DB. Please try again later!"
-            html = render_template('error.html', message=error_msg)
-            response = make_response(html)
+            response = make_response(error_msg)
             return response
     if request.method == "GET":
         try:
@@ -167,7 +166,6 @@ def new_reactions():
                             reaction[1] + '</div></div><div class="col-4" style="font-size: 16px;"><div class = "messagetime" style="padding-right: 5px; font-size:12px; padding-bottom: 5px;">' + \
                                 reaction[4] + '</div></div>'
                     html += '</div>'
-        print("html is this: ", html)
         response = make_response(html)
         return response
     except Exception as e:
@@ -465,7 +463,6 @@ def scrape():
         api_ids = api_ids[1:-1].split(", ")
         for i in range(len(api_ids)):
             api_ids[i] = api_ids[i].strip("'")
-        print(api_ids)
         database = Database()
         database.connect()
         response = database.add_food_images(api_ids, dhall)

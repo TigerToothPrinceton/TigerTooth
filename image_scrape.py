@@ -1,6 +1,6 @@
 from selenium import webdriver
 import time
-# Code from https://towardsdatascience.com/image-scraping-with-python-a96feda8af2d
+# Code adapted and changed from https://towardsdatascience.com/image-scraping-with-python-a96feda8af2d
 
 
 def fetch_image_urls(query: str, max_links_to_fetch: int, wd: webdriver, sleep_between_interactions: int = 1):
@@ -24,9 +24,6 @@ def fetch_image_urls(query: str, max_links_to_fetch: int, wd: webdriver, sleep_b
         thumbnail_results = wd.find_elements_by_css_selector("img.Q4LuWd")
         number_results = len(thumbnail_results)
 
-        print(
-            f"Found: {number_results} search results. Extracting links from {results_start}:{number_results}")
-
         for img in thumbnail_results[results_start:number_results]:
             # try to click every thumbnail such that we can get the real image behind it
             try:
@@ -38,8 +35,6 @@ def fetch_image_urls(query: str, max_links_to_fetch: int, wd: webdriver, sleep_b
             # extract image urls
             actual_images = wd.find_elements_by_css_selector('img.n3VNCb')
             for actual_image in actual_images:
-                print("height: ", actual_image.get_attribute('height'))
-                print("width: ", actual_image.get_attribute('width'))
                 if actual_image.get_attribute('src') and 'http' in actual_image.get_attribute('src') and ('jpg' in actual_image.get_attribute('src') or 'jpeg' in actual_image.get_attribute('src')):
                     image_urls.add(actual_image.get_attribute('src'))
                     break
