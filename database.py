@@ -165,7 +165,7 @@ class Database():
             cursor.execute(boolean_query, [review_data[0], review_data[1]])
             # user never reviews this food
             if cursor.fetchone()[0] == False:
-                insert_query = "INSERT INTO reviews (net_id, food_id, review, rating, time) VALUES (%s, %s, %s, %s, %s)"
+                insert_query = "INSERT INTO reviews (net_id, food_id, review, rating, time, date) VALUES (%s, %s, %s, %s, %s, %s)"
                 update_query = "UPDATE food SET num_ratings = num_ratings + 1, num_stars = num_stars + %s WHERE food.food_id = %s"
                 cursor.execute(insert_query, review_data)
                 cursor.execute(update_query, [rating, food_id])
@@ -181,9 +181,9 @@ class Database():
                 get_query = "SELECT rating FROM reviews WHERE net_id=%s and food_id=%s"
                 cursor.execute(get_query, [review_data[0], review_data[1]])
                 old_rating = cursor.fetchone()[0]
-                update_query = "UPDATE reviews SET review = %s, rating = %s, time = %s WHERE reviews.net_id = %s AND reviews.food_id = %s"
+                update_query = "UPDATE reviews SET review = %s, rating = %s, time = %s, date = %s WHERE reviews.net_id = %s AND reviews.food_id = %s"
                 cursor.execute(update_query, [
-                               review_data[2], rating, review_data[4], review_data[0], review_data[1]])
+                               review_data[2], rating, review_data[4], review_data[5], review_data[0], review_data[1]])
                 update_query = "UPDATE food SET num_stars = num_stars - %s + %s WHERE food.food_id = %s"
                 cursor.execute(update_query, [old_rating, rating, food_id])
                 self._connection.commit()
