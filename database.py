@@ -262,7 +262,7 @@ class Database():
         try:
             cursor = self._connection.cursor()
             update_query = "UPDATE food SET url = %s WHERE food.food_id = %s AND food.dhall= %s"
-            cursor.execute(update_query, ['', food_id, dhall])
+            cursor.execute(update_query, [None, food_id, dhall])
             self._connection.commit()
             return "Successfully removed food image from PostgreSQL table"
         except Exception as e:
