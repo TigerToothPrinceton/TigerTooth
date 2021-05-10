@@ -213,7 +213,7 @@ def food():
 
         # breakfast, lunch, dinner
         # 5 - 11: Breakfast
-        if (time_hour >= 6 and time_hour < 11):
+        if (time_hour >= 5 and time_hour < 11 and day_of_week != 5 and day_of_week != 6):
             meal = "Breakfast"
         # 11 - 4: Lunch
         elif (time_hour >= 11 and time_hour < 16):
