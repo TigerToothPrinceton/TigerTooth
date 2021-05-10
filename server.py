@@ -218,8 +218,8 @@ def food():
         # 11 - 4: Lunch
         elif (time_hour >= 11 and time_hour < 16):
             meal = "Lunch"
-        # 4 - 10: Dinner
-        elif (time_hour >= 16 and time_hour < 22):
+        # 4 - 12: Dinner
+        elif (time_hour >= 16 and time_hour < 24):
             meal = "Dinner"
 
         # Get locationID
