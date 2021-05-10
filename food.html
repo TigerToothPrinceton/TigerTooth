@@ -344,6 +344,10 @@
           $("#spnError")[0].style.display = "none";
         });
 
+        // Pre-generate the reactions on load before view reactions is clicked
+        getReactions();
+
+        // Trigger polling of reactions when View Reactions is clicked
         $('#show_hide').click(function() {
           firstTime = true;
           longPoll();
@@ -371,7 +375,6 @@
             let hour = d.getHours();
 
             if (hour > 4 && hour < 24) {
-              console.log("in this form submission")
               let formData = {
                 reaction: $("#reactions-text").val(),
                 college: $("#collegeid").val(),
@@ -403,9 +406,6 @@
             return false;
           }
         });
-
-        // Pre-generate the reactions on load before view reactions is clicked
-        getReactions();
       });
 
       // Generate ratings and reviews when food image or name is clicked
@@ -468,42 +468,65 @@
         console.log("In the longPoll function");
         let college = $('#collegeid').val();
         let reaction_id = $('#reactions-box').children().last().attr('id');
+
+        console.log(reaction_id);
+        console.log(typeof reaction_id === 'undefined');
+
         college = encodeURIComponent(college);
-        reaction_id = encodeURIComponent(reaction_id);
-        let url = '/new-reactions?college=' + college + '&reaction_id=' + reaction_id ;
+        
+        // if no reactions in the box
+        if (typeof reaction_id === 'undefined') {
+          let url = '/reactions?college=' + college;
+          $.ajax(
+            {
+              type: 'GET',
+              url: url,
+              success: function(response) {
+                $('#message-box').html(response);
+              },
+              error: function(err) {
+                console.log(err);
+              },
+              complete: longPoll
+            }
+          );
+        }
+        else {
+          reaction_id = encodeURIComponent(reaction_id);
+          let url = '/new-reactions?college=' + college + '&reaction_id=' + reaction_id;
+          $.ajax(
+            {
+              type: 'GET',
+              url: url,
+              success: function(response) {
+                console.log(response);
 
-        $.ajax(
-          {
-            type: 'GET',
-            url: url,
-            success: function(response) {
-              console.log(response);
+                // scroll to the bottom if just clicked View Reactions
+                if (firstTime) {
+                  firstTime = false;
+                  var d = $('#reactions-box');
+                  d.scrollTop(d.prop("scrollHeight"));
+                }
+                
+                const out = document.getElementById("reactions-box");
 
-              // scroll to the bottom if just clicked View Reactions
-              if (firstTime) {
-                firstTime = false;
-                var d = $('#reactions-box');
-                d.scrollTop(d.prop("scrollHeight"));
-              }
-              
-              const out = document.getElementById("reactions-box");
+                // allow 1px inaccuracy by adding 1
+                const isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1;
 
-              // allow 1px inaccuracy by adding 1
-              const isScrolledToBottom = out.scrollHeight - out.clientHeight <= out.scrollTop + 1;
+                $('#reactions-box').append(response);
 
-              $('#reactions-box').append(response);
-
-              // auto scroll to bottom if the user is all the way at the bottom
-              if (isScrolledToBottom) {
-                out.scrollTop = out.scrollHeight - out.clientHeight;
-              }
-            },
-            error: function(err) {
-              console.log(err);
-            },
-            complete: longPoll
-          }
-        );
+                // auto scroll to bottom if the user is all the way at the bottom
+                if (isScrolledToBottom) {
+                  out.scrollTop = out.scrollHeight - out.clientHeight;
+                }
+              },
+              error: function(err) {
+                console.log(err);
+              },
+              complete: longPoll
+            }
+          );
+        }
       }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
