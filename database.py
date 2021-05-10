@@ -208,7 +208,7 @@ class Database():
                 self._connection.commit()
             if meal == "Dinner":
                 time1 = 16
-                time2 = 23
+                time2 = 24
                 delete_query = "DELETE from reactions WHERE reactions.hour < %s OR reactions.hour >= %s"
                 cursor.execute(delete_query, [time1, time2])
                 self._connection.commit()
