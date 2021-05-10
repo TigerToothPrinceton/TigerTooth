@@ -68,13 +68,11 @@
 
   <!-- View Reactions Button -->
   <div class="container mb-4">
-    {% if hour > 4 and hour < 24 %}
     <div style="display: flex; align-items: center; justify-content: center">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactions" id="show_hide">
         View Reactions!
       </button>
     </div>
-    {% endif %}
 
     {% if username == "saml\n" or username == "sumanthm\n" or username == "dsliu\n" or username == "whchang\n" or username == "rdondero\n" %}
     <div class="row text-center">
@@ -366,25 +364,36 @@
 
         $("#formR").submit(function (event) 
         {
-            let formData = {
-              reaction: $("#reactions-text").val(),
-              college: $("#collegeid").val(),
-            };
-            
-            if (formData.reaction != '') {
-              $.ajax({
-                type: "POST",
-                url: "/reactions",
-                data: formData,
-              }).done(function (data) {
-                console.log(data);
-                $('#reactions-text').val('');
-              }).catch(function (err) {
-                console.log(err);
-              });
+            var d = new Date();
+            d.toLocaleString('en-US', { timeZone: 'America/New_York' });
+            let hour = d.getHours();
+            console.log(d);
+            console.log(hour);
 
-              event.preventDefault();
+            if (hour > 4 && hour < 24) {
+              console.log("in this form submission")
+              let formData = {
+                reaction: $("#reactions-text").val(),
+                college: $("#collegeid").val(),
+              };
+              
+              if (formData.reaction != '') {
+                $.ajax({
+                  type: "POST",
+                  url: "/reactions",
+                  data: formData,
+                }).done(function (data) {
+                  console.log(data);
+                  $('#reactions-text').val('');
+                }).catch(function (err) {
+                  console.log(err);
+                });
+
+                event.preventDefault();
+              }
             }
+
+            event.preventDefault();
         });
 
         // Submit reactions when enter key is pressed
