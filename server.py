@@ -373,7 +373,7 @@ def food_updates():
                     str(rating) + '</p>'
 
             html = ''
-            if len(reviews) == 0 or reviews[0][0] == None:
+            if len(reviews) == 0 or reviews == [(None,)] * len(reviews):
                 html += '<div class = "col-3" ></div>' + \
                     '<div class = "col-6 pr-1 pl-1" style = "border:2px solid #000000; border-radius: 0.4rem;">' + \
                     '<p style = "font-size: 16px; text-align:center; margin: 10px"> No reviews submitted yet! Be the first to review!</p>' + \

@@ -237,7 +237,6 @@
             food_id: $(this).val(),
             college: $("[name='college']").val(),
           };
-          console.log(reqData);
 
           $.ajax(
           {
@@ -269,7 +268,6 @@
 
         // Grabbing and Updating Reviews Box Code
         $("#reviews-generate").on("submit", "#form1", function(event) {
-            console.log("In here");
             let formData = {
               rate: $('#star_rating').rateit('value'),
               review: $("#reviews-text").val(),
@@ -278,7 +276,6 @@
 
             // Set the Valid Flag to True if one RadioButton from the Group of RadioButtons is checked.
             let star_value = $('#star_rating').rateit('value');
-            console.log(star_value);
             let isValid = true;
             if (star_value == 0) {
               isValid = false;
@@ -286,13 +283,11 @@
 
             // Display error message if no star is selected.
             if (isValid) {
-              console.log("Submit button clicked")
               $.ajax({
                 type: "POST",
                 url: "/food-updates",
                 data: formData,
               }).done(function (data) {
-                console.log(data);
                 $('#reviews-text').val('');
                 $('#star_rating').rateit('reset');
 
@@ -300,7 +295,7 @@
                   food_id: $("[name='food_id']").val(),
                   college: $("[name='college']").val(),
                 };
-
+                
                 $.ajax(
                   {
                     type: 'GET',
@@ -338,9 +333,7 @@
         });
 
         $("#reviews-generate").on("change", "#backing15", function() {
-          console.log("Star value changed");
           let star_value = $('#star_rating').rateit('value');
-          console.log(star_value);
           $("#spnError")[0].style.display = "none";
         });
 
@@ -386,7 +379,6 @@
                   url: "/reactions",
                   data: formData,
                 }).done(function (data) {
-                  console.log(data);
                   $('#reactions-text').val('');
                 }).catch(function (err) {
                   console.log(err);
@@ -414,7 +406,6 @@
           food_id: $(this).attr('id'),
           college: $("[name='college']").val(),
         };
-        console.log(reqData);
 
         $.ajax(
         {
@@ -445,7 +436,6 @@
       });
       
       function getReactions() {
-        console.log("In the getReactions function");
         let college = $('#collegeid').val();
         college = encodeURIComponent(college);
         let url = '/reactions?college=' + college;
@@ -465,12 +455,8 @@
       }
 
       function longPoll() {
-        console.log("In the longPoll function");
         let college = $('#collegeid').val();
         let reaction_id = $('#reactions-box').children().last().attr('id');
-
-        console.log(reaction_id);
-        console.log(typeof reaction_id === 'undefined');
 
         college = encodeURIComponent(college);
         
@@ -499,8 +485,6 @@
               type: 'GET',
               url: url,
               success: function(response) {
-                console.log(response);
-
                 // scroll to the bottom if just clicked View Reactions
                 if (firstTime) {
                   firstTime = false;
